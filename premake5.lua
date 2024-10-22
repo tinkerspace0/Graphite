@@ -30,6 +30,7 @@ project "Graphite"
 	-- Correct includedirs syntax, removing potential curly brace errors
 	includedirs
 	{
+		"%{prj.name}/src"
 		"%{prj.name}/vendor/spdlog/include"
 	}
 

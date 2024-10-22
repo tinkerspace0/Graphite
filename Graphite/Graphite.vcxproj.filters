@@ -19,6 +19,10 @@
     <ClInclude Include="src\Graphite\Log.h">
       <Filter>Graphite</Filter>
     </ClInclude>
+    <ClInclude Include="src\Graphite\Events\Event.h" />
+    <ClInclude Include="src\Graphite\Events\ApplicationEvent.h" />
+    <ClInclude Include="src\Graphite\Events\KeyEvent.h" />
+    <ClInclude Include="src\Graphite\Events\MouseEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Graphite\Application.cpp">
