@@ -1,5 +1,6 @@
 workspace "Graphite"
 	architecture "x64"
+	startproject "SandBox"
 
 	configurations
 	{
@@ -10,6 +11,9 @@ workspace "Graphite"
 
 -- Define the output directory structure using tokens
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+
+-- Include GLFW's Premake file
+include "vendor/GLFW/premake5.lua"
 
 project "Graphite"
 	location "Graphite"
@@ -35,19 +39,27 @@ project "Graphite"
 	includedirs
 	{
 		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include"
+		"%{prj.name}/vendor/spdlog/include",
+		"vendor/GLFW/include"  -- Add GLFW include directory
 	}
+
+	links
+    {
+        "GLFW",  -- Link to GLFW
+        "opengl32.lib"  -- Link to OpenGL (for Windows)
+    }
 
 	-- Platform-specific settings
 	filter "system:windows"
-		cppdialect "C++17"
+		cppdialect "C++20"
 		staticruntime "On"
 		systemversion "latest"
 
 		defines
 		{
 			"GF_PLATFORM_WINDOWS",
-			"GF_BUILD_DLL"
+			"GF_BUILD_DLL",
+		    "GLFW_STATIC"  -- Add this if using GLFW as a static library
 		}
 		
 		-- Use postbuild command to copy DLL to the Sandbox directory
@@ -100,13 +112,15 @@ project "SandBox"
 
 	-- Platform-specific settings
 	filter "system:windows"
-		cppdialect "C++17"
+		cppdialect "C++20"
 		staticruntime "On"
 		systemversion "latest"
 
 		defines
 		{
-			"GF_PLATFORM_WINDOWS"
+			"GF_PLATFORM_WINDOWS",
+		    "GLFW_STATIC"  -- Add this if using GLFW as a static library
+
 		}
 
 	-- Configuration-specific settings
