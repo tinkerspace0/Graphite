@@ -13,7 +13,7 @@ workspace "Graphite"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Include GLFW's Premake file
-include "vendor/GLFW/premake5.lua"
+include "vendor/GLFW_premake/premake5.lua"
 
 project "Graphite"
 	location "Graphite"

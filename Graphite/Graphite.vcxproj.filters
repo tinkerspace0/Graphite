@@ -35,6 +35,7 @@
       <Filter>Graphite</Filter>
     </ClInclude>
     <ClInclude Include="src\gfpch.h" />
+    <ClInclude Include="src\Graphite\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Graphite\Application.cpp">
