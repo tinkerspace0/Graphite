@@ -4,6 +4,9 @@
     <Filter Include="Graphite">
       <UniqueIdentifier>{3955CE33-2522-293F-4E3B-17E73A675ECD}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphite\Events">
+      <UniqueIdentifier>{FDC6DA61-6952-4826-7263-CB1ADE6DA426}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Graphite.h" />
@@ -16,13 +19,22 @@
     <ClInclude Include="src\Graphite\EntryPoint.h">
       <Filter>Graphite</Filter>
     </ClInclude>
+    <ClInclude Include="src\Graphite\Events\ApplicationEvent.h">
+      <Filter>Graphite\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphite\Events\Event.h">
+      <Filter>Graphite\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphite\Events\KeyEvent.h">
+      <Filter>Graphite\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphite\Events\MouseEvent.h">
+      <Filter>Graphite\Events</Filter>
+    </ClInclude>
     <ClInclude Include="src\Graphite\Log.h">
       <Filter>Graphite</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphite\Events\Event.h" />
-    <ClInclude Include="src\Graphite\Events\ApplicationEvent.h" />
-    <ClInclude Include="src\Graphite\Events\KeyEvent.h" />
-    <ClInclude Include="src\Graphite\Events\MouseEvent.h" />
+    <ClInclude Include="src\gfpch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Graphite\Application.cpp">
@@ -31,5 +43,6 @@
     <ClCompile Include="src\Graphite\Log.cpp">
       <Filter>Graphite</Filter>
     </ClCompile>
+    <ClCompile Include="src\gfpch.cpp" />
   </ItemGroup>
 </Project>

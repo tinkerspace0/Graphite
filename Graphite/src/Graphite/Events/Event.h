@@ -3,7 +3,7 @@
 
 #include "Graphite/Core.h"
 
-#include <string.h>
+#include <string>
 #include <functional>
 
 namespace Graphite
@@ -53,10 +53,12 @@ namespace Graphite
 
 		inline bool IsInCategory(EventCategory category)
 		{
-			return GetCategoryFlags() & category
+			return GetCategoryFlags() & category;
 		}
 	protected:
 		bool m_Handled = false;
+
+
 	};
 
 

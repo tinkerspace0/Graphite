@@ -1,9 +1,5 @@
 #pragma once
 
-
-#pragma once
-
-
 #include <sstream>
 
 #include "Event.h"
@@ -30,7 +26,7 @@ namespace Graphite
 		EVENT_CLASS_TYPE(MouseMoved)
 
 	private:
-		int m_MouseX, m_MouseY;
+		float m_MouseX, m_MouseY;
 	};
 	
 	class GRAPHITE_API MouseScrolledEvent : public Event
@@ -53,7 +49,7 @@ namespace Graphite
 		EVENT_CLASS_TYPE(MouseScrolled)
 
 	private:
-		int m_XOffset, m_YOffset;
+		float m_XOffset, m_YOffset;
 	};
 
 	class GRAPHITE_API MouseButtonEvent : public Event

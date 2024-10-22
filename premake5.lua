@@ -20,6 +20,10 @@ project "Graphite"
 	targetdir ("Binaries/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}")
 	objdir ("Binaries/Intermediate/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}")
 
+	-- Add precompiled header files
+	pchheader "gfpch.h"
+	pchsource "Graphite/src/gfpch.cpp"
+
 	-- Add source files
 	files
 	{
@@ -30,7 +34,7 @@ project "Graphite"
 	-- Correct includedirs syntax, removing potential curly brace errors
 	includedirs
 	{
-		"%{prj.name}/src"
+		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include"
 	}
 

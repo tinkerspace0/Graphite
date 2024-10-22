@@ -1,3 +1,4 @@
+#include "gfpch.h"
 #include "Log.h"
 
 #include <spdlog/sinks/stdout_color_sinks.h>  // Include for color logging
@@ -15,7 +16,6 @@ namespace Graphite
 	}
 
 	std::shared_ptr<spdlog::logger> Log::s_CoreLogger;
-
 	std::shared_ptr<spdlog::logger> Log::s_ClientLogger;
 
 }
