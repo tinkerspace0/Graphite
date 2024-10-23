@@ -37,6 +37,8 @@
     <ClInclude Include="src\gfpch.h" />
     <ClInclude Include="src\Graphite\Window.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
+    <ClInclude Include="src\Graphite\Layer.h" />
+    <ClInclude Include="src\Graphite\LayerStack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Graphite\Application.cpp">
@@ -47,5 +49,7 @@
     </ClCompile>
     <ClCompile Include="src\gfpch.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="src\Graphite\Layer.cpp" />
+    <ClCompile Include="src\Graphite\LayerStack.cpp" />
   </ItemGroup>
 </Project>

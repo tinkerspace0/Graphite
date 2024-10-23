@@ -160,6 +160,8 @@
     <ClInclude Include="src\Graphite\Events\Event.h" />
     <ClInclude Include="src\Graphite\Events\KeyEvent.h" />
     <ClInclude Include="src\Graphite\Events\MouseEvent.h" />
+    <ClInclude Include="src\Graphite\Layer.h" />
+    <ClInclude Include="src\Graphite\LayerStack.h" />
     <ClInclude Include="src\Graphite\Log.h" />
     <ClInclude Include="src\gfpch.h" />
     <ClInclude Include="src\Graphite\Window.h" />
@@ -167,6 +169,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Graphite\Application.cpp" />
+    <ClCompile Include="src\Graphite\Layer.cpp" />
+    <ClCompile Include="src\Graphite\LayerStack.cpp" />
     <ClCompile Include="src\Graphite\Log.cpp" />
     <ClCompile Include="src\gfpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
