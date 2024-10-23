@@ -1,10 +1,8 @@
 #pragma once
 
+#include "gfpch.h"
 
 #include "Graphite/Core.h"
-
-#include <string>
-#include <functional>
 
 namespace Graphite
 {
