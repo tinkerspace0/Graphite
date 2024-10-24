@@ -1,6 +1,8 @@
 #include "gfpch.h"
 #include "Application.h"
 
+#include "glm/glm.hpp"
+
 namespace Graphite
 {
 

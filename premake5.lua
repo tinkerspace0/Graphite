@@ -34,7 +34,9 @@ project "Graphite"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
 
 	-- Correct includedirs syntax, removing potential curly brace errors
@@ -45,7 +47,8 @@ project "Graphite"
 		"vendor/GLFW/include",  -- Add GLFW include directory
 		"vendor/Glad/include",  -- Add Glad include directory
 		"vendor/imgui",  -- Add imgui  directory
-		"vendor/imgui/backends"  -- Add imgui backends directory
+		"vendor/imgui/backends",  -- Add imgui backends directory
+		"%{prj.name}/vendor/glm"  -- Add glm directory
 	}
 
 	links
