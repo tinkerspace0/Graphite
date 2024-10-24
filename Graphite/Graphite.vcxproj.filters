@@ -7,6 +7,18 @@
     <Filter Include="Graphite\Events">
       <UniqueIdentifier>{FDC6DA61-6952-4826-7263-CB1ADE6DA426}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphite\ImGui">
+      <UniqueIdentifier>{23113A03-0FDF-2D09-F872-9E2FE4DF096E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\OpenGL">
+      <UniqueIdentifier>{1E7D2C1D-8A08-9AE1-9319-1DD6FF23F6E1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows">
+      <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Graphite.h" />
@@ -31,25 +43,51 @@
     <ClInclude Include="src\Graphite\Events\MouseEvent.h">
       <Filter>Graphite\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Graphite\ImGui\ImGuiLayer.h">
+      <Filter>Graphite\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphite\Layer.h">
+      <Filter>Graphite</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphite\LayerStack.h">
+      <Filter>Graphite</Filter>
+    </ClInclude>
     <ClInclude Include="src\Graphite\Log.h">
       <Filter>Graphite</Filter>
     </ClInclude>
+    <ClInclude Include="src\Graphite\Window.h">
+      <Filter>Graphite</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.h">
+      <Filter>Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
     <ClInclude Include="src\gfpch.h" />
-    <ClInclude Include="src\Graphite\Window.h" />
-    <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
-    <ClInclude Include="src\Graphite\Layer.h" />
-    <ClInclude Include="src\Graphite\LayerStack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Graphite\Application.cpp">
       <Filter>Graphite</Filter>
     </ClCompile>
+    <ClCompile Include="src\Graphite\ImGui\ImGuiLayer.cpp">
+      <Filter>Graphite\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphite\Layer.cpp">
+      <Filter>Graphite</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphite\LayerStack.cpp">
+      <Filter>Graphite</Filter>
+    </ClCompile>
     <ClCompile Include="src\Graphite\Log.cpp">
       <Filter>Graphite</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
+      <Filter>Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
     <ClCompile Include="src\gfpch.cpp" />
-    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
-    <ClCompile Include="src\Graphite\Layer.cpp" />
-    <ClCompile Include="src\Graphite\LayerStack.cpp" />
   </ItemGroup>
 </Project>

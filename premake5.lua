@@ -13,7 +13,9 @@ workspace "Graphite"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Include GLFW's Premake file
-include "vendor/GLFW_premake/premake5.lua"
+include "vendor/Glad"
+include "vendor/GLFW_premake"
+include "vendor/imgui_premake"
 
 project "Graphite"
 	location "Graphite"
@@ -40,12 +42,17 @@ project "Graphite"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"vendor/GLFW/include"  -- Add GLFW include directory
+		"vendor/GLFW/include",  -- Add GLFW include directory
+		"vendor/Glad/include",  -- Add Glad include directory
+		"vendor/imgui",  -- Add imgui  directory
+		"vendor/imgui/backends"  -- Add imgui backends directory
 	}
 
 	links
     {
+        "Glad",  -- Link to GLAD
         "GLFW",  -- Link to GLFW
+        "imgui",  -- Link to GLFW
         "opengl32.lib"  -- Link to OpenGL (for Windows)
     }
 
@@ -59,7 +66,7 @@ project "Graphite"
 		{
 			"GF_PLATFORM_WINDOWS",
 			"GF_BUILD_DLL",
-		    "GLFW_STATIC"  -- Add this if using GLFW as a static library
+		    "GLFW_INCLUDE_NONE"
 		}
 		
 		-- Use postbuild command to copy DLL to the Sandbox directory

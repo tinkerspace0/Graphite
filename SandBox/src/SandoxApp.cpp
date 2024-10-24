@@ -3,7 +3,10 @@
 class Sandbox : public Graphite::Application
 {
 public:
-	Sandbox() {}
+	Sandbox() 
+	{
+		PushLayer(new Graphite::ImGuiLayer());
+	}
 	~Sandbox() {}
 };
 
