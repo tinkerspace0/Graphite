@@ -6,9 +6,7 @@
 #include "Graphite/Log.h"
 #include "Graphite/Layer.h"
 #include "Graphite/ImGui/ImGuiLayer.h"
-
-// ---------- Include ImGui Library --------------------
-
+#include "Graphite/ImGui/ImGuiWindow.h"
 
 // ------------------ Entry Point ----------------------
 

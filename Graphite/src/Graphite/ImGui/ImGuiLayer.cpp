@@ -1,8 +1,8 @@
 #include "gfpch.h"
 #include "ImGuiLayer.h"
 
-#include "backends/imgui_impl_glfw.h"
-#include "backends/imgui_impl_opengl3.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
 #include <GLFW/glfw3.h>
 #include "Graphite/Application.h"
 
@@ -80,6 +80,11 @@ namespace Graphite
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}
 
+	void ImGuiLayer::AddImGuiWindow(ImGuiWindow* window)
+	{
+		m_Windows.emplace_back(window);
+	}
+
 	void ImGuiLayer::OnUpdate()
 	{
 		// Clear the screen
@@ -98,7 +103,10 @@ namespace Graphite
 		
 		// Create the Dockspace
 		SetupDock();
-		OnRender();
+		for (auto& window : m_Windows)
+		{
+			window->Render();  // Render each ImGui window
+		}
 
 		// Render ImGui
 		OnEnd();

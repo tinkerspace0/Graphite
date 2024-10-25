@@ -55,7 +55,7 @@ project "Graphite"
     {
         "Glad",  -- Link to GLAD
         "GLFW",  -- Link to GLFW
-        "imgui",  -- Link to GLFW
+        "imgui",  -- Link to ImGui
         "opengl32.lib"  -- Link to OpenGL (for Windows)
     }
 
@@ -112,12 +112,13 @@ project "SandBox"
 	{
 		"Graphite/vendor/spdlog/include",
 		"Graphite/src",
+		"vendor/imgui",
 	}
 
 	-- Link Graphite to SandBox
 	links
 	{
-		"Graphite"
+		"Graphite",
 	}
 
 	-- Platform-specific settings
