@@ -6,6 +6,8 @@
 #include "Graphite/Events/ApplicationEvent.h"
 #include "Graphite/LayerStack.h"
 
+#include "ImGui/ImGuiLayer.h"
+
 namespace Graphite
 {
 	class GRAPHITE_API Application

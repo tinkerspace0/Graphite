@@ -44,11 +44,11 @@ project "Graphite"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
+		"%{prj.name}/vendor/glm",  -- Add glm directory
 		"vendor/GLFW/include",  -- Add GLFW include directory
 		"vendor/Glad/include",  -- Add Glad include directory
 		"vendor/imgui",  -- Add imgui  directory
 		"vendor/imgui/backends",  -- Add imgui backends directory
-		"%{prj.name}/vendor/glm"  -- Add glm directory
 	}
 
 	links
@@ -111,7 +111,7 @@ project "SandBox"
 	includedirs
 	{
 		"Graphite/vendor/spdlog/include",
-		"Graphite/src"
+		"Graphite/src",
 	}
 
 	-- Link Graphite to SandBox

@@ -16,7 +16,12 @@ namespace Graphite
 		void OnAttach();
 		void OnDetach();
 		void OnUpdate();
+		void OnBegin();
+		void SetupDock();
+		virtual void OnRender() = 0;
+		void OnEnd();
 		void OnEvent(Event& event);
+
 	private:
 		bool OnMouseButtonPressedEvent(MouseButtonPressedEvent& e);
 		bool OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& e);
