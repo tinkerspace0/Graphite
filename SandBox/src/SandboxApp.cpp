@@ -253,9 +253,13 @@ public:
 			ImGui::Begin("Settings");
 
 			ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
+			ImGui::End();
 
+			ImGui::Begin("Viewport");
+			ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+			m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 			uint32_t textureID = m_FrameBuffer->GetColorAttachmentRendererID();
-			ImGui::Image((ImTextureID)(intptr_t)textureID, ImVec2{ (float)m_FrameBuffer->GetSpecification().Width, (float)m_FrameBuffer->GetSpecification().Height });
+			ImGui::Image((ImTextureID)(intptr_t)textureID, ImVec2{ viewportPanelSize.x, viewportPanelSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 			ImGui::End();
 
 			ImGui::End();
@@ -296,6 +300,7 @@ private:
 
 	Graphite::OrthographicCameraController m_CameraController;
 	glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f };
+	glm::vec2 m_ViewportSize;
 };
 
 class Sandbox : public Graphite::Application
