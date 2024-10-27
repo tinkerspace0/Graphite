@@ -147,6 +147,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Graphite\Renderer\FrameBuffer.h" />
     <ClInclude Include="src\Graphite.h" />
     <ClInclude Include="src\Graphite\Core\Application.h" />
     <ClInclude Include="src\Graphite\Core\Core.h" />
@@ -176,6 +177,7 @@
     <ClInclude Include="src\Graphite\Renderer\VertexArray.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h" />
@@ -602,6 +604,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Graphite\Renderer\FrameBuffer.cpp" />
     <ClCompile Include="src\Graphite\Core\Application.cpp" />
     <ClCompile Include="src\Graphite\Core\Layer.cpp" />
     <ClCompile Include="src\Graphite\Core\LayerStack.cpp" />
@@ -619,6 +622,7 @@
     <ClCompile Include="src\Graphite\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp" />
