@@ -1,6 +1,6 @@
 workspace "Graphite"
 	architecture "x64"
-	startproject "SandBox"
+	startproject "Sandbox"
 
 	configurations
 	{
@@ -8,141 +8,146 @@ workspace "Graphite"
 		"Release",
 		"Dist"
 	}
+	
+	flags
+	{
+		"MultiProcessorCompile"
+	}
 
--- Define the output directory structure using tokens
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
--- Include GLFW's Premake file
-include "vendor/Glad"
-include "vendor/GLFW_premake"
-include "vendor/imgui_premake"
+-- Include directories relative to root folder (solution directory)
+IncludeDir = {}
+IncludeDir["GLFW"] = "Graphite/vendor/GLFW/include"
+IncludeDir["Glad"] = "Graphite/vendor/Glad/include"
+IncludeDir["ImGui"] = "Graphite/vendor/imgui"
+IncludeDir["glm"] = "Graphite/vendor/glm"
+IncludeDir["stb_image"] = "Graphite/vendor/stb_image"
+
+group "Dependencies"
+	include "Graphite/vendor/GLFW"
+	include "Graphite/vendor/Glad"
+	include "Graphite/vendor/imgui"
+
+group ""
 
 project "Graphite"
 	location "Graphite"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
+	cppdialect "C++20"
+	staticruntime "on"
 
-	-- Target and object directories with correct separators
-	targetdir ("Binaries/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}")
-	objdir ("Binaries/Intermediate/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}")
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
-	-- Add precompiled header files
 	pchheader "gfpch.h"
 	pchsource "Graphite/src/gfpch.cpp"
 
-	-- Add source files
 	files
 	{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.h",
+		"%{prj.name}/vendor/stb_image/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
-		"%{prj.name}/vendor/glm/glm/**.inl"
+		"%{prj.name}/vendor/glm/glm/**.inl",
 	}
 
-	-- Correct includedirs syntax, removing potential curly brace errors
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS"
+	}
+
 	includedirs
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{prj.name}/vendor/glm",  -- Add glm directory
-		"vendor/GLFW/include",  -- Add GLFW include directory
-		"vendor/Glad/include",  -- Add Glad include directory
-		"vendor/imgui",  -- Add imgui  directory
-		"vendor/imgui/backends",  -- Add imgui backends directory
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}"
 	}
 
-	links
-    {
-        "Glad",  -- Link to GLAD
-        "GLFW",  -- Link to GLFW
-        "imgui",  -- Link to ImGui
-        "opengl32.lib"  -- Link to OpenGL (for Windows)
-    }
+	links 
+	{ 
+		"GLFW",
+		"Glad",
+		"ImGui",
+		"opengl32.lib"
+	}
 
-	-- Platform-specific settings
 	filter "system:windows"
-		cppdialect "C++20"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines
 		{
-			"GF_PLATFORM_WINDOWS",
 			"GF_BUILD_DLL",
-		    "GLFW_INCLUDE_NONE"
-		}
-		
-		-- Use postbuild command to copy DLL to the Sandbox directory
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} ../Binaries/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/SandBox")
+			"GLFW_INCLUDE_NONE"
 		}
 
-	-- Configuration-specific settings
 	filter "configurations:Debug"
 		defines "GF_DEBUG"
-		symbols "On"
+		runtime "Debug"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "GF_RELEASE"
-		optimize "On"
+		runtime "Release"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "GF_DIST"
-		optimize "On"
+		runtime "Release"
+		optimize "on"
 
-project "SandBox"
-	location "SandBox"
+project "Sandbox"
+	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	cppdialect "C++20"
+	staticruntime "on"
 
-	-- Target and object directories with correct separators
-	targetdir ("Binaries/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}")
-	objdir ("Binaries/Intermediate/%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}/%{prj.name}")
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
-	-- Add source files
 	files
 	{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp"
 	}
 
-	-- Include necessary directories
 	includedirs
 	{
 		"Graphite/vendor/spdlog/include",
 		"Graphite/src",
-		"vendor/imgui",
+		"Graphite/vendor",
+		"%{IncludeDir.glm}"
 	}
 
-	-- Link Graphite to SandBox
 	links
 	{
-		"Graphite",
+		"Graphite"
 	}
 
-	-- Platform-specific settings
+	defines "_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING"
+
 	filter "system:windows"
-		cppdialect "C++20"
-		staticruntime "On"
 		systemversion "latest"
-
-		defines
-		{
-			"GF_PLATFORM_WINDOWS",
-		    "GLFW_STATIC"  -- Add this if using GLFW as a static library
-
-		}
-
-	-- Configuration-specific settings
+		defines "GF_PLATFORM_WINDOWS"
+		
 	filter "configurations:Debug"
 		defines "GF_DEBUG"
-		symbols "On"
+		runtime "Debug"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "GF_RELEASE"
-		optimize "On"
+		runtime "Release"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "GF_DIST"
-		optimize "On"
+		runtime "Release"
+		optimize "on"

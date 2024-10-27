@@ -2,15 +2,13 @@
 
 #include "Event.h"
 
-namespace Graphite
-{
+namespace Graphite {
+
 	class GRAPHITE_API WindowResizeEvent : public Event
 	{
 	public:
 		WindowResizeEvent(unsigned int width, unsigned int height)
-			: m_Width(width), m_Height(height) {
-
-		}
+			: m_Width(width), m_Height(height) {}
 
 		inline unsigned int GetWidth() const { return m_Width; }
 		inline unsigned int GetHeight() const { return m_Height; }
@@ -33,18 +31,12 @@ namespace Graphite
 	public:
 		WindowCloseEvent() {}
 
-		std::string ToString() const override
-		{
-			std::stringstream ss;
-			ss << "WindowCloseEvent";
-			return ss.str();
-		}
-
 		EVENT_CLASS_TYPE(WindowClose)
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class GRAPHITE_API  AppTickEvent : public Event {
+	class GRAPHITE_API AppTickEvent : public Event
+	{
 	public:
 		AppTickEvent() {}
 
@@ -61,7 +53,8 @@ namespace Graphite
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class GRAPHITE_API  AppRenderEvent : public Event {
+	class GRAPHITE_API AppRenderEvent : public Event
+	{
 	public:
 		AppRenderEvent() {}
 

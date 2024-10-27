@@ -2,8 +2,8 @@
 
 #include "Event.h"
 
-namespace Graphite
-{
+namespace Graphite {
+
 	class GRAPHITE_API MouseMovedEvent : public Event
 	{
 	public:
@@ -20,13 +20,12 @@ namespace Graphite
 			return ss.str();
 		}
 
-		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 		EVENT_CLASS_TYPE(MouseMoved)
-
+		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	private:
 		float m_MouseX, m_MouseY;
 	};
-	
+
 	class GRAPHITE_API MouseScrolledEvent : public Event
 	{
 	public:
@@ -39,13 +38,12 @@ namespace Graphite
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "MouseScrolledEvent: " << m_XOffset << ", " << m_YOffset;
+			ss << "MouseScrolledEvent: " << GetXOffset() << ", " << GetYOffset();
 			return ss.str();
 		}
 
-		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 		EVENT_CLASS_TYPE(MouseScrolled)
-
+		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	private:
 		float m_XOffset, m_YOffset;
 	};
@@ -54,7 +52,7 @@ namespace Graphite
 	{
 	public:
 		inline int GetMouseButton() const { return m_Button; }
-		
+
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	protected:
 		MouseButtonEvent(int button)
@@ -62,7 +60,6 @@ namespace Graphite
 
 		int m_Button;
 	};
-
 
 	class GRAPHITE_API MouseButtonPressedEvent : public MouseButtonEvent
 	{
@@ -73,7 +70,7 @@ namespace Graphite
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "MouseButtonPressedEvent: " << m_Button ;
+			ss << "MouseButtonPressedEvent: " << m_Button;
 			return ss.str();
 		}
 
@@ -95,4 +92,5 @@ namespace Graphite
 
 		EVENT_CLASS_TYPE(MouseButtonReleased)
 	};
+
 }
