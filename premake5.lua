@@ -1,6 +1,6 @@
 workspace "Graphite"
-	architecture "x64"
-	startproject "Sandbox"
+	architecture "x86_64"
+	startproject "GraphEditor"
 
 	configurations
 	{
@@ -28,7 +28,6 @@ group "Dependencies"
 	include "Graphite/vendor/GLFW"
 	include "Graphite/vendor/Glad"
 	include "Graphite/vendor/imgui"
-
 group ""
 
 project "Graphite"
@@ -56,7 +55,8 @@ project "Graphite"
 
 	defines
 	{
-		"_CRT_SECURE_NO_WARNINGS"
+		"_CRT_SECURE_NO_WARNINGS",
+		"GLFW_INCLUDE_NONE"
 	}
 
 	includedirs
@@ -83,8 +83,6 @@ project "Graphite"
 
 		defines
 		{
-			"GF_BUILD_DLL",
-			"GLFW_INCLUDE_NONE"
 		}
 
 	filter "configurations:Debug"
@@ -131,11 +129,55 @@ project "Sandbox"
 		"Graphite"
 	}
 
-	defines "_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING"
+	filter "system:windows"
+		systemversion "latest"
+		
+	filter "configurations:Debug"
+		defines "GF_DEBUG"
+		runtime "Debug"
+		symbols "on"
+
+	filter "configurations:Release"
+		defines "GF_RELEASE"
+		runtime "Release"
+		optimize "on"
+
+	filter "configurations:Dist"
+		defines "GF_DIST"
+		runtime "Release"
+		optimize "on"
+
+project "GraphEditor"
+	location "GraphEditor"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++20"
+	staticruntime "on"
+
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
+
+	includedirs
+	{
+		"Graphite/vendor/spdlog/include",
+		"Graphite/src",
+		"Graphite/vendor",
+		"%{IncludeDir.glm}"
+	}
+
+	links
+	{
+		"Graphite"
+	}
 
 	filter "system:windows"
 		systemversion "latest"
-		defines "GF_PLATFORM_WINDOWS"
 		
 	filter "configurations:Debug"
 		defines "GF_DEBUG"

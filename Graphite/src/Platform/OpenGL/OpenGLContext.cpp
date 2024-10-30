@@ -1,9 +1,8 @@
 #include "gfpch.h"
-#include "OpenGLContext.h"
+#include "Platform/OpenGL/OpenGLContext.h"
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
-#include <GL/GL.h>
 
 namespace Graphite {
 
@@ -15,6 +14,8 @@ namespace Graphite {
 
 	void OpenGLContext::Init()
 	{
+		GF_PROFILE_FUNCTION();
+
 		glfwMakeContextCurrent(m_WindowHandle);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		GF_CORE_ASSERT(status, "Failed to initialize Glad!");
@@ -36,6 +37,8 @@ namespace Graphite {
 
 	void OpenGLContext::SwapBuffers()
 	{
+		GF_PROFILE_FUNCTION();
+
 		glfwSwapBuffers(m_WindowHandle);
 	}
 

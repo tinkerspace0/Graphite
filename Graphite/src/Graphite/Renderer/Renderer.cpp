@@ -1,7 +1,6 @@
 #include "gfpch.h"
-#include "Renderer.h"
-
-#include "Platform/OpenGL/OpenGLShader.h"
+#include "Graphite/Renderer/Renderer.h"
+#include "Graphite/Renderer/Renderer2D.h"
 
 namespace Graphite {
 
@@ -9,7 +8,15 @@ namespace Graphite {
 
 	void Renderer::Init()
 	{
+		GF_PROFILE_FUNCTION();
+
 		RenderCommand::Init();
+		Renderer2D::Init();
+	}
+
+	void Renderer::Shutdown()
+	{
+		Renderer2D::Shutdown();
 	}
 
 	void Renderer::OnWindowResize(uint32_t width, uint32_t height)
@@ -26,11 +33,11 @@ namespace Graphite {
 	{
 	}
 
-	void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray, const glm::mat4& transform)
+	void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform)
 	{
 		shader->Bind();
- 		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_Transform", transform);
+		shader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
+		shader->SetMat4("u_Transform", transform);
 
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Core.h"
+#include "Graphite/Core/Base.h"
 
-#include "Window.h"
+#include "Graphite/Core/Window.h"
 #include "Graphite/Core/LayerStack.h"
 #include "Graphite/Events/Event.h"
 #include "Graphite/Events/ApplicationEvent.h"
@@ -11,25 +11,31 @@
 
 #include "Graphite/ImGui/ImGuiLayer.h"
 
+int main(int argc, char** argv);
+
 namespace Graphite {
 
 	class Application
 	{
 	public:
-		Application();
-		virtual ~Application() = default;
-
-		void Run();
+		Application(const std::string& name = "Graphite App");
+		virtual ~Application();
 
 		void OnEvent(Event& e);
 
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
 
-		inline Window& GetWindow() { return *m_Window; }
+		Window& GetWindow() { return *m_Window; }
 
-		inline static Application& Get() { return *s_Instance; }
+		void Close();
+
+		ImGuiLayer* GetImGuiLayer() { return m_ImGuiLayer; }
+
+		static Application& Get() { return *s_Instance; }
+
 	private:
+		void Run();
 		bool OnWindowClose(WindowCloseEvent& e);
 		bool OnWindowResize(WindowResizeEvent& e);
 	private:
@@ -41,6 +47,7 @@ namespace Graphite {
 		float m_LastFrameTime = 0.0f;
 	private:
 		static Application* s_Instance;
+		friend int ::main(int argc, char** argv);
 	};
 
 	// To be defined in CLIENT

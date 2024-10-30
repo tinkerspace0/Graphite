@@ -1,7 +1,7 @@
 #pragma once
-
 #include "gfpch.h"
-#include "Graphite/Core/Core.h"
+
+#include "Graphite/Core/Base.h"
 
 namespace Graphite {
 
@@ -22,11 +22,11 @@ namespace Graphite {
 	enum EventCategory
 	{
 		None = 0,
-		EventCategoryApplication    = BIT(0),
-		EventCategoryInput          = BIT(1),
-		EventCategoryKeyboard       = BIT(2),
-		EventCategoryMouse          = BIT(3),
-		EventCategoryMouseButton    = BIT(4)
+		EventCategoryApplication = BIT(0),
+		EventCategoryInput = BIT(1),
+		EventCategoryKeyboard = BIT(2),
+		EventCategoryMouse = BIT(3),
+		EventCategoryMouseButton = BIT(4)
 	};
 
 #define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::type; }\
@@ -35,9 +35,11 @@ namespace Graphite {
 
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
-	class GRAPHITE_API Event
+	class Event
 	{
 	public:
+		virtual ~Event() = default;
+
 		bool Handled = false;
 
 		virtual EventType GetEventType() const = 0;
@@ -45,7 +47,7 @@ namespace Graphite {
 		virtual int GetCategoryFlags() const = 0;
 		virtual std::string ToString() const { return GetName(); }
 
-		inline bool IsInCategory(EventCategory category)
+		bool IsInCategory(EventCategory category)
 		{
 			return GetCategoryFlags() & category;
 		}
@@ -58,7 +60,7 @@ namespace Graphite {
 			: m_Event(event)
 		{
 		}
-		
+
 		// F will be deduced by the compiler
 		template<typename T, typename F>
 		bool Dispatch(const F& func)
@@ -80,4 +82,3 @@ namespace Graphite {
 	}
 
 }
-

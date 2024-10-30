@@ -15,6 +15,9 @@
 
 #include "Graphite/Core/Log.h"
 
+#include "Graphite/Debug/Instrumentor.h"
+
+
 #ifdef GF_PLATFORM_WINDOWS
 	#include <Windows.h>
 #endif
