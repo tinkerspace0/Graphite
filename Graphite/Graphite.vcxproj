@@ -147,6 +147,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Graphite\Core\Base.h" />
     <ClInclude Include="src\Graphite\Renderer\FrameBuffer.h" />
     <ClInclude Include="src\Graphite.h" />
     <ClInclude Include="src\Graphite\Core\Application.h" />
