@@ -150,9 +150,6 @@
     <ClInclude Include="src\Graphite\Renderer\VertexArray.h">
       <Filter>src\Graphite\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphite\Viewport\Viewport.h">
-      <Filter>src\Graphite\Viewport</Filter>
-    </ClInclude>
     <ClInclude Include="src\Graphite\Viewport\ViewportLayer.h">
       <Filter>src\Graphite\Viewport</Filter>
     </ClInclude>
@@ -1434,6 +1431,9 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
+    <ClInclude Include="src\Graphite\Core\Assert.h" />
+    <ClInclude Include="src\Graphite\Core\PlatformDetection.h" />
+    <ClInclude Include="src\Graphite\Viewport\Viewport.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Graphite\Core\Application.cpp">

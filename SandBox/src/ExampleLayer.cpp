@@ -85,11 +85,11 @@ void ExampleLayer::OnUpdate(Graphite::Timestep ts)
 	
  	
 	// Bind the texture to texture unit 0
-	m_ChernoLogoTexture->Bind(0);
-	Graphite::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+// 	m_ChernoLogoTexture->Bind(0);
+// 	Graphite::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 	
 	
-	m_Texture->Bind(1);
+	m_Texture->Bind(0);
  	Graphite::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 	

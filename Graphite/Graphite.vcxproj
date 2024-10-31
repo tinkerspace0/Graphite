@@ -151,12 +151,14 @@
     <ClInclude Include="src\Graphite\Core\Application.h" />
     <ClInclude Include="src\Graphite\Core\Base.h" />
     <ClInclude Include="src\Graphite\Core\EntryPoint.h" />
+    <ClInclude Include="src\Graphite\Core\Assert.h" />
     <ClInclude Include="src\Graphite\Core\Input.h" />
     <ClInclude Include="src\Graphite\Core\KeyCodes.h" />
     <ClInclude Include="src\Graphite\Core\Layer.h" />
     <ClInclude Include="src\Graphite\Core\LayerStack.h" />
     <ClInclude Include="src\Graphite\Core\Log.h" />
     <ClInclude Include="src\Graphite\Core\MouseCodes.h" />
+    <ClInclude Include="src\Graphite\Core\PlatformDetection.h" />
     <ClInclude Include="src\Graphite\Core\Timestep.h" />
     <ClInclude Include="src\Graphite\Core\Window.h" />
     <ClInclude Include="src\Graphite\Debug\Instrumentor.h" />
@@ -177,6 +179,7 @@
     <ClInclude Include="src\Graphite\Renderer\Shader.h" />
     <ClInclude Include="src\Graphite\Renderer\Texture.h" />
     <ClInclude Include="src\Graphite\Renderer\VertexArray.h" />
+    <ClInclude Include="src\Graphite\Viewport\Viewport.h" />
     <ClInclude Include="src\Graphite\Viewport\ViewportLayer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />

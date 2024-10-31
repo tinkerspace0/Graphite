@@ -8,6 +8,8 @@
 #include "Graphite/Renderer/Texture.h"
 #include "Graphite/Renderer/Renderer.h"
 
+#include "Graphite/Renderer/OrthographicCameraController.h"
+
 #include "glm/glm.hpp"
 
 namespace Graphite
@@ -20,8 +22,8 @@ namespace Graphite
 
 		void init();
 		void Resize(uint32_t width, uint32_t height);
-		void renderViewport();
-		void process();
+		void OnImGuiRender();
+		void Render(Timestep ts);
 
 	private:
 		std::string m_Name;
@@ -38,6 +40,7 @@ namespace Graphite
 
 		// Viewport flags
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
-		glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f };
+		OrthographicCameraController m_CameraController;
+		glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 0.1f };
 	};
 }

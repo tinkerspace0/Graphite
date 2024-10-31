@@ -62,7 +62,7 @@ namespace Graphite {
 
 	void ViewportLayer::OnUpdate(Timestep ts) {
 		for (auto& viewport : m_Viewports) {
-			viewport->process();
+			viewport->Render(ts);
 		}
 	}
 
@@ -102,11 +102,6 @@ namespace Graphite {
 		if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
 			window_flags |= ImGuiWindowFlags_NoBackground;
 
-		// Important: note that we proceed even if Begin() returns false (aka window is collapsed).
-		// This is because we want to keep our DockSpace() active. If a DockSpace() is inactive, 
-		// all active windows docked into it will lose their parent and become undocked.
-		// We cannot preserve the docking relationship between an active window and an inactive docking, otherwise 
-		// any change of dockspace/settings would lead to windows being stuck in limbo and never being visible.
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 		ImGui::Begin("DockSpace", &dockspaceOpen, window_flags);
 		ImGui::PopStyleVar();
@@ -124,7 +119,7 @@ namespace Graphite {
 		}
 
 		for (auto& viewport : m_Viewports) {
-			viewport->renderViewport();
+			viewport->OnImGuiRender();
 		}
 
 
