@@ -15,7 +15,7 @@ namespace Graphite {
 
 		static void BeginScene(const ViewportCamera& camera);
 		static void EndScene();
-		static void Flush();
+		static void FlushLines();
 
 		// Primitives
 		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation = { 0.0f, 0.0f, 0.0f }, const glm::vec4& color = { 1.0f, 1.0f, 1.0f, 1.0f });
