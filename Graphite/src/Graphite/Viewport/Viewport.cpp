@@ -4,12 +4,12 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 #include "Graphite/Renderer/Renderer.h"
-#include "Graphite/Renderer/Renderer2D.h"
+#include "Graphite/Viewport/Renderer/ViewportRenderer.h"
 
 namespace Graphite
 {
 	Viewport::Viewport(const std::string& viewportName, uint32_t width, uint32_t height, bool initialize)
-		: m_Name(viewportName), m_ViewportSize({ width, height }), m_CameraController(width / float(height), true)
+		: m_Name(viewportName), m_ViewportSize({ width, height })//, m_Camera(width / float(height), true)
 	{
 		// Define framebuffer specification with color format
 		m_fbSpec.Width = width;
@@ -70,10 +70,10 @@ namespace Graphite
 		//////////////////Do Not Modify the code above this section/////////////////
 		////////////////////////////////////////////////////////////////////////////
 
-		Renderer2D::Init();
+		ViewportRenderer::Init();
 		// Load textures and shaders
-		m_Texture = Texture2D::Create("assets/textures/Checkerboard.png");
-		m_ChernoLogoTexture = Texture2D::Create("assets/textures/ChernoLogo.png");
+// 		m_Texture = Texture2D::Create("assets/textures/Checkerboard.png");
+// 		m_ChernoLogoTexture = Texture2D::Create("assets/textures/ChernoLogo.png");
 	}
 
 	void Viewport::Resize(uint32_t width, uint32_t height) {
@@ -81,6 +81,7 @@ namespace Graphite
 			m_fbSpec.Width = width;
 			m_fbSpec.Height = height;
 			m_Framebuffer->Resize(width, height);
+			m_Camera.SetViewportSize(width, height);
 		}
 	}
 
@@ -115,47 +116,33 @@ namespace Graphite
 
 	void Viewport::Render(Timestep ts) {
 
-		m_CameraController.OnUpdate(ts);
+		if (m_ViewportHovered && m_ViewportFocused)
+			m_Camera.OnUpdate(ts);
 
 		// Render scene to framebuffer
 		m_Framebuffer->Bind();
 
-		Renderer2D::ResetStats();
+		ViewportRenderer::ResetStats();
 
-		RenderCommand::SetClearColor({ 0.3f, 0.3f, 0.2f, 1.0f });
+		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		RenderCommand::Clear();
 
-
-		Renderer2D::BeginScene(m_CameraController.GetCamera());
-
-		Renderer2D::DrawQuad({-1.0f, 0.0f}, {1.0f, 0.5f}, { 0.2f, 0.3f, 0.4f, 1.0f });
-
-		Renderer2D::EndScene();
-
-		//Renderer::BeginScene(m_CameraController.GetCamera());
-
-
-		//auto textureShader = m_ShaderLibrary.Get("Texture");
-		//textureShader->Bind();
-		//textureShader->SetFloat4("u_Color", { 1.0f, 1.0f, 1.0f, 1.0f });
-		//textureShader->SetFloat("u_TilingFactor", 1.0f);
-		//textureShader->Set("u_TilingFactor", 10.0f);
-
+		ViewportRenderer::BeginScene(m_Camera);
+		ViewportRenderer::DrawGrid(m_Camera, 1.0f, 1000, { 0.2f, 0.2f, 0.2f, 1.0f });
+		ViewportRenderer::DrawLine({ 0.0f, -100.0f, 0.0f }, { 0.0f, 100.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f });
 		// Render Logic here
 
-		
-
+// 		ViewportRenderer::DrawQuad({ 1.0f, 0.8f, 10.0f }, { 3.0f, 2.0f }, { 30.0f, 20.0f, 40.0f }, { 0.8f, 0.8f, 0.1f, 1.0f });
+// 		ViewportRenderer::DrawPlane({ -1.0f, 3.0f, 20.0f }, { 3.0f, 2.0f }, { 30.0f, 20.0f, 40.0f }, { 0.8f, 0.2f, 0.2f, 1.0f });
 		// Render Logic above here
+		ViewportRenderer::EndScene();
 
-		//m_Texture->Bind(3);
-		//Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
-		//Renderer::EndScene();
 		m_Framebuffer->Unbind();
 	}
 
 	void Viewport::OnEvent(Event& e)
 	{
-		m_CameraController.OnEvent(e);
+		m_Camera.OnEvent(e);
 	}
 
 }

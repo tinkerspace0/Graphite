@@ -31,6 +31,15 @@ namespace Graphite {
 		{
 			s_RendererAPI->DrawIndexed(vertexArray, count);
 		}
+		
+		static void DrawIndexedLines(const Ref<VertexArray>& vertexArray, uint32_t count = 0)
+		{
+			if (!vertexArray || !vertexArray->GetIndexBuffer()) {
+				GF_CORE_ERROR("DrawIndexedLines: Null vertex array or index buffer.");
+				return;
+			}
+			s_RendererAPI->DrawIndexedLines(vertexArray, count);
+		}
 	private:
 		static Scope<RendererAPI> s_RendererAPI;
 	};

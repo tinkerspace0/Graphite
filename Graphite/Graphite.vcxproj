@@ -147,7 +147,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Graphite\Renderer\CameraController.h" />
     <ClInclude Include="src\Graphite.h" />
     <ClInclude Include="src\Graphite\Core\Application.h" />
     <ClInclude Include="src\Graphite\Core\Base.h" />
@@ -161,6 +160,7 @@
     <ClInclude Include="src\Graphite\Core\MouseCodes.h" />
     <ClInclude Include="src\Graphite\Core\PlatformDetection.h" />
     <ClInclude Include="src\Graphite\Core\Timestep.h" />
+    <ClInclude Include="src\Graphite\Core\UUID.h" />
     <ClInclude Include="src\Graphite\Core\Window.h" />
     <ClInclude Include="src\Graphite\Debug\Instrumentor.h" />
     <ClInclude Include="src\Graphite\Events\ApplicationEvent.h" />
@@ -181,6 +181,9 @@
     <ClInclude Include="src\Graphite\Renderer\Shader.h" />
     <ClInclude Include="src\Graphite\Renderer\Texture.h" />
     <ClInclude Include="src\Graphite\Renderer\VertexArray.h" />
+    <ClInclude Include="src\Graphite\Viewport\Renderer\ViewportRenderer.h" />
+    <ClInclude Include="src\Graphite\Viewport\ViewportGrid.h" />
+    <ClInclude Include="src\Graphite\Viewport\ViewportCamera.h" />
     <ClInclude Include="src\Graphite\Viewport\Viewport.h" />
     <ClInclude Include="src\Graphite\Viewport\ViewportLayer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
@@ -611,16 +614,17 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Graphite\Renderer\CameraController.cpp" />
     <ClCompile Include="src\Graphite\Core\Application.cpp" />
     <ClCompile Include="src\Graphite\Core\Layer.cpp" />
     <ClCompile Include="src\Graphite\Core\LayerStack.cpp" />
     <ClCompile Include="src\Graphite\Core\Log.cpp" />
+    <ClCompile Include="src\Graphite\Core\UUID.cpp" />
     <ClCompile Include="src\Graphite\Core\Window.cpp" />
     <ClCompile Include="src\Graphite\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Graphite\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Graphite\Renderer\Buffer.cpp" />
-    <ClCompile Include="src\Graphite\Renderer\Camera.cpp" />
+    <ClCompile Include="src\Graphite\Viewport\Renderer\ViewportRenderer.cpp" />
+    <ClCompile Include="src\Graphite\Viewport\ViewportCamera.cpp" />
     <ClCompile Include="src\Graphite\Renderer\FrameBuffer.cpp" />
     <ClCompile Include="src\Graphite\Renderer\GraphicsContext.cpp" />
     <ClCompile Include="src\Graphite\Renderer\OrthographicCamera.cpp" />
@@ -633,6 +637,7 @@
     <ClCompile Include="src\Graphite\Renderer\Texture.cpp" />
     <ClCompile Include="src\Graphite\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Graphite\Viewport\Viewport.cpp" />
+    <ClCompile Include="src\Graphite\Viewport\ViewportGrid.cpp" />
     <ClCompile Include="src\Graphite\Viewport\ViewportLayer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />

@@ -8,10 +8,12 @@
 #include "Graphite/Renderer/Texture.h"
 #include "Graphite/Renderer/Renderer.h"
 
+#include "Graphite/Viewport/ViewportCamera.h"
 #include "Graphite/Renderer/OrthographicCameraController.h"
-#include "Graphite/Renderer/CameraController.h"
 
 #include "glm/glm.hpp"
+
+
 
 namespace Graphite
 {
@@ -26,6 +28,7 @@ namespace Graphite
 		void OnImGuiRender();
 		void Render(Timestep ts);
 		void OnEvent(Event& e);
+
 
 	private:
 		std::string m_Name;
@@ -42,15 +45,12 @@ namespace Graphite
 
 		// Viewport flags
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
-		CameraController m_CameraController;
+		ViewportCamera m_Camera;
 		glm::vec4 m_SquareColor = { 0.8f, 0.3f, 0.8f, 0.9f };
 
 	private:
 		// Grid settings
-		float gridSpacing = 1.0f;      // Distance between lines
-		int gridLineCount = 20;        // Number of lines in each direction
-		float gridSize = gridLineCount * gridSpacing;
-		glm::vec4 gridColor = glm::vec4(0.8f, 0.8f, 0.8f, 1.0f); // Light gray color for grid
+		glm::vec4 gridColor = glm::vec4(0.85f, 0.8f, 0.7f, 1.0f); // Light gray color for grid
 
 	};
 }

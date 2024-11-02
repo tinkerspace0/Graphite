@@ -43,15 +43,6 @@ namespace Graphite {
 
 		SetDarkThemeColors();
 
-
-		// Setup Framebuffer
-		//FramebufferSpecification fbSpec;
-		//fbSpec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RED_INTEGER, FramebufferTextureFormat::Depth };
-		//fbSpec.Width = 1280;
-		//fbSpec.Height = 720;
-
-		//m_Framebuffer = Graphite::Framebuffer::Create(fbSpec);
-
 		// --------- Test ----------------------------------------------------------
 		CreateViewport("Global View");
 

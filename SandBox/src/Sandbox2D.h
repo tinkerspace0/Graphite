@@ -15,7 +15,7 @@ public:
 	virtual void OnImGuiRender() override;
 	void OnEvent(Graphite::Event& e) override;
 private:
-	Graphite::CameraController m_CameraController;
+	Graphite::ViewportCamera m_Camera;
 
 	// Temp
 	Graphite::Ref<Graphite::VertexArray> m_SquareVA;

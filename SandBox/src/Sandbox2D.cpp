@@ -81,5 +81,5 @@ void Sandbox2D::OnImGuiRender()
 
 void Sandbox2D::OnEvent(Graphite::Event& e)
 {
-	m_CameraController.OnEvent(e);
+	m_Camera.OnEvent(e);
 }
