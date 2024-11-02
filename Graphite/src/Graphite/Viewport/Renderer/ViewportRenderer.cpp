@@ -117,7 +117,7 @@ namespace Graphite {
 		s_Data.Stats.LineCount++;
 	}
 
-	void ViewportRenderer::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation, const glm::vec4& color)
+	void ViewportRenderer::DrawSquare(const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation, const glm::vec4& color)
 	{
 		// Calculate half size
 		glm::vec3 halfSize = glm::vec3(size * 0.5f, 0.0f);
@@ -130,8 +130,10 @@ namespace Graphite {
 			glm::vec3(-halfSize.x, 0.0f, halfSize.y)
 		};
 
-		// Create rotation matrix around the Y-axis
-		glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::mat4 rotationX = glm::rotate(glm::mat4(1.0f), glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+		glm::mat4 rotationY = glm::rotate(glm::mat4(1.0f), glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::mat4 rotationZ = glm::rotate(glm::mat4(1.0f), glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+		glm::mat4 rotationMatrix = rotationZ * rotationY * rotationX;
 
 		// Apply rotation and translation to each vertex
 		for (int i = 0; i < 4; ++i)
