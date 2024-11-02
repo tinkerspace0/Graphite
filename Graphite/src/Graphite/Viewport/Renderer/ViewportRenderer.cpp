@@ -15,17 +15,31 @@ namespace Graphite {
 
 	struct ViewportRendererData
 	{
-		static const uint32_t MaxVertices = 10000;
-		static const uint32_t MaxIndices = MaxVertices * 2;
+		static const uint32_t MaxLineVertices = 10000;
+		static const uint32_t MaxLineIndices = MaxLineVertices * 2;
 
-		Ref<VertexArray> VertexArray;
-		Ref<VertexBuffer> VertexBuffer;
-		Ref<Shader> PrimShader;
+		static const uint32_t MaxTriangleVertices = 10000;
+		static const uint32_t MaxTriangleIndices = MaxTriangleVertices * 6;
+
+		// Line data
+		Ref<VertexArray> LineVertexArray;
+		Ref<VertexBuffer> LineVertexBuffer;
+		VertexData* LineVertexBufferBase = nullptr;
+		VertexData* LineVertexBufferPtr = nullptr;
+		uint32_t LineIndexCount = 0;
 		glm::vec4 LineColor;
+		
+		
+		// Triangle Data
+		Ref<VertexArray> TriangleVertexArray;
+		Ref<VertexBuffer> TriangleVertexBuffer;
+		VertexData* TriangleLineVertexBufferBase = nullptr;
+		VertexData* TriangleLineVertexBufferPtr = nullptr;
+		uint32_t TriangleIndexCount = 0;
+		glm::vec4 TriangleColor;
 
-		VertexData* VertexBufferBase = nullptr;
-		VertexData* VertexBufferPtr = nullptr;
-		uint32_t IndexCount = 0;
+		// Shader
+		Ref<Shader> BasicShader;
 
 		ViewportRenderer::Statistics Stats;
 	};
@@ -34,75 +48,76 @@ namespace Graphite {
 
 	void ViewportRenderer::Init()
 	{
-		s_Data.VertexArray = VertexArray::Create();
+		s_Data.LineVertexArray = VertexArray::Create();
 
 		// Create Vertex Buffer
-		s_Data.VertexBuffer = VertexBuffer::Create(s_Data.MaxVertices * sizeof(VertexData));
-		s_Data.VertexBuffer->SetLayout({
+		s_Data.LineVertexBuffer = VertexBuffer::Create(s_Data.MaxLineVertices * sizeof(VertexData));
+		s_Data.LineVertexBuffer->SetLayout({
 			{ ShaderDataType::Float3, "a_Position" },
 			{ ShaderDataType::Float4, "a_Color" }
 			});
-		s_Data.VertexArray->AddVertexBuffer(s_Data.VertexBuffer);
+		s_Data.LineVertexArray->AddVertexBuffer(s_Data.LineVertexBuffer);
 
-		s_Data.VertexBufferBase = new VertexData[s_Data.MaxVertices];
+		s_Data.LineVertexBufferBase = new VertexData[s_Data.MaxLineVertices];
 
 		// Create and configure Index Buffer
-		uint32_t indices[s_Data.MaxIndices];
-		for (uint32_t i = 0; i < s_Data.MaxIndices; i++)
+		uint32_t indices[s_Data.MaxLineIndices];
+		for (uint32_t i = 0; i < s_Data.MaxLineIndices; i++)
 			indices[i] = i;  // Simple sequential indexing for line rendering
 
-		Ref<IndexBuffer> indexBuffer = IndexBuffer::Create(indices, s_Data.MaxIndices);
-		s_Data.VertexArray->SetIndexBuffer(indexBuffer);
+		Ref<IndexBuffer> indexLineBuffer = IndexBuffer::Create(indices, s_Data.MaxLineIndices);
+		s_Data.LineVertexArray->SetIndexBuffer(indexLineBuffer);
 
 		// Load a basic shader for color rendering
-		s_Data.PrimShader = Shader::Create("assets/shaders/Basic.glsl");
-		s_Data.PrimShader->Bind();
+		s_Data.BasicShader = Shader::Create("assets/shaders/Basic.glsl");
+		s_Data.BasicShader->Bind();
 	}
 
 	void ViewportRenderer::Shutdown()
 	{
-		delete[] s_Data.VertexBufferBase;
+		delete[] s_Data.LineVertexBufferBase;
+		delete[] s_Data.TriangleLineVertexBufferBase;
 	}
 
 	void ViewportRenderer::BeginScene(const ViewportCamera& camera)
 	{
-		s_Data.PrimShader->Bind();
-		s_Data.PrimShader->SetMat4("u_ViewProjection", camera.GetViewProjection());
-		s_Data.VertexBufferPtr = s_Data.VertexBufferBase;
-		s_Data.IndexCount = 0;
+		s_Data.BasicShader->Bind();
+		s_Data.BasicShader->SetMat4("u_ViewProjection", camera.GetViewProjection());
+		s_Data.LineVertexBufferPtr = s_Data.LineVertexBufferBase;
+		s_Data.LineIndexCount = 0;
 	}
 
 	void ViewportRenderer::EndScene()
 	{
-		uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.VertexBufferPtr - (uint8_t*)s_Data.VertexBufferBase);
-		s_Data.VertexBuffer->SetData(s_Data.VertexBufferBase, dataSize);
+		uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.LineVertexBufferPtr - (uint8_t*)s_Data.LineVertexBufferBase);
+		s_Data.LineVertexBuffer->SetData(s_Data.LineVertexBufferBase, dataSize);
 		Flush();
 	}
 
 	void ViewportRenderer::Flush()
 	{
-		if (s_Data.IndexCount == 0)
+		if (s_Data.LineIndexCount == 0)
 			return;
 
-		RenderCommand::DrawIndexedLines(s_Data.VertexArray, s_Data.IndexCount);
+		RenderCommand::DrawIndexedLines(s_Data.LineVertexArray, s_Data.LineIndexCount);
 		s_Data.Stats.DrawCalls++;
 	}
 
 	void ViewportRenderer::DrawLine(const glm::vec3& start, const glm::vec3& end, const glm::vec4& color)
 	{
-		s_Data.VertexBufferPtr->Position = start;
-		s_Data.VertexBufferPtr->Color = color;
-		s_Data.VertexBufferPtr++;
+		s_Data.LineVertexBufferPtr->Position = start;
+		s_Data.LineVertexBufferPtr->Color = color;
+		s_Data.LineVertexBufferPtr++;
 
-		s_Data.VertexBufferPtr->Position = end;
-		s_Data.VertexBufferPtr->Color = color;
-		s_Data.VertexBufferPtr++;
+		s_Data.LineVertexBufferPtr->Position = end;
+		s_Data.LineVertexBufferPtr->Color = color;
+		s_Data.LineVertexBufferPtr++;
 
-		s_Data.IndexCount += 2;
+		s_Data.LineIndexCount += 2;
 		s_Data.Stats.LineCount++;
 	}
 
-	void ViewportRenderer::DrawSquare(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color, const glm::vec3& rotation)
+	void ViewportRenderer::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation, const glm::vec4& color)
 	{
 		// Calculate half size
 		glm::vec3 halfSize = glm::vec3(size * 0.5f, 0.0f);
