@@ -3,6 +3,7 @@
 #include <imgui.h>
 #include "glm/gtc/matrix_transform.hpp"
 
+#include "Graphite/Renderer/Renderer.h"
 #include "Graphite/Renderer/Renderer2D.h"
 
 namespace Graphite
@@ -35,33 +36,41 @@ namespace Graphite
 		// Set up Vertex Array for rendering a textured quad
 		m_SquareVA = Graphite::VertexArray::Create();
 
-		float squareVertices[5 * 4] = {
-			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
-			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
+		float squareVertices[11 * 4] = {
+			-0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 3.0f, 5.0f,
+			 0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 3.0f, 5.0f,
+			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f, 5.0f,
+			-0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 3.0f, 5.0f
 		};
 
-		Ref<VertexBuffer> squareVB = VertexBuffer::Create(squareVertices, sizeof(squareVertices));
-		squareVB->SetLayout({
-			{ ShaderDataType::Float3, "a_Position" },
-			{ ShaderDataType::Float2, "a_TexCoord" }
-			});
-		m_SquareVA->AddVertexBuffer(squareVB);
+ 		Ref<VertexBuffer> squareVB = VertexBuffer::Create(squareVertices, sizeof(squareVertices));
+ 		squareVB->SetLayout({
+ 			{ ShaderDataType::Float3, "a_Position" },
+ 			{ ShaderDataType::Float4, "a_Color" },
+ 			{ ShaderDataType::Float2, "a_TexCoord" },
+ 			{ ShaderDataType::Float, "a_TexIndex" },
+ 			{ ShaderDataType::Float, "a_TilingFactor" },
+ 			});
+ 		m_SquareVA->AddVertexBuffer(squareVB);
 
-		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-		Ref<IndexBuffer> squareIB = IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
-		m_SquareVA->SetIndexBuffer(squareIB);
+ 		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
+ 		Ref<IndexBuffer> squareIB = IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
+ 		m_SquareVA->SetIndexBuffer(squareIB);
 
 		auto textureShader = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
 
 		textureShader->Bind();
 		textureShader->SetInt("u_Texture", 0);
+ 		int32_t samplers[32];
+ 		for (uint32_t i = 0; i < 32; i++)
+ 			samplers[i] = i;
+ 		textureShader->SetIntArray("u_Textures", samplers , 32);
 
 		////////////////////////////////////////////////////////////////////////////
 		//////////////////Do Not Modify the code above this section/////////////////
 		////////////////////////////////////////////////////////////////////////////
 
+		Renderer2D::Init();
 		// Load textures and shaders
 		m_Texture = Texture2D::Create("assets/textures/Checkerboard.png");
 		m_ChernoLogoTexture = Texture2D::Create("assets/textures/ChernoLogo.png");
@@ -82,7 +91,7 @@ namespace Graphite
 
 		// ImGui window setup for displaying the framebuffer texture
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
-		ImGui::Begin("Viewport");
+		ImGui::Begin(m_Name.c_str());
 
 		m_ViewportFocused = ImGui::IsWindowFocused();
 		m_ViewportHovered = ImGui::IsWindowHovered();
@@ -95,7 +104,6 @@ namespace Graphite
 
 		// Display framebuffer texture in ImGui
 		uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-		GF_CORE_INFO("Texture ID: {0}", textureID);
 		ImGui::Image((ImTextureID)(intptr_t)textureID, ImVec2{ viewportPanelSize.x, viewportPanelSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 		ImGui::End();
 		ImGui::PopStyleVar();
@@ -112,26 +120,42 @@ namespace Graphite
 		// Render scene to framebuffer
 		m_Framebuffer->Bind();
 
-		Renderer::BeginScene(m_CameraController.GetCamera());
+		Renderer2D::ResetStats();
 
-		RenderCommand::SetClearColor({ 0.8f, 0.5f, 0.2f, 1.0f });
+		RenderCommand::SetClearColor({ 0.3f, 0.3f, 0.2f, 1.0f });
 		RenderCommand::Clear();
 
-		auto textureShader = m_ShaderLibrary.Get("Texture");
-		textureShader->Bind();
-		textureShader->SetFloat4("u_Color", { 1.0f, 1.0f, 1.0f, 1.0f });
-		textureShader->SetFloat("u_TilingFactor", 1.0f);
+
+		Renderer2D::BeginScene(m_CameraController.GetCamera());
+
+		Renderer2D::DrawQuad({-1.0f, 0.0f}, {1.0f, 0.5f}, { 0.2f, 0.3f, 0.4f, 1.0f });
+
+		Renderer2D::EndScene();
+
+		//Renderer::BeginScene(m_CameraController.GetCamera());
+
+
+		//auto textureShader = m_ShaderLibrary.Get("Texture");
+		//textureShader->Bind();
+		//textureShader->SetFloat4("u_Color", { 1.0f, 1.0f, 1.0f, 1.0f });
+		//textureShader->SetFloat("u_TilingFactor", 1.0f);
+		//textureShader->Set("u_TilingFactor", 10.0f);
 
 		// Render Logic here
 
-
+		
 
 		// Render Logic above here
 
-		m_Texture->Bind(0);
-		Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
-		Renderer::EndScene();
+		//m_Texture->Bind(3);
+		//Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		//Renderer::EndScene();
 		m_Framebuffer->Unbind();
+	}
+
+	void Viewport::OnEvent(Event& e)
+	{
+		m_CameraController.OnEvent(e);
 	}
 
 }

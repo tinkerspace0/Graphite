@@ -147,6 +147,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Graphite\Renderer\CameraController.h" />
     <ClInclude Include="src\Graphite.h" />
     <ClInclude Include="src\Graphite\Core\Application.h" />
     <ClInclude Include="src\Graphite\Core\Base.h" />
@@ -168,6 +169,7 @@
     <ClInclude Include="src\Graphite\Events\MouseEvent.h" />
     <ClInclude Include="src\Graphite\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Graphite\Renderer\Buffer.h" />
+    <ClInclude Include="src\Graphite\Renderer\Camera.h" />
     <ClInclude Include="src\Graphite\Renderer\FrameBuffer.h" />
     <ClInclude Include="src\Graphite\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Graphite\Renderer\OrthographicCamera.h" />
@@ -609,6 +611,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Graphite\Renderer\CameraController.cpp" />
     <ClCompile Include="src\Graphite\Core\Application.cpp" />
     <ClCompile Include="src\Graphite\Core\Layer.cpp" />
     <ClCompile Include="src\Graphite\Core\LayerStack.cpp" />
@@ -617,6 +620,7 @@
     <ClCompile Include="src\Graphite\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Graphite\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Graphite\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Graphite\Renderer\Camera.cpp" />
     <ClCompile Include="src\Graphite\Renderer\FrameBuffer.cpp" />
     <ClCompile Include="src\Graphite\Renderer\GraphicsContext.cpp" />
     <ClCompile Include="src\Graphite\Renderer\OrthographicCamera.cpp" />

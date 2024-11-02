@@ -1434,6 +1434,8 @@
     <ClInclude Include="src\Graphite\Core\Assert.h" />
     <ClInclude Include="src\Graphite\Core\PlatformDetection.h" />
     <ClInclude Include="src\Graphite\Viewport\Viewport.h" />
+    <ClInclude Include="src\Graphite\Renderer\Camera.h" />
+    <ClInclude Include="src\Graphite\Renderer\CameraController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Graphite\Core\Application.cpp">
@@ -1532,5 +1534,7 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
+    <ClCompile Include="src\Graphite\Renderer\Camera.cpp" />
+    <ClCompile Include="src\Graphite\Renderer\CameraController.cpp" />
   </ItemGroup>
 </Project>
