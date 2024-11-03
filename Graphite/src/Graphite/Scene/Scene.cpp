@@ -18,17 +18,65 @@ namespace Graphite {
 	{
 	}
 
+	template<typename... Component>
+	static void CopyComponent(entt::registry& dst, entt::registry& src, const std::unordered_map<UUID, entt::entity>& enttMap)
+	{
+		([&]()
+			{
+				auto view = src.view<Component>();
+				for (auto srcEntity : view)
+				{
+					entt::entity dstEntity = enttMap.at(src.get<IDComponent>(srcEntity).ID);
+
+					auto& srcComponent = src.get<Component>(srcEntity);
+					dst.emplace_or_replace<Component>(dstEntity, srcComponent);
+				}
+			}(), ...);
+	}
+
+	template<typename... Component>
+	static void CopyComponent(ComponentGroup<Component...>, entt::registry& dst, entt::registry& src, const std::unordered_map<UUID, entt::entity>& enttMap)
+	{
+		CopyComponent<Component...>(dst, src, enttMap);
+	}
+
+	template<typename... Component>
+	static void CopyComponentIfExists(Entity dst, Entity src)
+	{
+		([&]()
+			{
+				if (src.HasComponent<Component>())
+					dst.AddOrReplaceComponent<Component>(src.GetComponent<Component>());
+			}(), ...);
+	}
+
+	template<typename... Component>
+	static void CopyComponentIfExists(ComponentGroup<Component...>, Entity dst, Entity src)
+	{
+		CopyComponentIfExists<Component...>(dst, src);
+	}
+
 	Entity Scene::CreateEntity(const std::string& name)
 	{
+		return CreateEntityWithUUID(UUID(), name);
+	}
+
+	Entity Scene::CreateEntityWithUUID(UUID uuid, const std::string& name)
+	{
 		Entity entity = { m_Registry.create(), this };
+		entity.AddComponent<IDComponent>(uuid);
 		entity.AddComponent<TransformComponent>();
 		auto& tag = entity.AddComponent<TagComponent>();
 		tag.Tag = name.empty() ? "Entity" : name;
+
+		m_EntityMap[uuid] = entity;
+
 		return entity;
 	}
 
 	void Scene::DestroyEntity(Entity entity)
 	{
+		m_EntityMap.erase(entity.GetUUID());
 		m_Registry.destroy(entity);
 	}
 
@@ -113,10 +161,45 @@ namespace Graphite {
 		return {};
 	}
 
+	Entity Scene::DuplicateEntity(Entity entity)
+	{
+		// Copy name because we're going to modify component data structure
+		std::string name = entity.GetName();
+		Entity newEntity = CreateEntity(name);
+		CopyComponentIfExists(AllComponents{}, newEntity, entity);
+		return newEntity;
+	}
+
+	Entity Scene::FindEntityByName(std::string_view name)
+	{
+		auto view = m_Registry.view<TagComponent>();
+		for (auto entity : view)
+		{
+			const TagComponent& tc = view.get<TagComponent>(entity);
+			if (tc.Tag == name)
+				return Entity{ entity, this };
+		}
+		return {};
+	}
+
+	Entity Scene::GetEntityByUUID(UUID uuid)
+	{
+		// TODO: Maybe should be assert
+		if (m_EntityMap.find(uuid) != m_EntityMap.end())
+			return { m_EntityMap.at(uuid), this };
+
+		return {};
+	}
+
 	template<typename T>
 	void Scene::OnComponentAdded(Entity entity, T& component)
 	{
-		static_assert(false);
+		static_assert(sizeof(T) == 0);
+	}
+
+	template<>
+	void Scene::OnComponentAdded<IDComponent>(Entity entity, IDComponent& component)
+	{
 	}
 
 	template<>
@@ -147,3 +230,47 @@ namespace Graphite {
 
 
 }
+
+/*
+
+void Scene::RenderScene(EditorCamera& camera)
+{
+	Renderer2D::BeginScene(camera);
+
+	// Draw sprites
+	{
+		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+		for (auto entity : group)
+		{
+			auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+
+			Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
+		}
+	}
+
+	// Draw circles
+	{
+		auto view = m_Registry.view<TransformComponent, CircleRendererComponent>();
+		for (auto entity : view)
+		{
+			auto [transform, circle] = view.get<TransformComponent, CircleRendererComponent>(entity);
+
+			Renderer2D::DrawCircle(transform.GetTransform(), circle.Color, circle.Thickness, circle.Fade, (int)entity);
+		}
+	}
+
+	// Draw text
+	{
+		auto view = m_Registry.view<TransformComponent, TextComponent>();
+		for (auto entity : view)
+		{
+			auto [transform, text] = view.get<TransformComponent, TextComponent>(entity);
+
+			Renderer2D::DrawString(text.TextString, transform.GetTransform(), text, (int)entity);
+		}
+	}
+
+	Renderer2D::EndScene();
+}
+
+*/

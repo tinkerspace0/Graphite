@@ -77,8 +77,9 @@ namespace Graphite
 			ViewportRenderer::DrawLine({ 0.0f, -100.0f, 0.0f }, { 0.0f, 100.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f });
 			// Render Logic here
 
-			ViewportRenderer::DrawSquare({ 1.0f, 0.8f, 10.0f }, { 3.0f, 2.0f }, { 30.0f, 20.0f, 40.0f }, { 0.8f, 0.8f, 0.1f, 1.0f });
+			//ViewportRenderer::DrawSquare({ 1.0f, 0.8f, 10.0f }, { 3.0f, 2.0f }, { 30.0f, 20.0f, 40.0f }, { 0.8f, 0.8f, 0.1f, 1.0f });
 			//ViewportRenderer::DrawQuad({ -1.0f, 3.0f, 20.0f }, { 3.0f, 2.0f }, { 30.0f, 20.0f, 40.0f }, { 0.8f, 0.2f, 0.2f, 1.0f });
+			
 			// Render Logic above here
 			ViewportRenderer::EndScene();
 
