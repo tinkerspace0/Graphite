@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Viewport.h"
-
+#include "Panels/ObjectInspectorPanel.h"
 
 namespace Graphite {
 
@@ -31,7 +31,7 @@ namespace Graphite {
 		std::vector<Ref<Viewport>> m_Viewports;
 
 		//m_PropertiesPanel
-		//m_ObjectInspectorPanel
+		ObjectInspectorPanel m_ObjectInspectorPanel;
 
 
 		// ShaderLibrary m_ShaderLibrary;

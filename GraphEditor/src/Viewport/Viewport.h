@@ -14,7 +14,7 @@ namespace Graphite
 		void Resize(uint32_t width, uint32_t height);
 		void OnImGuiRender();
 		void RenderViewport();
-		void OnUpdate(Scene& scene, Timestep ts);
+		void OnUpdate(const Ref<Scene>& scene, Timestep ts);
 		void OnEvent(Event& e);
 
 

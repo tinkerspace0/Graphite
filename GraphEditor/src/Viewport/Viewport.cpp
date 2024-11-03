@@ -59,7 +59,7 @@ namespace Graphite
 		////////////////////////////////////////////////////////////////////////////
 	}
 
-	void Viewport::OnUpdate(Scene& scene, Timestep ts) {
+	void Viewport::OnUpdate(const Ref<Scene>& scene, Timestep ts) {
 
 		if (m_ViewportHovered && m_ViewportFocused)
 		{

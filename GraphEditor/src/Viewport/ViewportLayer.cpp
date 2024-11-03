@@ -40,6 +40,7 @@ namespace Graphite {
 		// --------- Test ----------------------------------------------------------
 		
 		m_ActiveScene = CreateRef<Scene>();
+		m_ObjectInspectorPanel.SetContext(m_ActiveScene);
 
 		CreateViewport("Global View");
 
@@ -50,7 +51,7 @@ namespace Graphite {
 
 	void ViewportLayer::OnUpdate(Timestep ts) {
 		for (auto& viewport : m_Viewports) {
-			viewport->OnUpdate(*m_ActiveScene, ts);
+			viewport->OnUpdate(m_ActiveScene, ts);
 		}
 	}
 
@@ -112,6 +113,7 @@ namespace Graphite {
 			viewport->OnImGuiRender();
 		}
 
+		m_ObjectInspectorPanel.OnImGuiRender();
 
 		ImGui::End();
 
