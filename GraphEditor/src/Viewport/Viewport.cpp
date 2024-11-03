@@ -42,15 +42,15 @@ namespace Graphite
 		m_ViewportFocused = ImGui::IsWindowFocused();
 		m_ViewportHovered = ImGui::IsWindowHovered();
 
-		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-		if (m_ViewportSize != glm::vec2(viewportPanelSize.x, viewportPanelSize.y)) {
-			Resize((uint32_t)viewportPanelSize.x, (uint32_t)viewportPanelSize.y);
-			m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+		ImVec2 viewportSize = ImGui::GetContentRegionAvail();
+		if (m_ViewportSize != glm::vec2(viewportSize.x, viewportSize.y)) {
+			Resize((uint32_t)viewportSize.x, (uint32_t)viewportSize.y);
+			m_ViewportSize = { viewportSize.x, viewportSize.y };
 		}
 
 		
 		// Display framebuffer texture in ImGui
-		ImGui::Image((ImTextureID)(intptr_t)m_ViewporttextureID, ImVec2{ viewportPanelSize.x, viewportPanelSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+		ImGui::Image((ImTextureID)(intptr_t)m_ViewporttextureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 		ImGui::End();
 		ImGui::PopStyleVar();
 
@@ -59,7 +59,7 @@ namespace Graphite
 		////////////////////////////////////////////////////////////////////////////
 	}
 
-	void Viewport::OnUpdate(Timestep ts) {
+	void Viewport::OnUpdate(Scene& scene, Timestep ts) {
 
 		if (m_ViewportHovered && m_ViewportFocused)
 		{

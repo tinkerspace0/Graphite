@@ -1,6 +1,7 @@
 #include <Graphite.h>
 #include <Graphite/Core/EntryPoint.h>
 
+#include "Viewport/ViewportLayer.h"
 
 namespace Graphite {
 

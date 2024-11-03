@@ -12,9 +12,7 @@ namespace Graphite {
 
 
 	ViewportLayer::ViewportLayer()
-		: Layer("ViewportLayer") {
-
-	}
+		: Layer("ViewportLayer") {}
 
 	void ViewportLayer::OnAttach() {
 
@@ -40,6 +38,9 @@ namespace Graphite {
 		SetDarkThemeColors();
 
 		// --------- Test ----------------------------------------------------------
+		
+		m_ActiveScene = CreateRef<Scene>();
+
 		CreateViewport("Global View");
 
 		// -------------------------------------------------------------------------
@@ -49,7 +50,7 @@ namespace Graphite {
 
 	void ViewportLayer::OnUpdate(Timestep ts) {
 		for (auto& viewport : m_Viewports) {
-			viewport->OnUpdate(ts);
+			viewport->OnUpdate(*m_ActiveScene, ts);
 		}
 	}
 

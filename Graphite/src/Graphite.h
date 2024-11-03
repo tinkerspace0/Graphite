@@ -31,4 +31,7 @@
 #include "Graphite/Renderer/ViewportCamera.h"
 #include "Graphite/Renderer/OrthographicCamera.h"
 #include "Graphite/Renderer/OrthographicCameraController.h"
-// -----------------------------------
+
+
+// ---Scene---------------------------
+#include "Graphite/Scene/Scene.h"

@@ -172,7 +172,8 @@ project "GraphEditor"
 		"Graphite/src",
 		"Graphite/vendor",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.entt}"
 	}
 
 	links

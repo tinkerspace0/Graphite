@@ -1,11 +1,11 @@
-#include "hzpch.h"
+#include "gfpch.h"
 #include "ContentBrowserPanel.h"
 
-#include "Hazel/Project/Project.h"
+#include "Graphite/Project/Project.h"
 
 #include <imgui/imgui.h>
 
-namespace Hazel {
+namespace Graphite {
 
 	ContentBrowserPanel::ContentBrowserPanel()
 		: m_BaseDirectory(Project::GetAssetDirectory()), m_CurrentDirectory(m_BaseDirectory)

@@ -26,6 +26,8 @@ namespace Graphite {
 	private:
 		bool m_BlockEvents = false;
 
+		Ref<Scene> m_ActiveScene;
+
 		std::vector<Ref<Viewport>> m_Viewports;
 
 		//m_PropertiesPanel

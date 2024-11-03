@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Hazel/Core/Timestep.h"
-#include "Hazel/Renderer/EditorCamera.h"
+#include "Graphite/Core/Timestep.h"
+#include "Graphite/Renderer/ViewportCamera.h"
 
 #include "entt.hpp"
 
-namespace Hazel {
+namespace Graphite {
 
 	class Entity;
 
@@ -16,11 +16,15 @@ namespace Hazel {
 		~Scene();
 
 		Entity CreateEntity(const std::string& name = std::string());
+		//Entity CreateEntityWithUUID(UUID uuid, const std::string& name = std::string());
 		void DestroyEntity(Entity entity);
 
-		void OnUpdateRuntime(Timestep ts);
-		void OnUpdateEditor(Timestep ts, Viewport& camera);
-		void OnViewportResize(uint32_t width, uint32_t height);
+		//void OnUpdateEditor(Timestep ts, ViewportCamera& camera);
+		
+		//Entity DuplicateEntity(Entity entity);
+
+		//Entity FindEntityByName(std::string_view name);
+		//Entity GetEntityByUUID(UUID uuid);
 
 		Entity GetPrimaryCameraEntity();
 	private:
@@ -31,8 +35,7 @@ namespace Hazel {
 		uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
 
 		friend class Entity;
-		friend class SceneSerializer;
-		friend class SceneHierarchyPanel;
+		friend class ObjectInspectorPanel;
 	};
 
 }

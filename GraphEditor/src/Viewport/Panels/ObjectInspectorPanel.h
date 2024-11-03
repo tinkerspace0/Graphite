@@ -1,17 +1,17 @@
 #pragma once
 #pragma once
 
-#include "Hazel/Core/Base.h"
-#include "Hazel/Scene/Scene.h"
-#include "Hazel/Scene/Entity.h"
+#include "Graphite/Core/Base.h"
+#include "Graphite/Scene/Scene.h"
+#include "Graphite/Scene/Entity.h"
 
-namespace Hazel {
+namespace Graphite {
 
-	class SceneHierarchyPanel
+	class ObjectInspectorPanel
 	{
 	public:
-		SceneHierarchyPanel() = default;
-		SceneHierarchyPanel(const Ref<Scene>& scene);
+		ObjectInspectorPanel() = default;
+		ObjectInspectorPanel(const Ref<Scene>& scene);
 
 		void SetContext(const Ref<Scene>& scene);
 
