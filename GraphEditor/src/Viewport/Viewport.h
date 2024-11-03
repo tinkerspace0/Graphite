@@ -1,19 +1,7 @@
 #pragma once
 
-#include "gfpch.h"
-#include "Graphite/Renderer/Framebuffer.h"
-#include "Graphite/Renderer/VertexArray.h"
-#include "Graphite/Renderer/Buffer.h"
-#include "Graphite/Renderer/Shader.h"
-#include "Graphite/Renderer/Texture.h"
-#include "Graphite/Renderer/Renderer.h"
-
-#include "Graphite/Viewport/ViewportCamera.h"
-#include "Graphite/Renderer/OrthographicCameraController.h"
-
+#include "Graphite.h"
 #include "glm/glm.hpp"
-
-
 
 namespace Graphite
 {

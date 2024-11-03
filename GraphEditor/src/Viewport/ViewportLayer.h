@@ -1,15 +1,6 @@
 #pragma once
 
-#include "Graphite/Core/Layer.h"
-
-#include "Graphite/Events/ApplicationEvent.h"
-#include "Graphite/Events/KeyEvent.h"
-#include "Graphite/Events/MouseEvent.h"
-
-
-#include "Graphite/Renderer/VertexArray.h"
-
-#include "Graphite/Viewport/Viewport.h"
+#include "Viewport.h"
 
 
 namespace Graphite {

@@ -25,12 +25,6 @@
     <Filter Include="src\Graphite\Scene">
       <UniqueIdentifier>{4D29CE61-390D-8FB7-A26D-890A8E707939}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Graphite\Viewport">
-      <UniqueIdentifier>{5F790161-CBE5-BC5B-94D9-54B90005DFC3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Graphite\Viewport\Renderer">
-      <UniqueIdentifier>{E5B73007-D1DD-FA6D-BA23-8039A6E81F3A}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
     </Filter>
@@ -165,7 +159,13 @@
     <ClInclude Include="src\Graphite\Renderer\Texture.h">
       <Filter>src\Graphite\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Graphite\Renderer\VPRenderer.h">
+      <Filter>src\Graphite\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Graphite\Renderer\VertexArray.h">
+      <Filter>src\Graphite\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphite\Renderer\ViewportCamera.h">
       <Filter>src\Graphite\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphite\Scene\Components.h">
@@ -182,21 +182,6 @@
     </ClInclude>
     <ClInclude Include="src\Graphite\Scene\ScriptableEntity.h">
       <Filter>src\Graphite\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Graphite\Viewport\Renderer\ViewportRenderer.h">
-      <Filter>src\Graphite\Viewport\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Graphite\Viewport\Viewport.h">
-      <Filter>src\Graphite\Viewport</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Graphite\Viewport\ViewportCamera.h">
-      <Filter>src\Graphite\Viewport</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Graphite\Viewport\ViewportGrid.h">
-      <Filter>src\Graphite\Viewport</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Graphite\Viewport\ViewportLayer.h">
-      <Filter>src\Graphite\Viewport</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
@@ -1535,7 +1520,13 @@
     <ClCompile Include="src\Graphite\Renderer\Texture.cpp">
       <Filter>src\Graphite\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Graphite\Renderer\VPRenderer.cpp">
+      <Filter>src\Graphite\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Graphite\Renderer\VertexArray.cpp">
+      <Filter>src\Graphite\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphite\Renderer\ViewportCamera.cpp">
       <Filter>src\Graphite\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Graphite\Scene\Entity.cpp">
@@ -1546,21 +1537,6 @@
     </ClCompile>
     <ClCompile Include="src\Graphite\Scene\SceneCamera.cpp">
       <Filter>src\Graphite\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Graphite\Viewport\Renderer\ViewportRenderer.cpp">
-      <Filter>src\Graphite\Viewport\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Graphite\Viewport\Viewport.cpp">
-      <Filter>src\Graphite\Viewport</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Graphite\Viewport\ViewportCamera.cpp">
-      <Filter>src\Graphite\Viewport</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Graphite\Viewport\ViewportGrid.cpp">
-      <Filter>src\Graphite\Viewport</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Graphite\Viewport\ViewportLayer.cpp">
-      <Filter>src\Graphite\Viewport</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Graphite/Viewport/ViewportCamera.h"
+#include "Graphite/Renderer/ViewportCamera.h"
 #include "Graphite/Renderer/Texture.h"
 #include "Graphite/Renderer/Shader.h"
 #include <glm/glm.hpp>

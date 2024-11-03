@@ -1,14 +1,10 @@
-#include "gfpch.h"
-
 #include "ViewportLayer.h"
 
-#include "Graphite/Renderer/Framebuffer.h"
-
-#include <imgui.h>
-#include <imgui_internal.h>
-#include <backends/imgui_impl_glfw.h>
-#include <backends/imgui_impl_opengl3.h>
-#include <GLFW/glfw3.h>
+#include <imgui/imgui.h>
+#include <imgui/imgui_internal.h>
+#include <imgui/backends/imgui_impl_glfw.h>
+#include <imgui/backends/imgui_impl_opengl3.h>
+//#include <GLFW/glfw3.h>
 
 
 namespace Graphite {

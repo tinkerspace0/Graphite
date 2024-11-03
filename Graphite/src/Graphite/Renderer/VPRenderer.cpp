@@ -1,5 +1,5 @@
 #include "gfpch.h"
-#include "Graphite/Viewport/Renderer/ViewportRenderer.h"
+#include "Graphite/Renderer/VPRenderer.h"
 #include "Graphite/Renderer/VertexArray.h"
 #include "Graphite/Renderer/Shader.h"
 #include "Graphite/Renderer/RenderCommand.h"
@@ -13,7 +13,7 @@ namespace Graphite {
 		glm::vec4 Color;
 	};
 
-	struct ViewportRendererData
+	struct VPRendererData
 	{
 		static const uint32_t MaxLineVertices = 10000;
 		static const uint32_t MaxLineIndices = MaxLineVertices * 2;
@@ -44,7 +44,7 @@ namespace Graphite {
 		ViewportRenderer::Statistics Stats;
 	};
 
-	static ViewportRendererData s_Data;
+	static VPRendererData s_Data;
 
 	void ViewportRenderer::Init()
 	{

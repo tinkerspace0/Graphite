@@ -123,6 +123,7 @@ project "Sandbox"
 		"Graphite/vendor/spdlog/include",
 		"Graphite/src",
 		"Graphite/vendor",
+		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}"
 	}
 
@@ -170,6 +171,7 @@ project "GraphEditor"
 		"Graphite/vendor/spdlog/include",
 		"Graphite/src",
 		"Graphite/vendor",
+		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}"
 	}
 
