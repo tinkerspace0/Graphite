@@ -20,7 +20,7 @@ namespace Graphite
 	class Viewport
 	{
 	public:
-		Viewport(const std::string& viewportName, uint32_t width = 1280, uint32_t height = 720, bool initialize = true);
+		Viewport(const std::string& viewportName, uint32_t width = 1600, uint32_t height = 900, bool initialize = true);
 		~Viewport();
 
 		void Resize(uint32_t width, uint32_t height);

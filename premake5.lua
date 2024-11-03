@@ -23,6 +23,7 @@ IncludeDir["Glad"] = "Graphite/vendor/Glad/include"
 IncludeDir["ImGui"] = "Graphite/vendor/imgui"
 IncludeDir["glm"] = "Graphite/vendor/glm"
 IncludeDir["stb_image"] = "Graphite/vendor/stb_image"
+IncludeDir["entt"] = "Graphite/vendor/entt/include"
 
 group "Dependencies"
 	include "Graphite/vendor/GLFW"
@@ -67,7 +68,8 @@ project "Graphite"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.stb_image}"
+		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.entt}"
 	}
 
 	links 

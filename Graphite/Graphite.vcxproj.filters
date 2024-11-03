@@ -22,8 +22,14 @@
     <Filter Include="src\Graphite\Renderer">
       <UniqueIdentifier>{D6D1B18F-423E-6D8A-0B32-05E8775D8FF2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Graphite\Scene">
+      <UniqueIdentifier>{4D29CE61-390D-8FB7-A26D-890A8E707939}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Graphite\Viewport">
       <UniqueIdentifier>{5F790161-CBE5-BC5B-94D9-54B90005DFC3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Graphite\Viewport\Renderer">
+      <UniqueIdentifier>{E5B73007-D1DD-FA6D-BA23-8039A6E81F3A}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
@@ -66,6 +72,9 @@
     <ClInclude Include="src\Graphite\Core\Application.h">
       <Filter>src\Graphite\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Graphite\Core\Assert.h">
+      <Filter>src\Graphite\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Graphite\Core\Base.h">
       <Filter>src\Graphite\Core</Filter>
     </ClInclude>
@@ -90,7 +99,13 @@
     <ClInclude Include="src\Graphite\Core\MouseCodes.h">
       <Filter>src\Graphite\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Graphite\Core\PlatformDetection.h">
+      <Filter>src\Graphite\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Graphite\Core\Timestep.h">
+      <Filter>src\Graphite\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphite\Core\UUID.h">
       <Filter>src\Graphite\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphite\Core\Window.h">
@@ -115,6 +130,9 @@
       <Filter>src\Graphite\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphite\Renderer\Buffer.h">
+      <Filter>src\Graphite\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphite\Renderer\Camera.h">
       <Filter>src\Graphite\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphite\Renderer\FrameBuffer.h">
@@ -149,6 +167,33 @@
     </ClInclude>
     <ClInclude Include="src\Graphite\Renderer\VertexArray.h">
       <Filter>src\Graphite\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphite\Scene\Components.h">
+      <Filter>src\Graphite\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphite\Scene\Entity.h">
+      <Filter>src\Graphite\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphite\Scene\Scene.h">
+      <Filter>src\Graphite\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphite\Scene\SceneCamera.h">
+      <Filter>src\Graphite\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphite\Scene\ScriptableEntity.h">
+      <Filter>src\Graphite\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphite\Viewport\Renderer\ViewportRenderer.h">
+      <Filter>src\Graphite\Viewport\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphite\Viewport\Viewport.h">
+      <Filter>src\Graphite\Viewport</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphite\Viewport\ViewportCamera.h">
+      <Filter>src\Graphite\Viewport</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphite\Viewport\ViewportGrid.h">
+      <Filter>src\Graphite\Viewport</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphite\Viewport\ViewportLayer.h">
       <Filter>src\Graphite\Viewport</Filter>
@@ -1431,14 +1476,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphite\Core\Assert.h" />
-    <ClInclude Include="src\Graphite\Core\PlatformDetection.h" />
-    <ClInclude Include="src\Graphite\Viewport\Viewport.h" />
-    <ClInclude Include="src\Graphite\Renderer\Camera.h" />
-    <ClInclude Include="src\Graphite\Viewport\ViewportCamera.h" />
-    <ClInclude Include="src\Graphite\Core\UUID.h" />
-    <ClInclude Include="src\Graphite\Viewport\ViewportGrid.h" />
-    <ClInclude Include="src\Graphite\Viewport\Renderer\ViewportRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Graphite\Core\Application.cpp">
@@ -1451,6 +1488,9 @@
       <Filter>src\Graphite\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Graphite\Core\Log.cpp">
+      <Filter>src\Graphite\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphite\Core\UUID.cpp">
       <Filter>src\Graphite\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Graphite\Core\Window.cpp">
@@ -1498,7 +1538,25 @@
     <ClCompile Include="src\Graphite\Renderer\VertexArray.cpp">
       <Filter>src\Graphite\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Graphite\Scene\Entity.cpp">
+      <Filter>src\Graphite\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphite\Scene\Scene.cpp">
+      <Filter>src\Graphite\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphite\Scene\SceneCamera.cpp">
+      <Filter>src\Graphite\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphite\Viewport\Renderer\ViewportRenderer.cpp">
+      <Filter>src\Graphite\Viewport\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Graphite\Viewport\Viewport.cpp">
+      <Filter>src\Graphite\Viewport</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphite\Viewport\ViewportCamera.cpp">
+      <Filter>src\Graphite\Viewport</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphite\Viewport\ViewportGrid.cpp">
       <Filter>src\Graphite\Viewport</Filter>
     </ClCompile>
     <ClCompile Include="src\Graphite\Viewport\ViewportLayer.cpp">
@@ -1537,9 +1595,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graphite\Viewport\ViewportCamera.cpp" />
-    <ClCompile Include="src\Graphite\Core\UUID.cpp" />
-    <ClCompile Include="src\Graphite\Viewport\ViewportGrid.cpp" />
-    <ClCompile Include="src\Graphite\Viewport\Renderer\ViewportRenderer.cpp" />
   </ItemGroup>
 </Project>

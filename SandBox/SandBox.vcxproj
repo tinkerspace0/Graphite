@@ -138,7 +138,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\SandboxApp.cpp" />
+    <ClInclude Include="src\ExampleLayer.h" />
+    <ClInclude Include="src\Sandbox2D.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\ExampleLayer.cpp" />
+    <ClCompile Include="src\Sandbox2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Graphite\Graphite.vcxproj">

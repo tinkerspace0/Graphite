@@ -1,27 +1,26 @@
-#include <Hazel.h>
-#include <Hazel/Core/EntryPoint.h>
+#include <Graphite.h>
+#include <Graphite/Core/EntryPoint.h>
 
-#include "EditorLayer.h"
 
-namespace Hazel {
+namespace Graphite {
 
-	class Hazelnut : public Application
+	class Graphitenut : public Application
 	{
 	public:
-		Hazelnut()
-			: Application("Hazelnut")
+		Graphitenut()
+			: Application("Graphitenut")
 		{
-			PushLayer(new EditorLayer());
+			PushLayer(new ViewportLayer());
 		}
 
-		~Hazelnut()
+		~Graphitenut()
 		{
 		}
 	};
 
 	Application* CreateApplication()
 	{
-		return new Hazelnut();
+		return new Graphitenut();
 	}
 
 }

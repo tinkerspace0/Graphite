@@ -9,7 +9,7 @@
 
 #include "Graphite/Renderer/VertexArray.h"
 
-#include "Viewport.h"
+#include "Graphite/Viewport/Viewport.h"
 
 
 namespace Graphite {

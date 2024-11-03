@@ -1,10 +1,10 @@
 #include "gfpch.h"
-#include "Graphite/Viewport/Viewport.h"
+#include "Viewport.h"
 #include <imgui.h>
 #include "glm/gtc/matrix_transform.hpp"
 
 #include "Graphite/Renderer/Renderer.h"
-#include "Graphite/Viewport/Renderer/ViewportRenderer.h"
+#include "Renderer/ViewportRenderer.h"
 
 namespace Graphite
 {

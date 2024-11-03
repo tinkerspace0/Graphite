@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Hazel.h"
+#include "Graphite.h"
 
-namespace Hazel {
+namespace Graphite {
 
 	class EditorLayer : public Layer
 	{
@@ -17,7 +17,7 @@ namespace Hazel {
 		virtual void OnImGuiRender() override;
 		void OnEvent(Event& e) override;
 	private:
-		Hazel::OrthographicCameraController m_CameraController;
+		Graphite::OrthographicCameraController m_CameraController;
 
 		// Temp
 		Ref<VertexArray> m_SquareVA;
