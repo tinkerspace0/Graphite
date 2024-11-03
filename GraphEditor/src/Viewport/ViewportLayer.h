@@ -30,23 +30,6 @@ namespace Graphite {
 
 		std::vector<Ref<Viewport>> m_Viewports;
 
-		//m_PropertiesPanel
 		ObjectInspectorPanel m_ObjectInspectorPanel;
-
-
-		// ShaderLibrary m_ShaderLibrary;
-		//Ref<Shader> m_Shader;
-		//Ref<VertexArray> m_VertexArray;
-
-		//Ref<Framebuffer> m_Framebuffer;
-
-		//Ref<Shader> m_FlatColorShader;
-		//Ref<VertexArray> m_SquareVA;
-
-		//Ref<Texture2D> m_Texture, m_ImageTexture;
-
-		//OrthographicCameraController m_CameraController;
-		//glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f };
-		//glm::vec2 m_ViewportSize;
 	};
 }

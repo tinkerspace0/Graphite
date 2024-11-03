@@ -60,11 +60,11 @@ namespace Graphite {
 	}
 
 	void ViewportLayer::OnEvent(Event& e) {
-// 		if (m_BlockEvents) {
-// 			ImGuiIO& io = ImGui::GetIO();
-// 			e.Handled |= e.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
-// 			e.Handled |= e.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
-// 		}
+		if (m_BlockEvents) {
+			ImGuiIO& io = ImGui::GetIO();
+			e.Handled |= e.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
+			e.Handled |= e.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
+		}
 		for (auto& viewport : m_Viewports) {
 			viewport->OnEvent(e);
 		}

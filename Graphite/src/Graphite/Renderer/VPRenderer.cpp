@@ -150,7 +150,7 @@ namespace Graphite {
 
 	void ViewportRenderer::DrawGrid(float spacing, int lineCount, const glm::vec4& color)
 	{
-		float GridSize = spacing * lineCount / 1.0f;
+		float GridSize = spacing * lineCount;
 
 		for (int i = -lineCount; i <= lineCount; i++)
 		{

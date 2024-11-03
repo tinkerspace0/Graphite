@@ -64,30 +64,26 @@ namespace Graphite
 		if (m_ViewportHovered && m_ViewportFocused)
 		{
 			m_Camera.OnUpdate(ts);
-			RenderViewport();
+
+			// Render scene to framebuffer
+			m_Framebuffer->Bind();
+			ViewportRenderer::ResetStats();
+
+			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+			RenderCommand::Clear();
+
+			ViewportRenderer::BeginScene(m_Camera);
+			ViewportRenderer::DrawGrid(m_Camera, 1.0f, 1000, { 0.2f, 0.2f, 0.2f, 1.0f });
+			ViewportRenderer::DrawLine({ 0.0f, -100.0f, 0.0f }, { 0.0f, 100.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f });
+			// Render Logic here
+
+			ViewportRenderer::DrawSquare({ 1.0f, 0.8f, 10.0f }, { 3.0f, 2.0f }, { 30.0f, 20.0f, 40.0f }, { 0.8f, 0.8f, 0.1f, 1.0f });
+			//ViewportRenderer::DrawQuad({ -1.0f, 3.0f, 20.0f }, { 3.0f, 2.0f }, { 30.0f, 20.0f, 40.0f }, { 0.8f, 0.2f, 0.2f, 1.0f });
+			// Render Logic above here
+			ViewportRenderer::EndScene();
+
+			m_Framebuffer->Unbind();
 		}
-	}
-
-	void Viewport::RenderViewport()
-	{
-		// Render scene to framebuffer
-		m_Framebuffer->Bind();
-		ViewportRenderer::ResetStats();
-
-		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-		RenderCommand::Clear();
-
-		ViewportRenderer::BeginScene(m_Camera);
-		ViewportRenderer::DrawGrid(m_Camera, 1.0f, 1000, { 0.2f, 0.2f, 0.2f, 1.0f });
-		ViewportRenderer::DrawLine({ 0.0f, -100.0f, 0.0f }, { 0.0f, 100.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f });
-		// Render Logic here
-
-		ViewportRenderer::DrawSquare({ 1.0f, 0.8f, 10.0f }, { 3.0f, 2.0f }, { 30.0f, 20.0f, 40.0f }, { 0.8f, 0.8f, 0.1f, 1.0f });
-		//ViewportRenderer::DrawQuad({ -1.0f, 3.0f, 20.0f }, { 3.0f, 2.0f }, { 30.0f, 20.0f, 40.0f }, { 0.8f, 0.2f, 0.2f, 1.0f });
-		// Render Logic above here
-		ViewportRenderer::EndScene();
-
-		m_Framebuffer->Unbind();
 	}
 
 	void Viewport::OnEvent(Event& e)
