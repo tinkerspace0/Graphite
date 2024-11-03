@@ -15,65 +15,16 @@ namespace Graphite
 		m_fbSpec.Width = width;
 		m_fbSpec.Height = height;
 		m_fbSpec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::DEPTH24STENCIL8 };
+		m_Framebuffer = Framebuffer::Create(m_fbSpec);
+		m_Initialized = true;
 
-		if (initialize)
-			init();
+		ViewportRenderer::Init();
 	}
 
 	Viewport::~Viewport() {}
 
 	void Viewport::init() {
-		////////////////////////////////////////////////////////////////////////////
-		//////////////////Do Not Modify the code between this section///////////////
-		////////////////////////////////////////////////////////////////////////////
 
-		// Set up framebuffer
-		if (!m_Initialized) {
-			m_Framebuffer = Framebuffer::Create(m_fbSpec);
-			m_Initialized = true;
-		}
-
-		// Set up Vertex Array for rendering a textured quad
-		m_SquareVA = Graphite::VertexArray::Create();
-
-		float squareVertices[11 * 4] = {
-			-0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 3.0f, 5.0f,
-			 0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 3.0f, 5.0f,
-			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 3.0f, 5.0f,
-			-0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 3.0f, 5.0f
-		};
-
- 		Ref<VertexBuffer> squareVB = VertexBuffer::Create(squareVertices, sizeof(squareVertices));
- 		squareVB->SetLayout({
- 			{ ShaderDataType::Float3, "a_Position" },
- 			{ ShaderDataType::Float4, "a_Color" },
- 			{ ShaderDataType::Float2, "a_TexCoord" },
- 			{ ShaderDataType::Float, "a_TexIndex" },
- 			{ ShaderDataType::Float, "a_TilingFactor" },
- 			});
- 		m_SquareVA->AddVertexBuffer(squareVB);
-
- 		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
- 		Ref<IndexBuffer> squareIB = IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
- 		m_SquareVA->SetIndexBuffer(squareIB);
-
-		auto textureShader = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
-
-		textureShader->Bind();
-		textureShader->SetInt("u_Texture", 0);
- 		int32_t samplers[32];
- 		for (uint32_t i = 0; i < 32; i++)
- 			samplers[i] = i;
- 		textureShader->SetIntArray("u_Textures", samplers , 32);
-
-		////////////////////////////////////////////////////////////////////////////
-		//////////////////Do Not Modify the code above this section/////////////////
-		////////////////////////////////////////////////////////////////////////////
-
-		ViewportRenderer::Init();
-		// Load textures and shaders
-// 		m_Texture = Texture2D::Create("assets/textures/Checkerboard.png");
-// 		m_ChernoLogoTexture = Texture2D::Create("assets/textures/ChernoLogo.png");
 	}
 
 	void Viewport::Resize(uint32_t width, uint32_t height) {
@@ -114,7 +65,7 @@ namespace Graphite
 		////////////////////////////////////////////////////////////////////////////
 	}
 
-	void Viewport::Render(Timestep ts) {
+	void Viewport::OnUpdate(Timestep ts) {
 
 		if (m_ViewportHovered && m_ViewportFocused)
 			m_Camera.OnUpdate(ts);
@@ -132,8 +83,8 @@ namespace Graphite
 		ViewportRenderer::DrawLine({ 0.0f, -100.0f, 0.0f }, { 0.0f, 100.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f });
 		// Render Logic here
 
- 		ViewportRenderer::DrawQuad({ 1.0f, 0.8f, 10.0f }, { 3.0f, 2.0f }, { 30.0f, 20.0f, 40.0f }, { 0.8f, 0.8f, 0.1f, 1.0f });
-// 		ViewportRenderer::DrawPlane({ -1.0f, 3.0f, 20.0f }, { 3.0f, 2.0f }, { 30.0f, 20.0f, 40.0f }, { 0.8f, 0.2f, 0.2f, 1.0f });
+ 		ViewportRenderer::DrawSquare({ 1.0f, 0.8f, 10.0f }, { 3.0f, 2.0f }, { 30.0f, 20.0f, 40.0f }, { 0.8f, 0.8f, 0.1f, 1.0f });
+ 		//ViewportRenderer::DrawQuad({ -1.0f, 3.0f, 20.0f }, { 3.0f, 2.0f }, { 30.0f, 20.0f, 40.0f }, { 0.8f, 0.2f, 0.2f, 1.0f });
 		// Render Logic above here
 		ViewportRenderer::EndScene();
 

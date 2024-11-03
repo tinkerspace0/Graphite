@@ -19,7 +19,7 @@ namespace Graphite {
 		static const uint32_t MaxLineIndices = MaxLineVertices * 2;
 
 		static const uint32_t MaxTriangleVertices = 10000;
-		static const uint32_t MaxTriangleIndices = MaxTriangleVertices * 6;
+		static const uint32_t MaxTriangleIndices = MaxTriangleVertices * 3;
 
 		// Line data
 		Ref<VertexArray> LineVertexArray;
@@ -33,8 +33,8 @@ namespace Graphite {
 		// Triangle Data
 		Ref<VertexArray> TriangleVertexArray;
 		Ref<VertexBuffer> TriangleVertexBuffer;
-		VertexData* TriangleLineVertexBufferBase = nullptr;
-		VertexData* TriangleLineVertexBufferPtr = nullptr;
+		VertexData* TriangleVertexBufferBase = nullptr;
+		VertexData* TriangleVertexBufferPtr = nullptr;
 		uint32_t TriangleIndexCount = 0;
 		glm::vec4 TriangleColor;
 
@@ -76,7 +76,7 @@ namespace Graphite {
 	void ViewportRenderer::Shutdown()
 	{
 		delete[] s_Data.LineVertexBufferBase;
-		delete[] s_Data.TriangleLineVertexBufferBase;
+		delete[] s_Data.TriangleVertexBufferBase;
 	}
 
 	void ViewportRenderer::BeginScene(const ViewportCamera& camera)
@@ -161,7 +161,6 @@ namespace Graphite {
 		}
 	}
 
-
 	void ViewportRenderer::DrawGrid(ViewportCamera& camera, float spacing, int visibleCells, const glm::vec4& color)
 	{
 		glm::vec3 cameraPosition = camera.GetPosition();
@@ -184,6 +183,41 @@ namespace Graphite {
 			DrawLine(glm::vec3(startX - halfCellCount * spacing, 0.0f, startY + offset),
 				glm::vec3(startX + halfCellCount * spacing, 0.0f, startY + offset), color);
 		}
+	}
+
+	void ViewportRenderer::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation, const glm::vec4& color)
+	{
+		glm::vec3 halfSize = glm::vec3(size * 0.5f, 0.0f);
+		glm::vec3 vertices[4] = {
+			glm::vec3(-halfSize.x, 0.0f, -halfSize.y),
+			glm::vec3(halfSize.x, 0.0f, -halfSize.y),
+			glm::vec3(halfSize.x, 0.0f, halfSize.y),
+			glm::vec3(-halfSize.x, 0.0f, halfSize.y)
+		};
+
+		glm::mat4 rotationX = glm::rotate(glm::mat4(1.0f), glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+		glm::mat4 rotationY = glm::rotate(glm::mat4(1.0f), glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::mat4 rotationZ = glm::rotate(glm::mat4(1.0f), glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+		glm::mat4 rotationMatrix = rotationZ * rotationY * rotationX;
+
+		for (int i = 0; i < 4; ++i) {
+			vertices[i] = glm::vec3(rotationMatrix * glm::vec4(vertices[i], 1.0f)) + position;
+			s_Data.TriangleVertexBufferPtr->Position = vertices[i];
+			s_Data.TriangleVertexBufferPtr->Color = color;
+			s_Data.TriangleVertexBufferPtr++;
+		}
+		s_Data.TriangleIndexCount += 6;
+
+		VertexData quadIndices[6] = {
+			{ vertices[0], color }, { vertices[1], color }, { vertices[2], color },
+			{ vertices[2], color }, { vertices[3], color }, { vertices[0], color }
+		};
+
+		memcpy(s_Data.TriangleVertexBufferPtr, quadIndices, sizeof(quadIndices));
+		s_Data.TriangleVertexBufferPtr += 6;
+		s_Data.TriangleIndexCount += 6;
+		s_Data.Stats.TriangleCount++;
+		s_Data.Stats.TriangleCount++;
 	}
 
 	void ViewportRenderer::ResetStats()

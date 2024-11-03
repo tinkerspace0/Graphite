@@ -26,7 +26,7 @@ namespace Graphite
 		void init();
 		void Resize(uint32_t width, uint32_t height);
 		void OnImGuiRender();
-		void Render(Timestep ts);
+		void OnUpdate(Timestep ts);
 		void OnEvent(Event& e);
 
 
@@ -37,16 +37,9 @@ namespace Graphite
 		FramebufferSpecification m_fbSpec;
 		bool m_Initialized = false;
 
-		// Rendering assets
-		Graphite::ShaderLibrary m_ShaderLibrary;
-		Ref<Shader> m_FlatColorShader;
-		Ref<VertexArray> m_SquareVA;
-		Ref<Texture2D> m_Texture, m_ChernoLogoTexture;
-
 		// Viewport flags
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
 		ViewportCamera m_Camera;
-		glm::vec4 m_SquareColor = { 0.8f, 0.3f, 0.8f, 0.9f };
 
 	private:
 		// Grid settings

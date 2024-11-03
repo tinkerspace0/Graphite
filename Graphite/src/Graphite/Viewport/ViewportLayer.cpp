@@ -53,7 +53,7 @@ namespace Graphite {
 
 	void ViewportLayer::OnUpdate(Timestep ts) {
 		for (auto& viewport : m_Viewports) {
-			viewport->Render(ts);
+			viewport->OnUpdate(ts);
 		}
 	}
 

@@ -37,6 +37,9 @@ namespace Graphite {
 
 		std::vector<Ref<Viewport>> m_Viewports;
 
+		//m_PropertiesPanel
+		//m_ObjectInspectorPanel
+
 
 		// ShaderLibrary m_ShaderLibrary;
 		//Ref<Shader> m_Shader;
