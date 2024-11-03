@@ -23,7 +23,6 @@ namespace Graphite
 		Viewport(const std::string& viewportName, uint32_t width = 1280, uint32_t height = 720, bool initialize = true);
 		~Viewport();
 
-		void init();
 		void Resize(uint32_t width, uint32_t height);
 		void OnImGuiRender();
 		void OnUpdate(Timestep ts);
@@ -39,7 +38,9 @@ namespace Graphite
 
 		// Viewport flags
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
+		bool m_ViewportRerender = true;
 		ViewportCamera m_Camera;
+		uint32_t m_ViewporttextureID;
 
 	private:
 		// Grid settings

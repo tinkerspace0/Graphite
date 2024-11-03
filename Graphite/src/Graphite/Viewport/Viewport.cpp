@@ -9,7 +9,7 @@
 namespace Graphite
 {
 	Viewport::Viewport(const std::string& viewportName, uint32_t width, uint32_t height, bool initialize)
-		: m_Name(viewportName), m_ViewportSize({ width, height })//, m_Camera(width / float(height), true)
+		: m_Name(viewportName), m_ViewportSize({ width, height })
 	{
 		// Define framebuffer specification with color format
 		m_fbSpec.Width = width;
@@ -23,16 +23,13 @@ namespace Graphite
 
 	Viewport::~Viewport() {}
 
-	void Viewport::init() {
-
-	}
-
 	void Viewport::Resize(uint32_t width, uint32_t height) {
 		if (m_Framebuffer && (width != m_fbSpec.Width || height != m_fbSpec.Height)) {
 			m_fbSpec.Width = width;
 			m_fbSpec.Height = height;
 			m_Framebuffer->Resize(width, height);
 			m_Camera.SetViewportSize(width, height);
+			m_ViewportRerender = true;
 		}
 	}
 
@@ -54,9 +51,12 @@ namespace Graphite
 			m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 		}
 
+		// If framebuffer is modified then get new color attachment
+		if (m_ViewportRerender)
+			m_ViewporttextureID = m_Framebuffer->GetColorAttachmentRendererID();
+		
 		// Display framebuffer texture in ImGui
-		uint32_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-		ImGui::Image((ImTextureID)(intptr_t)textureID, ImVec2{ viewportPanelSize.x, viewportPanelSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+		ImGui::Image((ImTextureID)(intptr_t)m_ViewporttextureID, ImVec2{ viewportPanelSize.x, viewportPanelSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 		ImGui::End();
 		ImGui::PopStyleVar();
 
