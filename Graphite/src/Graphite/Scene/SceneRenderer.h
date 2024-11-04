@@ -15,34 +15,45 @@ namespace Graphite {
 
 		static void BeginScene(const ViewportCamera& camera);
 		static void EndScene();
-		static void FlushLines();
+		static void Flush();
 
 		//Primitives
-		// Line based Primitives
-		static void DrawSquare(const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation = { 0.0f, 0.0f, 0.0f }, const glm::vec4& color = { 1.0f, 1.0f, 1.0f, 1.0f });
-		static void DrawLine(const glm::vec3& start, const glm::vec3& end, const glm::vec4& color);
+		// GL_LINE Call based Primitives
+		static void DrawLine(const glm::vec3& start, const glm::vec3& end, const glm::vec4& color, int entityID = -1);
+		static void DrawRect(const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation, const glm::vec4& color, int entityID = -1);
+		static void DrawRect(const glm::mat4& transform, const glm::vec4& color, int entityID = -1);
 
-		// Triangle Based Primitives
-		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation = { 0.0f, 0.0f, 0.0f }, const glm::vec4& color = { 1.0f, 1.0f, 1.0f, 1.0f });
+
+		// GL_TRIANGLE Call based Primitives
+		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation, const glm::vec4& color, int entityID = -1);
+		static void DrawQuad(const glm::mat4& transform, const glm::vec4& color, int entityID = -1);
+
+		static void DrawCircle(const glm::mat4& transform, const glm::vec4& color, float thickness = 1.0f, float fade = 0.005f, int entityID = -1);
+
 
 		// Grid Rendering  for viewport
 		static void DrawGrid(ViewportCamera& camera, float spacing, int visibleCells, const glm::vec4& color = { 0.4f, 0.3f, 0.2f, 1.0f });
 		static void DrawGrid(float spacing = 1.0f, int lineCount = 100, const glm::vec4& color = { 0.4f, 0.3f, 0.2f, 1.0f });
+
+		static float GetLineWidth();
+		static void SetLineWidth(float width);
+
+
 		// Stats
 		struct Statistics
 		{
 			uint32_t DrawCalls = 0;
-			uint32_t LineCount = 0;
-			uint32_t TriangleCount = 0;
+			uint32_t PrimitivesCount = 0;
 
-			uint32_t GetTotalLineVertexCount() const { return LineCount * 2; }
-			uint32_t GetTotalLineIndexCount() const { return LineCount * 2; }
+			uint32_t GetTotalVertexCount() const { return PrimitivesCount * 4; }
+			uint32_t GetTotalIndexCount() const { return PrimitivesCount * 6; }
 		};
-
 		static void ResetStats();
 		static Statistics GetStats();
 
-	//private:
-		//static void FlushAndReset();
+
+	private:
+		static void StartBatch();
+		static void NextBatch();
 	};
 }

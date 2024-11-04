@@ -29,16 +29,25 @@ namespace Graphite {
 
 		static void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t count = 0)
 		{
+			if (!vertexArray || !vertexArray->GetIndexBuffer()) {
+				GF_CORE_ERROR("DrawIndexed: Null vertex array or index buffer.");
+				return;
+			}
 			s_RendererAPI->DrawIndexed(vertexArray, count);
 		}
 		
 		static void DrawLines(const Ref<VertexArray>& vertexArray, uint32_t count = 0)
 		{
 			if (!vertexArray || !vertexArray->GetIndexBuffer()) {
-				GF_CORE_ERROR("DrawIndexedLines: Null vertex array or index buffer.");
+				GF_CORE_ERROR("DrawLines: Null vertex array or index buffer.");
 				return;
 			}
 			s_RendererAPI->DrawLines(vertexArray, count);
+		}
+
+		static void SetLineWidth(float width)
+		{
+			s_RendererAPI->SetLineWidth(width);
 		}
 	private:
 		static Scope<RendererAPI> s_RendererAPI;

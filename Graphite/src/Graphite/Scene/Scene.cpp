@@ -3,7 +3,7 @@
 
 #include "Entity.h"
 #include "Components.h"
-#include "Graphite/Renderer/VPRenderer.h"
+#include "Graphite/Scene/SceneRenderer.h"
 
 #include <glm/glm.hpp>
 
