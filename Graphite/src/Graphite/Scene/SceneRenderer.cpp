@@ -98,7 +98,7 @@ namespace Graphite {
 
 		uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.LineVertexBufferPtr - (uint8_t*)s_Data.LineVertexBufferBase);
 		s_Data.LineVertexBuffer->SetData(s_Data.LineVertexBufferBase, dataSize);
-		RenderCommand::DrawIndexedLines(s_Data.LineVertexArray, s_Data.LineIndexCount);
+		RenderCommand::DrawLines(s_Data.LineVertexArray, s_Data.LineIndexCount);
 		s_Data.Stats.DrawCalls++;
 		s_Data.LineIndexCount = 0;
 	}
