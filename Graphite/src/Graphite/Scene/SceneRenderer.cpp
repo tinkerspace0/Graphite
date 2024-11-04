@@ -2,6 +2,7 @@
 #include "Graphite/Scene/SceneRenderer.h"
 #include "Graphite/Renderer/VertexArray.h"
 #include "Graphite/Renderer/Shader.h"
+#include "Graphite/Renderer/UniformBuffer.h"
 #include "Graphite/Renderer/RenderCommand.h"
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -78,7 +79,7 @@ namespace Graphite {
 			glm::mat4 ViewProjection;
 		};
 		CameraData CameraBuffer;
-// 		Ref<UniformBuffer> CameraUniformBuffer;
+ 		Ref<UniformBuffer> CameraUniformBuffer;
 
 	};
 
@@ -166,7 +167,7 @@ namespace Graphite {
 		s_Data.QuadVertexPositions[2] = { 0.5f,  0.5f, 0.0f, 1.0f };
 		s_Data.QuadVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
 
-		//s_Data.CameraUniformBuffer = UniformBuffer::Create(sizeof(Renderer2DData::CameraData), 0);
+		s_Data.CameraUniformBuffer = UniformBuffer::Create(sizeof(SceneRendererData::CameraData), 0);
 	}
 
 	void SceneRenderer::Shutdown()
@@ -182,7 +183,7 @@ namespace Graphite {
 
 		GF_PROFILE_FUNCTION();
 		s_Data.CameraBuffer.ViewProjection = camera.GetViewProjection();
-		//s_Data.CameraUniformBuffer->SetData(&s_Data.CameraBuffer, sizeof(Renderer2DData::CameraData));
+		s_Data.CameraUniformBuffer->SetData(&s_Data.CameraBuffer, sizeof(SceneRendererData::CameraData));
 		StartBatch();
 	}
 

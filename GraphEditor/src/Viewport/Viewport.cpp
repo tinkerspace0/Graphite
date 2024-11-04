@@ -72,14 +72,17 @@ namespace Graphite
 			RenderCommand::Clear();
 
 			SceneRenderer::BeginScene(m_Camera);
-			//SceneRenderer::DrawGrid(m_Camera, 1.0f, 1000, { 0.2f, 0.2f, 0.2f, 1.0f });
-			//SceneRenderer::DrawLine({ 0.0f, -100.0f, 0.0f }, { 0.0f, 100.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f });
+			SceneRenderer::DrawGrid(m_Camera, 1.0f, 1000, { 0.2f, 0.2f, 0.2f, 1.0f });
+			
 			// Render Logic here
+			
+			SceneRenderer::DrawLine({ 0.0f, -100.0f, 0.0f }, { 0.0f, 100.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f });
 
 			SceneRenderer::DrawRect({ 1.0f, 0.8f, 10.0f }, { 3.0f, 2.0f }, { 30.0f, 20.0f, 40.0f }, { 0.8f, 0.8f, 0.1f, 1.0f });
-			//SceneRenderer::DrawQuad({ -1.0f, 3.0f, 20.0f }, { 3.0f, 2.0f }, { 30.0f, 20.0f, 40.0f }, { 0.8f, 0.2f, 0.2f, 1.0f });
+			SceneRenderer::DrawQuad({ -1.0f, 3.0f, 20.0f }, { 3.0f, 2.0f }, { 30.0f, 20.0f, 40.0f }, { 0.8f, 0.2f, 0.2f, 1.0f });
 			
 			// Render Logic above here
+			
 			SceneRenderer::EndScene();
 
 			m_Framebuffer->Unbind();

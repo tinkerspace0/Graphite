@@ -180,6 +180,7 @@
     <ClInclude Include="src\Graphite\Renderer\RendererAPI.h" />
     <ClInclude Include="src\Graphite\Renderer\Shader.h" />
     <ClInclude Include="src\Graphite\Renderer\Texture.h" />
+    <ClInclude Include="src\Graphite\Renderer\UniformBuffer.h" />
     <ClInclude Include="src\Graphite\Scene\SceneRenderer.h" />
     <ClInclude Include="src\Graphite\Renderer\VertexArray.h" />
     <ClInclude Include="src\Graphite\Renderer\ViewportCamera.h" />
@@ -194,6 +195,7 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLUniformBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\gfpch.h" />
@@ -635,6 +637,7 @@
     <ClCompile Include="src\Graphite\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Graphite\Renderer\Shader.cpp" />
     <ClCompile Include="src\Graphite\Renderer\Texture.cpp" />
+    <ClCompile Include="src\Graphite\Renderer\UniformBuffer.cpp" />
     <ClCompile Include="src\Graphite\Scene\SceneRenderer.cpp" />
     <ClCompile Include="src\Graphite\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Graphite\Renderer\ViewportCamera.cpp" />
@@ -647,6 +650,7 @@
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLUniformBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
