@@ -19,9 +19,7 @@
 // ---Renderer------------------------
 #include "Graphite/Renderer/Renderer.h"
 #include "Graphite/Renderer/Renderer2D.h"
-#include "Graphite/Renderer/VPRenderer.h"
 #include "Graphite/Renderer/RenderCommand.h"
-
 #include "Graphite/Renderer/Buffer.h"
 #include "Graphite/Renderer/Shader.h"
 #include "Graphite/Renderer/Framebuffer.h"
@@ -35,3 +33,4 @@
 
 // ---Scene---------------------------
 #include "Graphite/Scene/Scene.h"
+#include "Graphite/Scene/SceneRenderer.h"

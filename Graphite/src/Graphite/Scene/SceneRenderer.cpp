@@ -1,5 +1,5 @@
 #include "gfpch.h"
-#include "Graphite/Renderer/VPRenderer.h"
+#include "Graphite/Scene/SceneRenderer.h"
 #include "Graphite/Renderer/VertexArray.h"
 #include "Graphite/Renderer/Shader.h"
 #include "Graphite/Renderer/RenderCommand.h"
@@ -41,12 +41,12 @@ namespace Graphite {
 		// Shader
 		Ref<Shader> BasicShader;
 
-		ViewportRenderer::Statistics Stats;
+		SceneRenderer::Statistics Stats;
 	};
 
 	static VPRendererData s_Data;
 
-	void ViewportRenderer::Init()
+	void SceneRenderer::Init()
 	{
 		s_Data.LineVertexArray = VertexArray::Create();
 
@@ -73,13 +73,13 @@ namespace Graphite {
 		s_Data.BasicShader->Bind();
 	}
 
-	void ViewportRenderer::Shutdown()
+	void SceneRenderer::Shutdown()
 	{
 		delete[] s_Data.LineVertexBufferBase;
 		delete[] s_Data.TriangleVertexBufferBase;
 	}
 
-	void ViewportRenderer::BeginScene(const ViewportCamera& camera)
+	void SceneRenderer::BeginScene(const ViewportCamera& camera)
 	{
 		s_Data.BasicShader->Bind();
 		s_Data.BasicShader->SetMat4("u_ViewProjection", camera.GetViewProjection());
@@ -87,12 +87,12 @@ namespace Graphite {
 		s_Data.LineIndexCount = 0;
 	}
 
-	void ViewportRenderer::EndScene()
+	void SceneRenderer::EndScene()
 	{
 		FlushLines();
 	}
 
-	void ViewportRenderer::FlushLines()
+	void SceneRenderer::FlushLines()
 	{
 		if (s_Data.LineIndexCount == 0) return;
 
@@ -103,7 +103,7 @@ namespace Graphite {
 		s_Data.LineIndexCount = 0;
 	}
 
-	void ViewportRenderer::DrawLine(const glm::vec3& start, const glm::vec3& end, const glm::vec4& color)
+	void SceneRenderer::DrawLine(const glm::vec3& start, const glm::vec3& end, const glm::vec4& color)
 	{
 		s_Data.LineVertexBufferPtr->Position = start;
 		s_Data.LineVertexBufferPtr->Color = color;
@@ -117,7 +117,7 @@ namespace Graphite {
 		s_Data.Stats.LineCount++;
 	}
 
-	void ViewportRenderer::DrawSquare(const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation, const glm::vec4& color)
+	void SceneRenderer::DrawSquare(const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation, const glm::vec4& color)
 	{
 		// Calculate half size
 		glm::vec3 halfSize = glm::vec3(size * 0.5f, 0.0f);
@@ -148,7 +148,7 @@ namespace Graphite {
 		DrawLine(vertices[3], vertices[0], color);
 	}
 
-	void ViewportRenderer::DrawGrid(float spacing, int lineCount, const glm::vec4& color)
+	void SceneRenderer::DrawGrid(float spacing, int lineCount, const glm::vec4& color)
 	{
 		float GridSize = spacing * lineCount;
 
@@ -161,7 +161,7 @@ namespace Graphite {
 		}
 	}
 
-	void ViewportRenderer::DrawGrid(ViewportCamera& camera, float spacing, int visibleCells, const glm::vec4& color)
+	void SceneRenderer::DrawGrid(ViewportCamera& camera, float spacing, int visibleCells, const glm::vec4& color)
 	{
 		glm::vec3 cameraPosition = camera.GetPosition();
 
@@ -185,7 +185,7 @@ namespace Graphite {
 		}
 	}
 
-	void ViewportRenderer::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation, const glm::vec4& color)
+	void SceneRenderer::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation, const glm::vec4& color)
 	{
 		glm::vec3 halfSize = glm::vec3(size * 0.5f, 0.0f);
 		glm::vec3 vertices[4] = {
@@ -220,12 +220,12 @@ namespace Graphite {
 		s_Data.Stats.TriangleCount++;
 	}
 
-	void ViewportRenderer::ResetStats()
+	void SceneRenderer::ResetStats()
 	{
 		memset(&s_Data.Stats, 0, sizeof(Statistics));
 	}
 
-	ViewportRenderer::Statistics ViewportRenderer::GetStats()
+	SceneRenderer::Statistics SceneRenderer::GetStats()
 	{
 		return s_Data.Stats;
 	}

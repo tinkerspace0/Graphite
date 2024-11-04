@@ -7,7 +7,7 @@
 
 namespace Graphite {
 
-	class ViewportRenderer
+	class SceneRenderer
 	{
 	public:
 		static void Init();

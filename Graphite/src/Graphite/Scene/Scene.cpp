@@ -120,7 +120,7 @@ namespace Graphite {
 
 // 	void Scene::OnUpdateEditor(Timestep ts, ViewportCamera& camera)
 //	{
-// 		ViewportRenderer::BeginScene(camera);
+// 		SceneRenderer::BeginScene(camera);
 // 
 // 		auto group = m_Registry.group<TransformComponent>(entt::get<>);
 // 		for (auto entity : group)

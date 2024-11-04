@@ -180,7 +180,7 @@
     <ClInclude Include="src\Graphite\Renderer\RendererAPI.h" />
     <ClInclude Include="src\Graphite\Renderer\Shader.h" />
     <ClInclude Include="src\Graphite\Renderer\Texture.h" />
-    <ClInclude Include="src\Graphite\Renderer\VPRenderer.h" />
+    <ClInclude Include="src\Graphite\Scene\SceneRenderer.h" />
     <ClInclude Include="src\Graphite\Renderer\VertexArray.h" />
     <ClInclude Include="src\Graphite\Renderer\ViewportCamera.h" />
     <ClInclude Include="src\Graphite\Scene\Components.h" />
@@ -635,7 +635,7 @@
     <ClCompile Include="src\Graphite\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Graphite\Renderer\Shader.cpp" />
     <ClCompile Include="src\Graphite\Renderer\Texture.cpp" />
-    <ClCompile Include="src\Graphite\Renderer\VPRenderer.cpp" />
+    <ClCompile Include="src\Graphite\Scene\SceneRenderer.cpp" />
     <ClCompile Include="src\Graphite\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Graphite\Renderer\ViewportCamera.cpp" />
     <ClCompile Include="src\Graphite\Scene\Entity.cpp" />

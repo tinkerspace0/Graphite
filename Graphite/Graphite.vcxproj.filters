@@ -159,7 +159,7 @@
     <ClInclude Include="src\Graphite\Renderer\Texture.h">
       <Filter>src\Graphite\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphite\Renderer\VPRenderer.h">
+    <ClInclude Include="src\Graphite\Scene\SceneRenderer.h">
       <Filter>src\Graphite\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphite\Renderer\VertexArray.h">
@@ -1520,7 +1520,7 @@
     <ClCompile Include="src\Graphite\Renderer\Texture.cpp">
       <Filter>src\Graphite\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graphite\Renderer\VPRenderer.cpp">
+    <ClCompile Include="src\Graphite\Scene\SceneRenderer.cpp">
       <Filter>src\Graphite\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Graphite\Renderer\VertexArray.cpp">
