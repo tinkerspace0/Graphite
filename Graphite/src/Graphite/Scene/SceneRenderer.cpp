@@ -208,7 +208,6 @@ namespace Graphite {
 	{
 		if (s_Data.QuadIndexCount)
 		{
-			GF_WARN("Inside Quad Draw Call");
 			uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.QuadVertexBufferPtr - (uint8_t*)s_Data.QuadVertexBufferBase);
 			s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase, dataSize);
 
@@ -219,7 +218,6 @@ namespace Graphite {
 
 		if (s_Data.CircleIndexCount)
 		{
-			GF_WARN("Inside Circle Draw Call");
 			uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.CircleVertexBufferPtr - (uint8_t*)s_Data.CircleVertexBufferBase);
 			s_Data.CircleVertexBuffer->SetData(s_Data.CircleVertexBufferBase, dataSize);
 
