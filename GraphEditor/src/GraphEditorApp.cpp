@@ -14,7 +14,7 @@ namespace Graphite {
 			PushLayer(new ViewportLayer());
 		}
 
-		~Graphitenut()
+		~GraphiteEditor()
 		{
 		}
 	};
