@@ -5,11 +5,11 @@
 
 namespace Graphite {
 
-	class Graphitenut : public Application
+	class GraphiteEditor : public Application
 	{
 	public:
-		Graphitenut()
-			: Application("Graphitenut")
+		GraphiteEditor()
+			: Application("GraphiteEditor")
 		{
 			PushLayer(new ViewportLayer());
 		}
@@ -21,7 +21,7 @@ namespace Graphite {
 
 	Application* CreateApplication()
 	{
-		return new Graphitenut();
+		return new GraphiteEditor();
 	}
 
 }

@@ -50,5 +50,6 @@ void main()
 		discard;
 
 	o_Color = Input.Color;
+	//o_Color = vec4(0,0,0,0);
 	o_EntityID = v_EntityID;
 }

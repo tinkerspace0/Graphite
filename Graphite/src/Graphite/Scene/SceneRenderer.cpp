@@ -40,7 +40,7 @@ namespace Graphite {
 
 	struct SceneRendererData
 	{
-		static const uint32_t MaxPrimitives = 20000;
+		static const uint32_t MaxPrimitives = 1000;
 		static const uint32_t MaxVertices = MaxPrimitives * 4;
 		static const uint32_t MaxIndices = MaxPrimitives * 6;
 
@@ -68,7 +68,7 @@ namespace Graphite {
 		LineVertex* LineVertexBufferBase = nullptr;
 		LineVertex* LineVertexBufferPtr = nullptr;
 
-		float LineWidth = 2.0f;
+		float LineWidth = 1.0f;
 
 		glm::vec4 QuadVertexPositions[4];
 
@@ -83,28 +83,28 @@ namespace Graphite {
 
 	};
 
-	static SceneRendererData s_Data;
+	static SceneRendererData s_SRData;
 
 	void SceneRenderer::Init()
 	{
 		GF_PROFILE_FUNCTION();
 
-		s_Data.QuadVertexArray = VertexArray::Create();
+		s_SRData.QuadVertexArray = VertexArray::Create();
 
-		s_Data.QuadVertexBuffer = VertexBuffer::Create(s_Data.MaxVertices * sizeof(QuadVertex));
-		s_Data.QuadVertexBuffer->SetLayout({
+		s_SRData.QuadVertexBuffer = VertexBuffer::Create(s_SRData.MaxVertices * sizeof(QuadVertex));
+		s_SRData.QuadVertexBuffer->SetLayout({
 			{ ShaderDataType::Float3, "a_Position"     },
 			{ ShaderDataType::Float4, "a_Color"        },
 			{ ShaderDataType::Int,    "a_EntityID"     }
 			});
-		s_Data.QuadVertexArray->AddVertexBuffer(s_Data.QuadVertexBuffer);
+		s_SRData.QuadVertexArray->AddVertexBuffer(s_SRData.QuadVertexBuffer);
 
-		s_Data.QuadVertexBufferBase = new QuadVertex[s_Data.MaxVertices];
+		s_SRData.QuadVertexBufferBase = new QuadVertex[s_SRData.MaxVertices];
 
-		uint32_t* quadIndices = new uint32_t[s_Data.MaxIndices];
+		uint32_t* quadIndices = new uint32_t[s_SRData.MaxIndices];
 
 		uint32_t offset = 0;
-		for (uint32_t i = 0; i < s_Data.MaxIndices; i += 6)
+		for (uint32_t i = 0; i < s_SRData.MaxIndices; i += 6)
 		{
 			quadIndices[i + 0] = offset + 0;
 			quadIndices[i + 1] = offset + 1;
@@ -117,15 +117,20 @@ namespace Graphite {
 			offset += 4;
 		}
 
-		Ref<IndexBuffer> quadIB = IndexBuffer::Create(quadIndices, s_Data.MaxIndices);
-		s_Data.QuadVertexArray->SetIndexBuffer(quadIB);
+		Ref<IndexBuffer> quadIB = IndexBuffer::Create(quadIndices, s_SRData.MaxIndices);
+		s_SRData.QuadVertexArray->SetIndexBuffer(quadIB);
 		delete[] quadIndices;
 
-		// Circles
-		s_Data.CircleVertexArray = VertexArray::Create();
+		s_SRData.QuadVertexPositions[0] = { -0.5f,  10.1f, -0.5f, 1.0f };
+		s_SRData.QuadVertexPositions[1] = {  0.5f,  20.2f, -0.5f, 1.0f };
+		s_SRData.QuadVertexPositions[2] = {  0.5f,  30.3f,  0.5f, 1.0f };
+		s_SRData.QuadVertexPositions[3] = { -0.5f,  40.4f,  0.5f, 1.0f };
 
-		s_Data.CircleVertexBuffer = VertexBuffer::Create(s_Data.MaxVertices * sizeof(CircleVertex));
-		s_Data.CircleVertexBuffer->SetLayout({
+		// Circles
+		s_SRData.CircleVertexArray = VertexArray::Create();
+
+		s_SRData.CircleVertexBuffer = VertexBuffer::Create(s_SRData.MaxVertices * sizeof(CircleVertex));
+		s_SRData.CircleVertexBuffer->SetLayout({
 			{ ShaderDataType::Float3, "a_WorldPosition" },
 			{ ShaderDataType::Float3, "a_LocalPosition" },
 			{ ShaderDataType::Float4, "a_Color"         },
@@ -133,48 +138,43 @@ namespace Graphite {
 			{ ShaderDataType::Float,  "a_Fade"          },
 			{ ShaderDataType::Int,    "a_EntityID"      }
 			});
-		s_Data.CircleVertexArray->AddVertexBuffer(s_Data.CircleVertexBuffer);
-		s_Data.CircleVertexArray->SetIndexBuffer(quadIB); // Use quad IB
-		s_Data.CircleVertexBufferBase = new CircleVertex[s_Data.MaxVertices];
+		s_SRData.CircleVertexArray->AddVertexBuffer(s_SRData.CircleVertexBuffer);
+		s_SRData.CircleVertexArray->SetIndexBuffer(quadIB); // Use quad IB
+		s_SRData.CircleVertexBufferBase = new CircleVertex[s_SRData.MaxVertices];
 
 		// Lines
-		s_Data.LineVertexArray = VertexArray::Create();
+		s_SRData.LineVertexArray = VertexArray::Create();
 
-		s_Data.LineVertexBuffer = VertexBuffer::Create(s_Data.MaxVertices * sizeof(LineVertex));
-		s_Data.LineVertexBuffer->SetLayout({
+		s_SRData.LineVertexBuffer = VertexBuffer::Create(s_SRData.MaxVertices * sizeof(LineVertex));
+		s_SRData.LineVertexBuffer->SetLayout({
 			{ ShaderDataType::Float3, "a_Position" },
 			{ ShaderDataType::Float4, "a_Color"    },
 			{ ShaderDataType::Int,    "a_EntityID" }
 			});
-		s_Data.LineVertexArray->AddVertexBuffer(s_Data.LineVertexBuffer);
-		s_Data.LineVertexBufferBase = new LineVertex[s_Data.MaxVertices];
+		s_SRData.LineVertexArray->AddVertexBuffer(s_SRData.LineVertexBuffer);
+		s_SRData.LineVertexBufferBase = new LineVertex[s_SRData.MaxVertices];
 		
-		uint32_t* lineIndices = new uint32_t[s_Data.MaxIndices];
-		for (uint32_t i = 0; i < s_Data.MaxIndices; i++)
+		uint32_t* lineIndices = new uint32_t[s_SRData.MaxIndices];
+		for (uint32_t i = 0; i < s_SRData.MaxIndices; i++)
 			lineIndices[i] = i;  // Simple sequential indexing for line rendering
 
-		Ref<IndexBuffer> lineIB = IndexBuffer::Create(lineIndices, s_Data.MaxIndices);
-		s_Data.LineVertexArray->SetIndexBuffer(lineIB);
+		Ref<IndexBuffer> lineIB = IndexBuffer::Create(lineIndices, s_SRData.MaxIndices);
+		s_SRData.LineVertexArray->SetIndexBuffer(lineIB);
 		delete[] lineIndices;
 
 
-		s_Data.QuadShader = Shader::Create("assets/shaders/Scene_QuadShader.glsl");
-		s_Data.CircleShader = Shader::Create("assets/shaders/Scene_CircleShader.glsl");
-		s_Data.LineShader = Shader::Create("assets/shaders/Scene_LineShader.glsl");
+		s_SRData.QuadShader = Shader::Create("assets/shaders/Scene_QuadShader.glsl");
+		s_SRData.CircleShader = Shader::Create("assets/shaders/Scene_CircleShader.glsl");
+		s_SRData.LineShader = Shader::Create("assets/shaders/Scene_LineShader.glsl");
 
-		s_Data.QuadVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
-		s_Data.QuadVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
-		s_Data.QuadVertexPositions[2] = { 0.5f,  0.5f, 0.0f, 1.0f };
-		s_Data.QuadVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
-
-		s_Data.CameraUniformBuffer = UniformBuffer::Create(sizeof(SceneRendererData::CameraData), 0);
+		s_SRData.CameraUniformBuffer = UniformBuffer::Create(sizeof(SceneRendererData::CameraData), 0);
 	}
 
 	void SceneRenderer::Shutdown()
 	{
-		delete[] s_Data.QuadVertexBufferBase;
-		delete[] s_Data.CircleVertexBufferBase;
-		delete[] s_Data.LineVertexBufferBase;
+		delete[] s_SRData.QuadVertexBufferBase;
+		delete[] s_SRData.CircleVertexBufferBase;
+		delete[] s_SRData.LineVertexBufferBase;
 		
 	}
 
@@ -182,8 +182,8 @@ namespace Graphite {
 	{
 
 		GF_PROFILE_FUNCTION();
-		s_Data.CameraBuffer.ViewProjection = camera.GetViewProjection();
-		s_Data.CameraUniformBuffer->SetData(&s_Data.CameraBuffer, sizeof(SceneRendererData::CameraData));
+		s_SRData.CameraBuffer.ViewProjection = camera.GetViewProjection();
+		s_SRData.CameraUniformBuffer->SetData(&s_SRData.CameraBuffer, sizeof(SceneRendererData::CameraData));
 		StartBatch();
 	}
 
@@ -194,47 +194,47 @@ namespace Graphite {
 
 	void SceneRenderer::StartBatch()
 	{
-		s_Data.QuadIndexCount = 0;
-		s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
+		s_SRData.QuadIndexCount = 0;
+		s_SRData.QuadVertexBufferPtr = s_SRData.QuadVertexBufferBase;
 
-		s_Data.CircleIndexCount = 0;
-		s_Data.CircleVertexBufferPtr = s_Data.CircleVertexBufferBase;
+		s_SRData.CircleIndexCount = 0;
+		s_SRData.CircleVertexBufferPtr = s_SRData.CircleVertexBufferBase;
 
-		s_Data.LineIndexCount = 0;
-		s_Data.LineVertexBufferPtr = s_Data.LineVertexBufferBase;
+		s_SRData.LineIndexCount = 0;
+		s_SRData.LineVertexBufferPtr = s_SRData.LineVertexBufferBase;
 	}
 
 	void SceneRenderer::Flush()
 	{
-		if (s_Data.QuadIndexCount)
+		if (s_SRData.QuadIndexCount)
 		{
-			uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.QuadVertexBufferPtr - (uint8_t*)s_Data.QuadVertexBufferBase);
-			s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase, dataSize);
+			uint32_t dataSize = (uint32_t)((uint8_t*)s_SRData.QuadVertexBufferPtr - (uint8_t*)s_SRData.QuadVertexBufferBase);
+			s_SRData.QuadVertexBuffer->SetData(s_SRData.QuadVertexBufferBase, dataSize);
 
-			s_Data.QuadShader->Bind();
-			RenderCommand::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndexCount);
-			s_Data.Stats.DrawCalls++;
+			s_SRData.QuadShader->Bind();
+			RenderCommand::DrawIndexed(s_SRData.QuadVertexArray, s_SRData.QuadIndexCount);
+			s_SRData.Stats.DrawCalls++;
 		}
 
-		if (s_Data.CircleIndexCount)
+		if (s_SRData.CircleIndexCount)
 		{
-			uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.CircleVertexBufferPtr - (uint8_t*)s_Data.CircleVertexBufferBase);
-			s_Data.CircleVertexBuffer->SetData(s_Data.CircleVertexBufferBase, dataSize);
+			uint32_t dataSize = (uint32_t)((uint8_t*)s_SRData.CircleVertexBufferPtr - (uint8_t*)s_SRData.CircleVertexBufferBase);
+			s_SRData.CircleVertexBuffer->SetData(s_SRData.CircleVertexBufferBase, dataSize);
 
-			s_Data.CircleShader->Bind();
-			RenderCommand::DrawIndexed(s_Data.CircleVertexArray, s_Data.CircleIndexCount);
-			s_Data.Stats.DrawCalls++;
+			s_SRData.CircleShader->Bind();
+			RenderCommand::DrawIndexed(s_SRData.CircleVertexArray, s_SRData.CircleIndexCount);
+			s_SRData.Stats.DrawCalls++;
 		}
 
-		if (s_Data.LineIndexCount)
+		if (s_SRData.LineIndexCount)
 		{
-			uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.LineVertexBufferPtr - (uint8_t*)s_Data.LineVertexBufferBase);
-			s_Data.LineVertexBuffer->SetData(s_Data.LineVertexBufferBase, dataSize);
+			uint32_t dataSize = (uint32_t)((uint8_t*)s_SRData.LineVertexBufferPtr - (uint8_t*)s_SRData.LineVertexBufferBase);
+			s_SRData.LineVertexBuffer->SetData(s_SRData.LineVertexBufferBase, dataSize);
 
-			s_Data.LineShader->Bind();
-			RenderCommand::SetLineWidth(s_Data.LineWidth);
-			RenderCommand::DrawLines(s_Data.LineVertexArray, s_Data.LineIndexCount);
-			s_Data.Stats.DrawCalls++;
+			s_SRData.LineShader->Bind();
+			RenderCommand::SetLineWidth(s_SRData.LineWidth);
+			RenderCommand::DrawLines(s_SRData.LineVertexArray, s_SRData.LineIndexCount);
+			s_SRData.Stats.DrawCalls++;
 		}
 
 	}
@@ -247,19 +247,19 @@ namespace Graphite {
 
 	void SceneRenderer::DrawLine(const glm::vec3& start, const glm::vec3& end, const glm::vec4& color, int entityID)
 	{
-		s_Data.LineVertexBufferPtr->Position = start;
-		s_Data.LineVertexBufferPtr->Color = color;
-		s_Data.LineVertexBufferPtr->EntityID = entityID;
-		s_Data.LineVertexBufferPtr++;
+		s_SRData.LineVertexBufferPtr->Position = start;
+		s_SRData.LineVertexBufferPtr->Color = color;
+		s_SRData.LineVertexBufferPtr->EntityID = entityID;
+		s_SRData.LineVertexBufferPtr++;
 
-		s_Data.LineVertexBufferPtr->Position = end;
-		s_Data.LineVertexBufferPtr->Color = color;
-		s_Data.LineVertexBufferPtr->EntityID = entityID;
-		s_Data.LineVertexBufferPtr++;
+		s_SRData.LineVertexBufferPtr->Position = end;
+		s_SRData.LineVertexBufferPtr->Color = color;
+		s_SRData.LineVertexBufferPtr->EntityID = entityID;
+		s_SRData.LineVertexBufferPtr++;
 
-		s_Data.LineIndexCount += 2;
+		s_SRData.LineIndexCount += 2;
 
-		s_Data.Stats.PrimitivesCount++;
+		s_SRData.Stats.PrimitivesCount++;
 	}
 
 	void SceneRenderer::DrawRect(const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation, const glm::vec4& color, int entityID)
@@ -279,7 +279,7 @@ namespace Graphite {
 	{
 		glm::vec3 lineVertices[4];
 		for (size_t i = 0; i < 4; i++)
-			lineVertices[i] = transform * s_Data.QuadVertexPositions[i];
+			lineVertices[i] = transform * s_SRData.QuadVertexPositions[i];
 
 		DrawLine(lineVertices[0], lineVertices[1], color, entityID);
 		DrawLine(lineVertices[1], lineVertices[2], color, entityID);
@@ -299,10 +299,10 @@ namespace Graphite {
 		// Create the transformation matrix
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
 			rotationMatrix *
-			glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+			glm::scale(glm::mat4(1.0f), { size.x, 1.0f, size.y });
 
 		// Draw the quad with the specified transform, color, and entity ID
-		DrawQuad(transform, color, entityID);
+		DrawQuad(transform, color);
 	}
 	
 	void SceneRenderer::DrawQuad(const glm::mat4& transform, const glm::vec4& color, int entityID ) 
@@ -310,22 +310,23 @@ namespace Graphite {
 		GF_PROFILE_FUNCTION();
 
 		constexpr size_t quadVertexCount = 4;
+		constexpr glm::vec2 textureCoords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
 
-		if (s_Data.QuadIndexCount >= SceneRendererData::MaxIndices)
+		if (s_SRData.QuadIndexCount >= SceneRendererData::MaxIndices)
 			NextBatch();
 
 
 		for (size_t i = 0; i < quadVertexCount; i++)
 		{
-			s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
-			s_Data.QuadVertexBufferPtr->Color = color;
-			s_Data.QuadVertexBufferPtr->EntityID = entityID;
-			s_Data.QuadVertexBufferPtr++;
+			s_SRData.QuadVertexBufferPtr->Position = glm::vec3(transform * s_SRData.QuadVertexPositions[i]);
+			s_SRData.QuadVertexBufferPtr->Color = color;
+			s_SRData.QuadVertexBufferPtr->EntityID = entityID;
+			s_SRData.QuadVertexBufferPtr++;
 		}
 
-		s_Data.QuadIndexCount += 6;
+		s_SRData.QuadIndexCount += 6;
 
-		s_Data.Stats.PrimitivesCount++;
+		s_SRData.Stats.PrimitivesCount++;
 	}
 
 	void SceneRenderer::DrawCircle(const glm::mat4& transform, const glm::vec4& color, float thickness, float fade, int entityID)
@@ -333,26 +334,26 @@ namespace Graphite {
 		GF_PROFILE_FUNCTION();
 
 		// Check if we need to start a new batch
-		if (s_Data.CircleIndexCount >= SceneRendererData::MaxIndices)
+		if (s_SRData.CircleIndexCount >= SceneRendererData::MaxIndices)
 			NextBatch();
 
 		// Set up circle vertices
 		for (size_t i = 0; i < 4; i++)
 		{
-			s_Data.CircleVertexBufferPtr->WorldPosition = transform * s_Data.QuadVertexPositions[i];
-			s_Data.CircleVertexBufferPtr->LocalPosition = s_Data.QuadVertexPositions[i] * 2.0f;
-			s_Data.CircleVertexBufferPtr->Color = color;
-			s_Data.CircleVertexBufferPtr->Thickness = thickness;
-			s_Data.CircleVertexBufferPtr->Fade = fade;
-			s_Data.CircleVertexBufferPtr->EntityID = entityID;
-			s_Data.CircleVertexBufferPtr++;
+			s_SRData.CircleVertexBufferPtr->WorldPosition = transform * s_SRData.QuadVertexPositions[i];
+			s_SRData.CircleVertexBufferPtr->LocalPosition = s_SRData.QuadVertexPositions[i] * 2.0f;
+			s_SRData.CircleVertexBufferPtr->Color = color;
+			s_SRData.CircleVertexBufferPtr->Thickness = thickness;
+			s_SRData.CircleVertexBufferPtr->Fade = fade;
+			s_SRData.CircleVertexBufferPtr->EntityID = entityID;
+			s_SRData.CircleVertexBufferPtr++;
 		}
 
 		// Increment the index count for the circle
-		s_Data.CircleIndexCount += 6;
+		s_SRData.CircleIndexCount += 6;
 
 		// Update statistics
-		s_Data.Stats.PrimitivesCount++;
+		s_SRData.Stats.PrimitivesCount++;
 	}
 
 	void SceneRenderer::DrawGrid(float spacing, int lineCount, const glm::vec4& color)
@@ -394,21 +395,21 @@ namespace Graphite {
 
 	float SceneRenderer::GetLineWidth()
 	{
-		return s_Data.LineWidth;
+		return s_SRData.LineWidth;
 	}
 
 	void SceneRenderer::SetLineWidth(float width)
 	{
-		s_Data.LineWidth = width;
+		s_SRData.LineWidth = width;
 	}
 
 	void SceneRenderer::ResetStats()
 	{
-		memset(&s_Data.Stats, 0, sizeof(Statistics));
+		memset(&s_SRData.Stats, 0, sizeof(Statistics));
 	}
 
 	SceneRenderer::Statistics SceneRenderer::GetStats()
 	{
-		return s_Data.Stats;
+		return s_SRData.Stats;
 	}
 }

@@ -6,7 +6,8 @@
 namespace Graphite
 {
 	Viewport::Viewport(const std::string& viewportName, uint32_t width, uint32_t height, bool initialize)
-		: m_Name(viewportName), m_ViewportSize({ width, height })
+		: m_Name(viewportName), m_ViewportSize({ width, height }), m_CameraO(1600/900, true)
+
 	{
 		// Define framebuffer specification with color format
 		m_fbSpec.Width = width;
@@ -16,6 +17,7 @@ namespace Graphite
 		m_Initialized = true;
 		m_ViewporttextureID = m_Framebuffer->GetColorAttachmentRendererID();
 		SceneRenderer::Init();
+		//Renderer2D::Init();
 	}
 
 	Viewport::~Viewport() {}
@@ -64,6 +66,7 @@ namespace Graphite
 		if (m_ViewportHovered && m_ViewportFocused)
 		{
 			m_Camera.OnUpdate(ts);
+			m_CameraO.OnUpdate(ts);
 
 			// Render scene to framebuffer
 			m_Framebuffer->Bind();
@@ -72,18 +75,25 @@ namespace Graphite
 			RenderCommand::Clear();
 
 			SceneRenderer::BeginScene(m_Camera);
-			SceneRenderer::DrawGrid(m_Camera, 1.0f, 1000, { 0.2f, 0.2f, 0.2f, 1.0f });
 			
+			//SceneRenderer::DrawGrid(m_Camera, 1.0f, 100, { 0.2f, 0.2f, 0.2f, 1.0f });
+			SceneRenderer::DrawGrid();
 			// Render Logic here
 			
 			SceneRenderer::DrawLine({ 0.0f, -100.0f, 0.0f }, { 0.0f, 100.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f });
-
+			
+			SceneRenderer::DrawQuad({ 0.5f, 0.5f, 0.5f }, { 10.0f, 10.0f }, { 10.0f, 20.0f, 30.0f }, { 0.8f, 0.2f, 0.2f, 1.0f });
 			SceneRenderer::DrawRect({ 1.0f, 0.8f, 10.0f }, { 3.0f, 2.0f }, { 30.0f, 20.0f, 40.0f }, { 0.8f, 0.8f, 0.1f, 1.0f });
-			SceneRenderer::DrawQuad({ -1.0f, 3.0f, 20.0f }, { 3.0f, 2.0f }, { 30.0f, 20.0f, 40.0f }, { 0.8f, 0.2f, 0.2f, 1.0f });
 			
 			// Render Logic above here
 			
 			SceneRenderer::EndScene();
+			
+			
+			//Renderer2D::BeginScene(m_CameraO.GetCamera());
+			//
+			//Renderer2D::DrawQuad({0,0,0}, {10,10}, {0.2f, 0.3f, 0.2f, 1.0f});
+			//Renderer2D::EndScene();
 
 			m_Framebuffer->Unbind();
 		}
@@ -92,6 +102,7 @@ namespace Graphite
 	void Viewport::OnEvent(Event& e)
 	{
 		m_Camera.OnEvent(e);
+		m_CameraO.OnEvent(e);
 	}
 
 }

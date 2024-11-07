@@ -159,7 +159,7 @@
     <ClInclude Include="src\Graphite\Renderer\Texture.h">
       <Filter>src\Graphite\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphite\Scene\SceneRenderer.h">
+    <ClInclude Include="src\Graphite\Renderer\UniformBuffer.h">
       <Filter>src\Graphite\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Graphite\Renderer\VertexArray.h">
@@ -180,6 +180,9 @@
     <ClInclude Include="src\Graphite\Scene\SceneCamera.h">
       <Filter>src\Graphite\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="src\Graphite\Scene\SceneRenderer.h">
+      <Filter>src\Graphite\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="src\Graphite\Scene\ScriptableEntity.h">
       <Filter>src\Graphite\Scene</Filter>
     </ClInclude>
@@ -189,7 +192,7 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h">
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
@@ -199,6 +202,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLUniformBuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
@@ -1461,8 +1467,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Graphite\Renderer\UniformBuffer.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLUniformBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Graphite\Core\Application.cpp">
@@ -1522,7 +1526,7 @@
     <ClCompile Include="src\Graphite\Renderer\Texture.cpp">
       <Filter>src\Graphite\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graphite\Scene\SceneRenderer.cpp">
+    <ClCompile Include="src\Graphite\Renderer\UniformBuffer.cpp">
       <Filter>src\Graphite\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Graphite\Renderer\VertexArray.cpp">
@@ -1540,13 +1544,16 @@
     <ClCompile Include="src\Graphite\Scene\SceneCamera.cpp">
       <Filter>src\Graphite\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="src\Graphite\Scene\SceneRenderer.cpp">
+      <Filter>src\Graphite\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp">
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
@@ -1556,6 +1563,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLUniformBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
@@ -1573,7 +1583,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Graphite\Renderer\UniformBuffer.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLUniformBuffer.cpp" />
   </ItemGroup>
 </Project>
