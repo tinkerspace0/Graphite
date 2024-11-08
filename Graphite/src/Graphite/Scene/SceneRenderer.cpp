@@ -89,6 +89,27 @@ namespace Graphite {
 	{
 		GF_PROFILE_FUNCTION();
 
+		// Lines
+		s_SRData.LineVertexArray = VertexArray::Create();
+
+		s_SRData.LineVertexBuffer = VertexBuffer::Create(s_SRData.MaxVertices * sizeof(LineVertex));
+		s_SRData.LineVertexBuffer->SetLayout({
+			{ ShaderDataType::Float3, "a_Position" },
+			{ ShaderDataType::Float4, "a_Color"    },
+			{ ShaderDataType::Int,    "a_EntityID" }
+			});
+		s_SRData.LineVertexArray->AddVertexBuffer(s_SRData.LineVertexBuffer);
+		s_SRData.LineVertexBufferBase = new LineVertex[s_SRData.MaxVertices];
+
+		uint32_t* lineIndices = new uint32_t[s_SRData.MaxIndices];
+		for (uint32_t i = 0; i < s_SRData.MaxIndices; i++)
+			lineIndices[i] = i;  // Simple sequential indexing for line rendering
+
+		Ref<IndexBuffer> lineIB = IndexBuffer::Create(lineIndices, s_SRData.MaxIndices);
+		s_SRData.LineVertexArray->SetIndexBuffer(lineIB);
+		delete[] lineIndices;
+
+		// Quads
 		s_SRData.QuadVertexArray = VertexArray::Create();
 
 		s_SRData.QuadVertexBuffer = VertexBuffer::Create(s_SRData.MaxVertices * sizeof(QuadVertex));
@@ -121,10 +142,10 @@ namespace Graphite {
 		s_SRData.QuadVertexArray->SetIndexBuffer(quadIB);
 		delete[] quadIndices;
 
-		s_SRData.QuadVertexPositions[0] = { -0.5f,  10.1f, -0.5f, 1.0f };
-		s_SRData.QuadVertexPositions[1] = {  0.5f,  20.2f, -0.5f, 1.0f };
-		s_SRData.QuadVertexPositions[2] = {  0.5f,  30.3f,  0.5f, 1.0f };
-		s_SRData.QuadVertexPositions[3] = { -0.5f,  40.4f,  0.5f, 1.0f };
+		s_SRData.QuadVertexPositions[0] = { -0.5f,  0.0f, -0.5f, 1.0f };
+		s_SRData.QuadVertexPositions[1] = {  0.5f,  0.0f, -0.5f, 1.0f };
+		s_SRData.QuadVertexPositions[2] = {  0.5f,  0.0f,  0.5f, 1.0f };
+		s_SRData.QuadVertexPositions[3] = { -0.5f,  0.0f,  0.5f, 1.0f };
 
 		// Circles
 		s_SRData.CircleVertexArray = VertexArray::Create();
@@ -142,30 +163,10 @@ namespace Graphite {
 		s_SRData.CircleVertexArray->SetIndexBuffer(quadIB); // Use quad IB
 		s_SRData.CircleVertexBufferBase = new CircleVertex[s_SRData.MaxVertices];
 
-		// Lines
-		s_SRData.LineVertexArray = VertexArray::Create();
 
-		s_SRData.LineVertexBuffer = VertexBuffer::Create(s_SRData.MaxVertices * sizeof(LineVertex));
-		s_SRData.LineVertexBuffer->SetLayout({
-			{ ShaderDataType::Float3, "a_Position" },
-			{ ShaderDataType::Float4, "a_Color"    },
-			{ ShaderDataType::Int,    "a_EntityID" }
-			});
-		s_SRData.LineVertexArray->AddVertexBuffer(s_SRData.LineVertexBuffer);
-		s_SRData.LineVertexBufferBase = new LineVertex[s_SRData.MaxVertices];
-		
-		uint32_t* lineIndices = new uint32_t[s_SRData.MaxIndices];
-		for (uint32_t i = 0; i < s_SRData.MaxIndices; i++)
-			lineIndices[i] = i;  // Simple sequential indexing for line rendering
-
-		Ref<IndexBuffer> lineIB = IndexBuffer::Create(lineIndices, s_SRData.MaxIndices);
-		s_SRData.LineVertexArray->SetIndexBuffer(lineIB);
-		delete[] lineIndices;
-
-
+		s_SRData.LineShader = Shader::Create("assets/shaders/Scene_LineShader.glsl");
 		s_SRData.QuadShader = Shader::Create("assets/shaders/Scene_QuadShader.glsl");
 		s_SRData.CircleShader = Shader::Create("assets/shaders/Scene_CircleShader.glsl");
-		s_SRData.LineShader = Shader::Create("assets/shaders/Scene_LineShader.glsl");
 
 		s_SRData.CameraUniformBuffer = UniformBuffer::Create(sizeof(SceneRendererData::CameraData), 0);
 	}
@@ -211,6 +212,7 @@ namespace Graphite {
 			uint32_t dataSize = (uint32_t)((uint8_t*)s_SRData.QuadVertexBufferPtr - (uint8_t*)s_SRData.QuadVertexBufferBase);
 			s_SRData.QuadVertexBuffer->SetData(s_SRData.QuadVertexBufferBase, dataSize);
 
+			s_SRData.QuadVertexArray->Bind();
 			s_SRData.QuadShader->Bind();
 			RenderCommand::DrawIndexed(s_SRData.QuadVertexArray, s_SRData.QuadIndexCount);
 			s_SRData.Stats.DrawCalls++;
@@ -221,6 +223,7 @@ namespace Graphite {
 			uint32_t dataSize = (uint32_t)((uint8_t*)s_SRData.CircleVertexBufferPtr - (uint8_t*)s_SRData.CircleVertexBufferBase);
 			s_SRData.CircleVertexBuffer->SetData(s_SRData.CircleVertexBufferBase, dataSize);
 
+			s_SRData.CircleVertexArray->Bind();
 			s_SRData.CircleShader->Bind();
 			RenderCommand::DrawIndexed(s_SRData.CircleVertexArray, s_SRData.CircleIndexCount);
 			s_SRData.Stats.DrawCalls++;
@@ -231,6 +234,7 @@ namespace Graphite {
 			uint32_t dataSize = (uint32_t)((uint8_t*)s_SRData.LineVertexBufferPtr - (uint8_t*)s_SRData.LineVertexBufferBase);
 			s_SRData.LineVertexBuffer->SetData(s_SRData.LineVertexBufferBase, dataSize);
 
+			s_SRData.LineVertexArray->Bind();
 			s_SRData.LineShader->Bind();
 			RenderCommand::SetLineWidth(s_SRData.LineWidth);
 			RenderCommand::DrawLines(s_SRData.LineVertexArray, s_SRData.LineIndexCount);

@@ -78,12 +78,13 @@ namespace Graphite
 			
 			//SceneRenderer::DrawGrid(m_Camera, 1.0f, 100, { 0.2f, 0.2f, 0.2f, 1.0f });
 			SceneRenderer::DrawGrid();
-			// Render Logic here
-			
 			SceneRenderer::DrawLine({ 0.0f, -100.0f, 0.0f }, { 0.0f, 100.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f });
 			
-			SceneRenderer::DrawQuad({ 0.5f, 0.5f, 0.5f }, { 10.0f, 10.0f }, { 10.0f, 20.0f, 30.0f }, { 0.8f, 0.2f, 0.2f, 1.0f });
+			// Render Logic below here
+			
+			
 			SceneRenderer::DrawRect({ 1.0f, 0.8f, 10.0f }, { 3.0f, 2.0f }, { 30.0f, 20.0f, 40.0f }, { 0.8f, 0.8f, 0.1f, 1.0f });
+			SceneRenderer::DrawQuad({ 5.0f, 2.0f, 10.0f }, { 4.0f, 6.0f }, { 10.0f, 20.0f, 30.0f }, { 0.8f, 0.2f, 0.2f, 1.0f });
 			
 			// Render Logic above here
 			

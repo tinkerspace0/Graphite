@@ -33,8 +33,8 @@ namespace Graphite {
 
 
 		// Grid Rendering  for viewport
-		static void DrawGrid(ViewportCamera& camera, float spacing, int visibleCells, const glm::vec4& color = { 0.4f, 0.3f, 0.2f, 1.0f });
-		static void DrawGrid(float spacing = 1.0f, int lineCount = 100, const glm::vec4& color = { 0.4f, 0.3f, 0.2f, 1.0f });
+		static void DrawGrid(ViewportCamera& camera, float spacing, int visibleCells, const glm::vec4& color = { 0.2f, 0.2f, 0.2f, 1.0f });
+		static void DrawGrid(float spacing = 1.0f, int lineCount = 100, const glm::vec4& color = { 0.2f, 0.2f, 0.2f, 1.0f });
 
 		static float GetLineWidth();
 		static void SetLineWidth(float width);
