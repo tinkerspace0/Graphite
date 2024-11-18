@@ -80,8 +80,6 @@ namespace Graphite {
 		LineVertex* LineVertexBufferBase = nullptr;
 		LineVertex* LineVertexBufferPtr = nullptr;
 
-		float LineWidth = 1.0f;
-
 		glm::vec4 QuadVertexPositions[4];
 
 		SceneRenderer::Statistics Stats;
@@ -290,7 +288,6 @@ namespace Graphite {
 
 			s_SRData.LineVertexArray->Bind();
 			s_SRData.LineShader->Bind();
-			RenderCommand::SetLineWidth(s_SRData.LineWidth);
 			RenderCommand::DrawLines(s_SRData.LineVertexArray, s_SRData.LineIndexCount);
 			s_SRData.Stats.DrawCalls++;
 		}
@@ -505,16 +502,6 @@ namespace Graphite {
 
 		// Update statistics
 		s_SRData.Stats.PrimitivesCount += (indexCount / 3); 
-	}
-
-	float SceneRenderer::GetLineWidth()
-	{
-		return s_SRData.LineWidth;
-	}
-
-	void SceneRenderer::SetLineWidth(float width)
-	{
-		s_SRData.LineWidth = width;
 	}
 
 	void SceneRenderer::ResetStats()

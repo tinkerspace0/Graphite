@@ -74,9 +74,4 @@ namespace Graphite {
 		glDrawElements(GL_LINES, count, GL_UNSIGNED_INT, nullptr);
 		//glBindTexture(GL_TEXTURE_2D, 0);
 	}
-
-	void OpenGLRendererAPI::SetLineWidth(float width)
-	{
-		glLineWidth(width);
-	}
 }

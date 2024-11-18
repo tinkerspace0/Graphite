@@ -45,10 +45,6 @@ namespace Graphite {
 			s_RendererAPI->DrawLines(vertexArray, count);
 		}
 
-		static void SetLineWidth(float width)
-		{
-			s_RendererAPI->SetLineWidth(width);
-		}
 	private:
 		static Scope<RendererAPI> s_RendererAPI;
 	};

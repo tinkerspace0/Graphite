@@ -42,9 +42,6 @@ namespace Graphite {
 		static void DrawMesh(Ref<Mesh> mesh, const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation, int entityID = -1);
 		static void DrawMesh(Ref<Mesh> mesh, const glm::mat4& transform, int entityID=-1);
 
-		static float GetLineWidth();
-		static void SetLineWidth(float width);
-
 
 		// Stats
 		struct Statistics
