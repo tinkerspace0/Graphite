@@ -34,6 +34,7 @@ namespace Graphite
 	private:
 		// Grid settings
 		glm::vec4 gridColor = glm::vec4(0.85f, 0.8f, 0.7f, 1.0f); // Light gray color for grid
+		Ref<Mesh> sample_mesh; // Sample mesh for rendering
 
 	};
 }
