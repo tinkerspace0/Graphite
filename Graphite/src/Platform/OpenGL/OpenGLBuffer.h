@@ -26,11 +26,14 @@ namespace Graphite {
 	class OpenGLIndexBuffer : public IndexBuffer
 	{
 	public:
+		OpenGLIndexBuffer(uint32_t count);
 		OpenGLIndexBuffer(uint32_t* indices, uint32_t count);
 		virtual ~OpenGLIndexBuffer();
 
 		virtual void Bind() const;
 		virtual void Unbind() const;
+
+		void SetData(const uint32_t* indices, uint32_t count);
 
 		virtual uint32_t GetCount() const { return m_Count; }
 	private:

@@ -58,19 +58,32 @@ namespace Graphite {
 	// IndexBuffer //////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////////////
 
+	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t count)
+		: m_Count(count)
+	{
+		GF_PROFILE_FUNCTION();
+
+		glCreateBuffers(1, &m_RendererID);
+
+		// Allocate buffer memory with GL_DYNAMIC_DRAW for dynamic updates
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), nullptr, GL_DYNAMIC_DRAW);
+	}
+
 	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count)
 		: m_Count(count)
 	{
 		GF_PROFILE_FUNCTION();
 
 		glCreateBuffers(1, &m_RendererID);
-		
+
 		// GL_ELEMENT_ARRAY_BUFFER is not valid without an actively bound VAO
 		// Binding with GL_ARRAY_BUFFER allows the data to be loaded regardless of VAO state. 
-		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
-		glBufferData(GL_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
+		// Allocate and initialize buffer memory with GL_STATIC_DRAW
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
 	}
-
+	
 	OpenGLIndexBuffer::~OpenGLIndexBuffer()
 	{
 		GF_PROFILE_FUNCTION();
@@ -92,4 +105,10 @@ namespace Graphite {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
+	void OpenGLIndexBuffer::SetData(const uint32_t* indices, uint32_t count)
+	{
+		m_Count = count; // Update the count to match the new data
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
+		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, count * sizeof(uint32_t), indices);
+	}
 }
