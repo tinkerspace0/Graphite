@@ -4,6 +4,7 @@
 #include "Graphite/Renderer/OrthographicCamera.h"
 #include "Graphite/Renderer/Texture.h"
 #include "Graphite/Renderer/Shader.h"
+#include "Graphite/Geometry/Mesh.h"
 #include <glm/glm.hpp>
 
 namespace Graphite {
@@ -32,9 +33,14 @@ namespace Graphite {
 		static void DrawCircle(const glm::mat4& transform, const glm::vec4& color, float thickness = 1.0f, float fade = 0.005f, int entityID = -1);
 
 
-		// Grid Rendering  for viewport
+		// Grid Rendering for viewport
 		static void DrawGrid(ViewportCamera& camera, float spacing, int visibleCells, const glm::vec4& color = { 0.2f, 0.2f, 0.2f, 1.0f });
 		static void DrawGrid(float spacing = 1.0f, int lineCount = 100, const glm::vec4& color = { 0.2f, 0.2f, 0.2f, 1.0f });
+
+
+		// Mesh Rendering for Scene
+		static void DrawMesh(Ref<Mesh> mesh, const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation, int entityID = -1);
+		static void DrawMesh(Ref<Mesh> mesh, const glm::mat4& transform, int entityID=-1);
 
 		static float GetLineWidth();
 		static void SetLineWidth(float width);

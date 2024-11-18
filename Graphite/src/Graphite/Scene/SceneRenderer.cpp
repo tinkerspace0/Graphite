@@ -4,6 +4,7 @@
 #include "Graphite/Renderer/Shader.h"
 #include "Graphite/Renderer/UniformBuffer.h"
 #include "Graphite/Renderer/RenderCommand.h"
+#include "Graphite/Geometry/Mesh.h"
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace Graphite {
@@ -43,6 +44,17 @@ namespace Graphite {
 		static const uint32_t MaxPrimitives = 1000;
 		static const uint32_t MaxVertices = MaxPrimitives * 4;
 		static const uint32_t MaxIndices = MaxPrimitives * 6;
+
+		// Mesh Data
+		Ref<VertexArray> MeshVertexArray;
+		Ref<VertexBuffer> MeshVertexBuffer;
+		Ref<IndexBuffer> MeshIndexBuffer;
+		Ref<Shader> MeshShader;
+		uint32_t MeshIndexCount = 0;
+		Mesh::Vertex* MeshVertexBufferBase = nullptr;
+		Mesh::Vertex* MeshVertexBufferPtr = nullptr;
+		uint32_t* MeshIndexBufferBase = nullptr;
+		uint32_t* MeshIndexBufferPtr = nullptr;
 
 		// Quad Data
 		Ref<VertexArray> QuadVertexArray;
@@ -88,6 +100,22 @@ namespace Graphite {
 	void SceneRenderer::Init()
 	{
 		GF_PROFILE_FUNCTION();
+
+		// Initialize Mesh Rendering
+		s_SRData.MeshVertexArray = VertexArray::Create();
+
+		s_SRData.MeshVertexBuffer = VertexBuffer::Create(s_SRData.MaxVertices * sizeof(Mesh::Vertex));
+		s_SRData.MeshVertexBuffer->SetLayout({
+			{ ShaderDataType::Float3, "a_Position" },
+			{ ShaderDataType::Float3, "a_Normal"   },
+			{ ShaderDataType::Float4, "a_Color"    }
+			});
+		s_SRData.MeshVertexArray->AddVertexBuffer(s_SRData.MeshVertexBuffer);
+		s_SRData.MeshVertexBufferBase = new Mesh::Vertex[s_SRData.MaxVertices];
+
+		s_SRData.MeshIndexBufferBase = new uint32_t[s_SRData.MaxVertices];
+		s_SRData.MeshIndexBuffer = IndexBuffer::Create(s_SRData.MaxIndices);
+		s_SRData.MeshVertexArray->SetIndexBuffer(s_SRData.MeshIndexBuffer);
 
 		// Lines
 		s_SRData.LineVertexArray = VertexArray::Create();
@@ -164,6 +192,7 @@ namespace Graphite {
 		s_SRData.CircleVertexBufferBase = new CircleVertex[s_SRData.MaxVertices];
 
 
+		s_SRData.MeshShader = Shader::Create("assets/shaders/Scene_MeshShader.glsl");
 		s_SRData.LineShader = Shader::Create("assets/shaders/Scene_LineShader.glsl");
 		s_SRData.QuadShader = Shader::Create("assets/shaders/Scene_QuadShader.glsl");
 		s_SRData.CircleShader = Shader::Create("assets/shaders/Scene_CircleShader.glsl");
@@ -173,10 +202,11 @@ namespace Graphite {
 
 	void SceneRenderer::Shutdown()
 	{
+		delete[] s_SRData.MeshVertexBufferBase;
+		delete[] s_SRData.MeshIndexBufferBase;
 		delete[] s_SRData.QuadVertexBufferBase;
 		delete[] s_SRData.CircleVertexBufferBase;
 		delete[] s_SRData.LineVertexBufferBase;
-		
 	}
 
 	void SceneRenderer::BeginScene(const ViewportCamera& camera)
@@ -195,6 +225,10 @@ namespace Graphite {
 
 	void SceneRenderer::StartBatch()
 	{
+		s_SRData.MeshIndexCount = 0;
+		s_SRData.MeshVertexBufferPtr = s_SRData.MeshVertexBufferBase;
+		s_SRData.MeshIndexBufferPtr = s_SRData.MeshIndexBufferBase;
+
 		s_SRData.QuadIndexCount = 0;
 		s_SRData.QuadVertexBufferPtr = s_SRData.QuadVertexBufferBase;
 
@@ -207,6 +241,26 @@ namespace Graphite {
 
 	void SceneRenderer::Flush()
 	{
+		if (s_SRData.MeshIndexCount) {
+
+			uint32_t dataSize = (uint32_t)((uint8_t*)s_SRData.MeshVertexBufferPtr - (uint8_t*)s_SRData.MeshVertexBufferBase);
+			s_SRData.MeshVertexBuffer->SetData(s_SRData.MeshVertexBufferBase, dataSize);
+
+			// Upload index data to the GPU
+			uint32_t indexDataSize = s_SRData.MeshIndexCount * sizeof(uint32_t);
+			s_SRData.MeshIndexBuffer->SetData(s_SRData.MeshIndexBufferBase, indexDataSize);
+
+			// Bind the mesh's vertex array and shader
+			s_SRData.MeshVertexArray->Bind();
+			s_SRData.MeshShader->Bind();
+
+			// Issue a draw call
+			RenderCommand::DrawIndexed(s_SRData.MeshVertexArray, s_SRData.MeshIndexCount);
+
+			// Update draw call statistics
+			s_SRData.Stats.DrawCalls++;
+		}
+
 		if (s_SRData.QuadIndexCount)
 		{
 			uint32_t dataSize = (uint32_t)((uint8_t*)s_SRData.QuadVertexBufferPtr - (uint8_t*)s_SRData.QuadVertexBufferBase);
@@ -395,6 +449,62 @@ namespace Graphite {
 			DrawLine(glm::vec3(startX - halfCellCount * spacing, 0.0f, startY + offset),
 				glm::vec3(startX + halfCellCount * spacing, 0.0f, startY + offset), color);
 		}
+	}
+
+	void SceneRenderer::DrawMesh(Ref<Mesh> mesh, const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation, int entityID)
+	{
+		GF_PROFILE_FUNCTION();
+
+		// Create a rotation matrix from the rotation vector (in radians)
+		glm::mat4 rotationMatrix = glm::rotate(glm::mat4(1.0f), glm::radians(rotation.x), { 1.0f, 0.0f, 0.0f }) *
+			glm::rotate(glm::mat4(1.0f), glm::radians(rotation.y), { 0.0f, 1.0f, 0.0f }) *
+			glm::rotate(glm::mat4(1.0f), glm::radians(rotation.z), { 0.0f, 0.0f, 1.0f });
+
+		// Create the transformation matrix
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
+			rotationMatrix *
+			glm::scale(glm::mat4(1.0f), { size.x, 1.0f, size.y });
+
+		// Draw the Mesh with the specified transform, color, and entity ID
+		DrawMesh(mesh, transform, entityID);
+	}
+
+	void SceneRenderer::DrawMesh(Ref<Mesh> mesh, const glm::mat4& transform, int entityID)
+	{
+		GF_PROFILE_FUNCTION();
+
+		const auto& vertices = mesh->GetVertices();
+		const auto& indices = mesh->GetIndices();
+
+		size_t vertexCount = vertices.size();
+		size_t indexCount = indices.size();
+
+		// Ensure we have enough space in the current batch
+		if (s_SRData.MeshIndexCount + indexCount > SceneRendererData::MaxIndices ||
+			s_SRData.MeshVertexBufferPtr + vertexCount > s_SRData.MeshVertexBufferBase + SceneRendererData::MaxVertices)
+		{
+			NextBatch();
+		}
+
+		for (const auto& vertex : vertices)
+		{
+			s_SRData.MeshVertexBufferPtr->Position = glm::vec3(transform * glm::vec4(vertex.Position, 1.0f));
+			s_SRData.MeshVertexBufferPtr->Normal = glm::mat3(transform) * vertex.Normal; // Transform normal
+			s_SRData.MeshVertexBufferPtr->Color = vertex.Color;
+			s_SRData.MeshVertexBufferPtr++;
+		}
+
+		// Copy indices to the staging area
+		uint32_t baseIndex = (uint32_t)(s_SRData.MeshVertexBufferPtr - s_SRData.MeshVertexBufferBase) - vertexCount;
+		for (size_t i = 0; i < indexCount; i++) {
+			s_SRData.MeshIndexBufferBase[s_SRData.MeshIndexCount + i] = baseIndex + indices[i];
+		}
+
+		// Move the index buffer pointer and update counts
+		s_SRData.MeshIndexCount += indexCount;
+
+		// Update statistics
+		s_SRData.Stats.PrimitivesCount += (indexCount / 3); 
 	}
 
 	float SceneRenderer::GetLineWidth()
