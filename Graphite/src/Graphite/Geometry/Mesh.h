@@ -13,6 +13,7 @@ namespace Graphite
             glm::vec3 Position;
             glm::vec3 Normal;
             glm::vec4 Color;
+            int EntityID = -1;
         };
 
         // Constructors

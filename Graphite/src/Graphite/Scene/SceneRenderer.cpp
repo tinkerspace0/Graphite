@@ -18,18 +18,6 @@ namespace Graphite {
 		int EntityID;
 	};
 
-	struct CircleVertex
-	{
-		glm::vec3 WorldPosition;
-		glm::vec3 LocalPosition;
-		glm::vec4 Color;
-		float Thickness;
-		float Fade;
-
-		// Scene-only
-		int EntityID;
-	};
-
 	struct LineVertex
 	{
 		glm::vec3 Position;
@@ -48,13 +36,11 @@ namespace Graphite {
 		// Mesh Data
 		Ref<VertexArray> MeshVertexArray;
 		Ref<VertexBuffer> MeshVertexBuffer;
-		Ref<IndexBuffer> MeshIndexBuffer;
 		Ref<Shader> MeshShader;
 		uint32_t MeshIndexCount = 0;
 		Mesh::Vertex* MeshVertexBufferBase = nullptr;
 		Mesh::Vertex* MeshVertexBufferPtr = nullptr;
 		uint32_t* MeshIndexBufferBase = nullptr;
-		uint32_t* MeshIndexBufferPtr = nullptr;
 
 		// Quad Data
 		Ref<VertexArray> QuadVertexArray;
@@ -63,14 +49,6 @@ namespace Graphite {
 		uint32_t QuadIndexCount = 0;
 		QuadVertex* QuadVertexBufferBase = nullptr;
 		QuadVertex* QuadVertexBufferPtr = nullptr;
-
-		// Circle Data
-		Ref<VertexArray> CircleVertexArray;
-		Ref<VertexBuffer> CircleVertexBuffer;
-		Ref<Shader> CircleShader;
-		uint32_t CircleIndexCount = 0;
-		CircleVertex* CircleVertexBufferBase = nullptr;
-		CircleVertex* CircleVertexBufferPtr = nullptr;
 
 		//Line Data
 		Ref<VertexArray> LineVertexArray;
@@ -99,25 +77,9 @@ namespace Graphite {
 	{
 		GF_PROFILE_FUNCTION();
 
-		// Initialize Mesh Rendering
-		s_SRData.MeshVertexArray = VertexArray::Create();
-
-		s_SRData.MeshVertexBuffer = VertexBuffer::Create(s_SRData.MaxVertices * sizeof(Mesh::Vertex));
-		s_SRData.MeshVertexBuffer->SetLayout({
-			{ ShaderDataType::Float3, "a_Position" },
-			{ ShaderDataType::Float3, "a_Normal"   },
-			{ ShaderDataType::Float4, "a_Color"    }
-			});
-		s_SRData.MeshVertexArray->AddVertexBuffer(s_SRData.MeshVertexBuffer);
-		s_SRData.MeshVertexBufferBase = new Mesh::Vertex[s_SRData.MaxVertices];
-
-		s_SRData.MeshIndexBufferBase = new uint32_t[s_SRData.MaxVertices];
-		s_SRData.MeshIndexBuffer = IndexBuffer::Create(s_SRData.MaxIndices);
-		s_SRData.MeshVertexArray->SetIndexBuffer(s_SRData.MeshIndexBuffer);
-
 		// Lines
 		s_SRData.LineVertexArray = VertexArray::Create();
-
+		
 		s_SRData.LineVertexBuffer = VertexBuffer::Create(s_SRData.MaxVertices * sizeof(LineVertex));
 		s_SRData.LineVertexBuffer->SetLayout({
 			{ ShaderDataType::Float3, "a_Position" },
@@ -173,27 +135,30 @@ namespace Graphite {
 		s_SRData.QuadVertexPositions[2] = {  0.5f,  0.0f,  0.5f, 1.0f };
 		s_SRData.QuadVertexPositions[3] = { -0.5f,  0.0f,  0.5f, 1.0f };
 
-		// Circles
-		s_SRData.CircleVertexArray = VertexArray::Create();
+		// Initialize Mesh Rendering
+		s_SRData.MeshVertexArray = VertexArray::Create();
 
-		s_SRData.CircleVertexBuffer = VertexBuffer::Create(s_SRData.MaxVertices * sizeof(CircleVertex));
-		s_SRData.CircleVertexBuffer->SetLayout({
-			{ ShaderDataType::Float3, "a_WorldPosition" },
-			{ ShaderDataType::Float3, "a_LocalPosition" },
-			{ ShaderDataType::Float4, "a_Color"         },
-			{ ShaderDataType::Float,  "a_Thickness"     },
-			{ ShaderDataType::Float,  "a_Fade"          },
-			{ ShaderDataType::Int,    "a_EntityID"      }
+		s_SRData.MeshVertexBuffer = VertexBuffer::Create(s_SRData.MaxVertices * sizeof(Mesh::Vertex));
+		s_SRData.MeshVertexBuffer->SetLayout({
+			{ ShaderDataType::Float3, "a_Position" },
+			{ ShaderDataType::Float3, "a_Normal"   },
+			{ ShaderDataType::Float4, "a_Color"    },
+			{ ShaderDataType::Int,    "a_EntityID" }
 			});
-		s_SRData.CircleVertexArray->AddVertexBuffer(s_SRData.CircleVertexBuffer);
-		s_SRData.CircleVertexArray->SetIndexBuffer(quadIB); // Use quad IB
-		s_SRData.CircleVertexBufferBase = new CircleVertex[s_SRData.MaxVertices];
+		s_SRData.MeshVertexArray->AddVertexBuffer(s_SRData.MeshVertexBuffer);
+		s_SRData.MeshVertexBufferBase = new Mesh::Vertex[s_SRData.MaxVertices];
 
+		s_SRData.MeshIndexBufferBase = new uint32_t[s_SRData.MaxIndices];
+		Ref<IndexBuffer> MeshIndexBuffer = IndexBuffer::Create(s_SRData.MaxIndices);
+		s_SRData.MeshVertexArray->SetIndexBuffer(MeshIndexBuffer);
 
-		s_SRData.MeshShader = Shader::Create("assets/shaders/Scene_MeshShader.glsl");
+		for (size_t i = 0; i < 1000; i++) {
+			s_SRData.MeshIndexBufferBase[i] =i;
+		}
+
 		s_SRData.LineShader = Shader::Create("assets/shaders/Scene_LineShader.glsl");
 		s_SRData.QuadShader = Shader::Create("assets/shaders/Scene_QuadShader.glsl");
-		s_SRData.CircleShader = Shader::Create("assets/shaders/Scene_CircleShader.glsl");
+		s_SRData.MeshShader = Shader::Create("assets/shaders/Scene_MeshShader.glsl");
 
 		s_SRData.CameraUniformBuffer = UniformBuffer::Create(sizeof(SceneRendererData::CameraData), 0);
 	}
@@ -203,7 +168,6 @@ namespace Graphite {
 		delete[] s_SRData.MeshVertexBufferBase;
 		delete[] s_SRData.MeshIndexBufferBase;
 		delete[] s_SRData.QuadVertexBufferBase;
-		delete[] s_SRData.CircleVertexBufferBase;
 		delete[] s_SRData.LineVertexBufferBase;
 	}
 
@@ -225,13 +189,9 @@ namespace Graphite {
 	{
 		s_SRData.MeshIndexCount = 0;
 		s_SRData.MeshVertexBufferPtr = s_SRData.MeshVertexBufferBase;
-		s_SRData.MeshIndexBufferPtr = s_SRData.MeshIndexBufferBase;
 
 		s_SRData.QuadIndexCount = 0;
 		s_SRData.QuadVertexBufferPtr = s_SRData.QuadVertexBufferBase;
-
-		s_SRData.CircleIndexCount = 0;
-		s_SRData.CircleVertexBufferPtr = s_SRData.CircleVertexBufferBase;
 
 		s_SRData.LineIndexCount = 0;
 		s_SRData.LineVertexBufferPtr = s_SRData.LineVertexBufferBase;
@@ -239,23 +199,19 @@ namespace Graphite {
 
 	void SceneRenderer::Flush()
 	{
+
 		if (s_SRData.MeshIndexCount) {
 
 			uint32_t dataSize = (uint32_t)((uint8_t*)s_SRData.MeshVertexBufferPtr - (uint8_t*)s_SRData.MeshVertexBufferBase);
 			s_SRData.MeshVertexBuffer->SetData(s_SRData.MeshVertexBufferBase, dataSize);
 
 			// Upload index data to the GPU
-			uint32_t indexDataSize = s_SRData.MeshIndexCount * sizeof(uint32_t);
-			s_SRData.MeshIndexBuffer->SetData(s_SRData.MeshIndexBufferBase, indexDataSize);
+			s_SRData.MeshVertexArray->GetIndexBuffer()->SetData(s_SRData.MeshIndexBufferBase, s_SRData.MeshIndexCount);
 
 			// Bind the mesh's vertex array and shader
 			s_SRData.MeshVertexArray->Bind();
 			s_SRData.MeshShader->Bind();
-
-			// Issue a draw call
 			RenderCommand::DrawIndexed(s_SRData.MeshVertexArray, s_SRData.MeshIndexCount);
-
-			// Update draw call statistics
 			s_SRData.Stats.DrawCalls++;
 		}
 
@@ -267,17 +223,6 @@ namespace Graphite {
 			s_SRData.QuadVertexArray->Bind();
 			s_SRData.QuadShader->Bind();
 			RenderCommand::DrawIndexed(s_SRData.QuadVertexArray, s_SRData.QuadIndexCount);
-			s_SRData.Stats.DrawCalls++;
-		}
-
-		if (s_SRData.CircleIndexCount)
-		{
-			uint32_t dataSize = (uint32_t)((uint8_t*)s_SRData.CircleVertexBufferPtr - (uint8_t*)s_SRData.CircleVertexBufferBase);
-			s_SRData.CircleVertexBuffer->SetData(s_SRData.CircleVertexBufferBase, dataSize);
-
-			s_SRData.CircleVertexArray->Bind();
-			s_SRData.CircleShader->Bind();
-			RenderCommand::DrawIndexed(s_SRData.CircleVertexArray, s_SRData.CircleIndexCount);
 			s_SRData.Stats.DrawCalls++;
 		}
 
@@ -384,33 +329,6 @@ namespace Graphite {
 		s_SRData.Stats.PrimitivesCount++;
 	}
 
-	void SceneRenderer::DrawCircle(const glm::mat4& transform, const glm::vec4& color, float thickness, float fade, int entityID)
-	{
-		GF_PROFILE_FUNCTION();
-
-		// Check if we need to start a new batch
-		if (s_SRData.CircleIndexCount >= SceneRendererData::MaxIndices)
-			NextBatch();
-
-		// Set up circle vertices
-		for (size_t i = 0; i < 4; i++)
-		{
-			s_SRData.CircleVertexBufferPtr->WorldPosition = transform * s_SRData.QuadVertexPositions[i];
-			s_SRData.CircleVertexBufferPtr->LocalPosition = s_SRData.QuadVertexPositions[i] * 2.0f;
-			s_SRData.CircleVertexBufferPtr->Color = color;
-			s_SRData.CircleVertexBufferPtr->Thickness = thickness;
-			s_SRData.CircleVertexBufferPtr->Fade = fade;
-			s_SRData.CircleVertexBufferPtr->EntityID = entityID;
-			s_SRData.CircleVertexBufferPtr++;
-		}
-
-		// Increment the index count for the circle
-		s_SRData.CircleIndexCount += 6;
-
-		// Update statistics
-		s_SRData.Stats.PrimitivesCount++;
-	}
-
 	void SceneRenderer::DrawGrid(float spacing, int lineCount, const glm::vec4& color)
 	{
 		float GridSize = spacing * lineCount;
@@ -488,6 +406,7 @@ namespace Graphite {
 			s_SRData.MeshVertexBufferPtr->Position = glm::vec3(transform * glm::vec4(vertex.Position, 1.0f));
 			s_SRData.MeshVertexBufferPtr->Normal = glm::mat3(transform) * vertex.Normal; // Transform normal
 			s_SRData.MeshVertexBufferPtr->Color = vertex.Color;
+			s_SRData.MeshVertexBufferPtr->EntityID = entityID;
 			s_SRData.MeshVertexBufferPtr++;
 		}
 
@@ -496,7 +415,7 @@ namespace Graphite {
 		for (size_t i = 0; i < indexCount; i++) {
 			s_SRData.MeshIndexBufferBase[s_SRData.MeshIndexCount + i] = baseIndex + indices[i];
 		}
-
+		
 		// Move the index buffer pointer and update counts
 		s_SRData.MeshIndexCount += indexCount;
 

@@ -1,4 +1,7 @@
-// Basic Texture Shader
+//--------------------------
+// - Graphite -
+// SceneRenderer Quad Shader
+// --------------------------
 
 #type vertex
 #version 450 core
