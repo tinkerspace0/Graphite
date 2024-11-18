@@ -7,12 +7,12 @@
 
 namespace Graphite {
 
-	Ref<IndexBuffer> IndexBuffer::Create(uint32_t size)
+	Ref<IndexBuffer> IndexBuffer::Create(uint32_t count)
 	{
 		switch (Renderer::GetAPI())
 		{
 		case RendererAPI::API::None:    GF_CORE_ASSERT(false, "RendererAPI::None is currently not supported!"); return nullptr;
-		case RendererAPI::API::OpenGL:  return CreateRef<OpenGLIndexBuffer>(size);
+		case RendererAPI::API::OpenGL:  return CreateRef<OpenGLIndexBuffer>(count);
 		}
 
 		GF_CORE_ASSERT(false, "Unknown RendererAPI!");

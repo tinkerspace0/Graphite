@@ -108,7 +108,7 @@ namespace Graphite {
 	void OpenGLIndexBuffer::SetData(const uint32_t* indices, uint32_t count)
 	{
 		m_Count = count; // Update the count to match the new data
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
-		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, count * sizeof(uint32_t), indices);
+		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, count * sizeof(uint32_t), indices);
 	}
 }
