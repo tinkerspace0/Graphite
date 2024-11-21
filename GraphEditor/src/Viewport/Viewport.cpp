@@ -2,6 +2,7 @@
 #include <imgui/imgui.h>
 #include "glm/gtc/matrix_transform.hpp"
 
+#include "Graphite/Geometry/MeshLoader.h"
 
 namespace Graphite
 {
@@ -46,7 +47,8 @@ namespace Graphite
 		};
 
 		// Create the mesh
-		sample_mesh = CreateRef<Mesh>(vertices, indices);
+		// sample_mesh = CreateRef<Mesh>(vertices, indices);
+		sample_mesh = MeshLoader::LoadOBJ("C:/private/Graphite/GraphEditor/assets/meshes/cube.obj");
 
 		//////////////////////////////////////////////////////////////////////
 		////////////////  Test Code Above ////////////////////////////////////
@@ -116,7 +118,7 @@ namespace Graphite
 			
 			// Render Logic below here
 			
-			SceneRenderer::DrawMesh(sample_mesh, { 10.0f, 10.8f, 50.0f }, { 2.0f, 5.0f }, { 0.0f, 20.0f, 40.0f });
+			SceneRenderer::DrawMesh(sample_mesh, { 0.0f, 0.8f, 0.0f }, { 2.0f, 5.0f }, { 0.0f, 20.0f, 40.0f });
 			SceneRenderer::DrawRect({ 1.0f, 0.8f, 10.0f }, { 3.0f, 2.0f }, { 30.0f, 20.0f, 40.0f }, { 0.8f, 0.8f, 0.1f, 1.0f });
 			SceneRenderer::DrawQuad({ 5.0f, 2.0f, 10.0f }, { 4.0f, 6.0f }, { 10.0f, 20.0f, 30.0f }, { 0.8f, 0.2f, 0.2f, 1.0f });
 			
