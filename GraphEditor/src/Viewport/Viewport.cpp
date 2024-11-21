@@ -3,11 +3,12 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 #include "Graphite/Geometry/MeshLoader.h"
+#include "Graphite/Scene/Components.h"
 
 namespace Graphite
 {
 	Viewport::Viewport(const std::string& viewportName, uint32_t width, uint32_t height, bool initialize)
-		: m_Name(viewportName), m_ViewportSize({ width, height }), m_CameraO(1600/900, true)
+		: m_Name(viewportName), m_ViewportSize({ width, height })
 
 	{
 		// Define framebuffer specification with color format
@@ -18,18 +19,6 @@ namespace Graphite
 		m_Initialized = true;
 		m_ViewporttextureID = m_Framebuffer->GetColorAttachmentRendererID();
 		SceneRenderer::Init();
-
-
-		//////////////////////////////////////////////////////////////////////
-		////////////////  Test Code  /////////////////////////////////////////
-		//////////////////////////////////////////////////////////////////////
-
-		// Create the mesh
-		sample_mesh = MeshLoader::LoadOBJ("C:/private/Graphite/GraphEditor/assets/meshes/mercedes.obj");
-
-		//////////////////////////////////////////////////////////////////////
-		////////////////  Test Code Above ////////////////////////////////////
-		//////////////////////////////////////////////////////////////////////
 
 	}
 
@@ -79,7 +68,6 @@ namespace Graphite
 		if (m_ViewportHovered && m_ViewportFocused)
 		{
 			m_Camera.OnUpdate(ts);
-			m_CameraO.OnUpdate(ts);
 
 			// Render scene to framebuffer
 			m_Framebuffer->Bind();
@@ -95,10 +83,21 @@ namespace Graphite
 			
 			// Render Logic below here
 			
-			SceneRenderer::DrawMesh(sample_mesh, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 0.0f, 0.0f });
+			//SceneRenderer::DrawMesh(sample_mesh, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 0.0f, 0.0f });
 			SceneRenderer::DrawRect({ 1.0f, 0.8f, 10.0f }, { 3.0f, 2.0f }, { 30.0f, 20.0f, 40.0f }, { 0.8f, 0.8f, 0.1f, 1.0f });
 			SceneRenderer::DrawQuad({ 5.0f, 2.0f, 10.0f }, { 4.0f, 6.0f }, { 10.0f, 20.0f, 30.0f }, { 0.8f, 0.2f, 0.2f, 1.0f });
 			
+			// Render entities from the scene
+			auto view = scene->GetAllEntitiesWith<TransformComponent, MeshComponent>();
+			for (auto entity : view) {
+				auto [transform, mesh] = view.get<TransformComponent, MeshComponent>(entity);
+
+				// Render the mesh if it exists
+				if (mesh.MeshData) {
+					SceneRenderer::DrawMesh(mesh.MeshData, transform.GetTransform());
+				}
+			}
+
 			// Render Logic above here
 			
 			SceneRenderer::EndScene();
@@ -111,7 +110,6 @@ namespace Graphite
 	void Viewport::OnEvent(Event& e)
 	{
 		m_Camera.OnEvent(e);
-		m_CameraO.OnEvent(e);
 	}
 
 }

@@ -28,7 +28,6 @@ namespace Graphite
 		bool m_ViewportFocused = false, m_ViewportHovered = false;
 		bool m_ViewportRerender = true;
 		ViewportCamera m_Camera;
-		OrthographicCameraController m_CameraO;
 		uint32_t m_ViewporttextureID;
 
 	private:
