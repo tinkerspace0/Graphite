@@ -24,31 +24,8 @@ namespace Graphite
 		////////////////  Test Code  /////////////////////////////////////////
 		//////////////////////////////////////////////////////////////////////
 
-		 // Define vertices and indices for a cube mesh
-		std::vector<Mesh::Vertex> vertices = {
-			// Positions              // Normals             // Colors
-			{{-0.5f, -0.5f, -0.5f}, {0.0f,  0.0f, -1.0f}, {1.0f, 0.0f, 0.0f, 1.0f}},
-			{{ 0.5f, -0.5f, -0.5f}, {0.0f,  0.0f, -1.0f}, {0.0f, 1.0f, 0.0f, 1.0f}},
-			{{ 0.5f,  0.5f, -0.5f}, {0.0f,  0.0f, -1.0f}, {0.0f, 0.0f, 1.0f, 1.0f}},
-			{{-0.5f,  0.5f, -0.5f}, {0.0f,  0.0f, -1.0f}, {1.0f, 1.0f, 0.0f, 1.0f}},
-			{{-0.5f, -0.5f,  0.5f}, {0.0f,  0.0f,  1.0f}, {1.0f, 0.0f, 1.0f, 1.0f}},
-			{{ 0.5f, -0.5f,  0.5f}, {0.0f,  0.0f,  1.0f}, {0.0f, 1.0f, 1.0f, 1.0f}},
-			{{ 0.5f,  0.5f,  0.5f}, {0.0f,  0.0f,  1.0f}, {0.5f, 0.5f, 0.5f, 1.0f}},
-			{{-0.5f,  0.5f,  0.5f}, {0.0f,  0.0f,  1.0f}, {0.0f, 0.5f, 0.5f, 1.0f}},
-		};
-
-		std::vector<uint32_t> indices = {
-			0, 1, 2, 2, 3, 0, // Back face
-			4, 5, 6, 6, 7, 4, // Front face
-			0, 4, 7, 7, 3, 0, // Left face
-			1, 5, 6, 6, 2, 1, // Right face
-			3, 7, 6, 6, 2, 3, // Top face
-			0, 1, 5, 5, 4, 0  // Bottom face
-		};
-
 		// Create the mesh
-		// sample_mesh = CreateRef<Mesh>(vertices, indices);
-		sample_mesh = MeshLoader::LoadOBJ("C:/private/Graphite/GraphEditor/assets/meshes/cube.obj");
+		sample_mesh = MeshLoader::LoadOBJ("C:/private/Graphite/GraphEditor/assets/meshes/mercedes.obj");
 
 		//////////////////////////////////////////////////////////////////////
 		////////////////  Test Code Above ////////////////////////////////////
@@ -118,7 +95,7 @@ namespace Graphite
 			
 			// Render Logic below here
 			
-			SceneRenderer::DrawMesh(sample_mesh, { 0.0f, 0.8f, 0.0f }, { 2.0f, 5.0f }, { 0.0f, 20.0f, 40.0f });
+			SceneRenderer::DrawMesh(sample_mesh, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 0.0f, 0.0f });
 			SceneRenderer::DrawRect({ 1.0f, 0.8f, 10.0f }, { 3.0f, 2.0f }, { 30.0f, 20.0f, 40.0f }, { 0.8f, 0.8f, 0.1f, 1.0f });
 			SceneRenderer::DrawQuad({ 5.0f, 2.0f, 10.0f }, { 4.0f, 6.0f }, { 10.0f, 20.0f, 30.0f }, { 0.8f, 0.2f, 0.2f, 1.0f });
 			

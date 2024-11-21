@@ -16,7 +16,7 @@ namespace Graphite {
             int texIndex;
             int normIndex;
 
-            // Hash function for unordered_map
+            // Equality operator for VertexKey
             bool operator==(const VertexKey& other) const {
                 return posIndex == other.posIndex && texIndex == other.texIndex && normIndex == other.normIndex;
             }
@@ -42,14 +42,14 @@ namespace Graphite {
             std::vector<uint32_t> indices;
             std::unordered_map<VertexKey, uint32_t, VertexKeyHash> vertexMap;
 
-            // Final storage for mesh vertices
+            // Final storage for unique mesh vertices
             std::vector<Mesh::Vertex> vertices;
 
             // Reserve memory to minimize reallocations
-            positions.reserve(1000);
-            normals.reserve(1000);
-            texCoords.reserve(1000);
-            vertices.reserve(1000);
+            positions.reserve(10000);
+            normals.reserve(10000);
+            texCoords.reserve(10000);
+            vertices.reserve(10000);
 
             std::string line;
             while (std::getline(file, line)) {
@@ -93,7 +93,7 @@ namespace Graphite {
                             vertex.Position = positions[posIndex];
                             //vertex.TexCoord = (texIndex >= 0 && texIndex < texCoords.size()) ? texCoords[texIndex] : glm::vec2(0.0f);
                             vertex.Normal = (normIndex >= 0 && normIndex < normals.size()) ? normals[normIndex] : glm::vec3(0.0f);
-                            vertex.Color= glm::vec4(1.0f);
+                            vertex.Color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f); // Default color (white)
 
                             // Add to vertex list and map
                             vertexMap[key] = static_cast<uint32_t>(vertices.size());

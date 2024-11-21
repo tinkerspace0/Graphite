@@ -138,7 +138,7 @@ namespace Graphite {
 		// Initialize Mesh Rendering
 		s_SRData.MeshVertexArray = VertexArray::Create();
 
-		s_SRData.MeshVertexBuffer = VertexBuffer::Create(s_SRData.MaxVertices * sizeof(Mesh::Vertex));
+		s_SRData.MeshVertexBuffer = VertexBuffer::Create(150000 * sizeof(Mesh::Vertex));
 		s_SRData.MeshVertexBuffer->SetLayout({
 			{ ShaderDataType::Float3, "a_Position" },
 			{ ShaderDataType::Float3, "a_Normal"   },
@@ -146,10 +146,10 @@ namespace Graphite {
 			{ ShaderDataType::Int,    "a_EntityID" }
 			});
 		s_SRData.MeshVertexArray->AddVertexBuffer(s_SRData.MeshVertexBuffer);
-		s_SRData.MeshVertexBufferBase = new Mesh::Vertex[s_SRData.MaxVertices];
+		s_SRData.MeshVertexBufferBase = new Mesh::Vertex[150000];
 
-		s_SRData.MeshIndexBufferBase = new uint32_t[s_SRData.MaxIndices];
-		Ref<IndexBuffer> MeshIndexBuffer = IndexBuffer::Create(s_SRData.MaxIndices);
+		s_SRData.MeshIndexBufferBase = new uint32_t[600000];
+		Ref<IndexBuffer> MeshIndexBuffer = IndexBuffer::Create(600000);
 		s_SRData.MeshVertexArray->SetIndexBuffer(MeshIndexBuffer);
 
 		for (size_t i = 0; i < 1000; i++) {
@@ -404,7 +404,7 @@ namespace Graphite {
 		for (const auto& vertex : vertices)
 		{
 			s_SRData.MeshVertexBufferPtr->Position = glm::vec3(transform * glm::vec4(vertex.Position, 1.0f));
-			s_SRData.MeshVertexBufferPtr->Normal = glm::mat3(transform) * vertex.Normal; // Transform normal
+			//s_SRData.MeshVertexBufferPtr->Normal = glm::mat3(transform) * vertex.Normal; // Transform normal
 			s_SRData.MeshVertexBufferPtr->Color = vertex.Color;
 			s_SRData.MeshVertexBufferPtr->EntityID = entityID;
 			s_SRData.MeshVertexBufferPtr++;
