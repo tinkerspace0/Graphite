@@ -3,6 +3,7 @@
 #include "SceneCamera.h"
 #include "Graphite/Core/UUID.h"
 #include "Graphite/Renderer/Texture.h"
+#include "Graphite/Geometry/Mesh.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -63,6 +64,17 @@ namespace Graphite {
 		CameraComponent(const CameraComponent&) = default;
 	};
 
+	struct MeshComponent
+	{
+		Ref<Mesh> MeshData; 
+		glm::vec4 Color = glm::vec4(1.0f); // default color for the mesh
+
+		MeshComponent() = default;
+		MeshComponent(const MeshComponent&) = default;
+		explicit MeshComponent(const Ref<Mesh>& mesh, const glm::vec4& color = glm::vec4(1.0f))
+			: MeshData(mesh), Color(color) {}
+	};
+
 	struct ScriptComponent
 	{
 		std::string ClassName;
@@ -95,6 +107,6 @@ namespace Graphite {
 	};
 
 	using AllComponents = 
-		ComponentGroup<TransformComponent, CameraComponent, ScriptComponent, NativeScriptComponent>;
+		ComponentGroup<TransformComponent, CameraComponent, MeshComponent, ScriptComponent, NativeScriptComponent>;
 
 }
