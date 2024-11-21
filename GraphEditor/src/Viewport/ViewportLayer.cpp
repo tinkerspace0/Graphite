@@ -1,5 +1,7 @@
 #include "ViewportLayer.h"
 
+#include "Graphite/Geometry/MeshLoader.h"
+
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
 #include <imgui/backends/imgui_impl_glfw.h>
@@ -37,15 +39,23 @@ namespace Graphite {
 
 		SetDarkThemeColors();
 
-		// --------- Test ----------------------------------------------------------
-		
+		// --------- Initialize Scene and Add Test Entity -------------------------
 		m_ActiveScene = CreateRef<Scene>();
 		m_ObjectInspectorPanel.SetContext(m_ActiveScene);
 
-		CreateViewport("Global View");
+		auto entity = m_ActiveScene->CreateEntity("Test Entity");
+		auto& transform = entity.GetComponent<TransformComponent>();
+		transform.Translation = { 0.0f, 0.0f, 0.0f };
+		transform.Scale = { 1.0f, 1.0f, 1.0f };
+
+		auto& mesh = entity.AddComponent<MeshComponent>();
+		mesh.MeshData = MeshLoader::LoadOBJ("C:/private/Graphite/GraphEditor/assets/meshes/Cube.obj");
+		mesh.Color = glm::vec4(1.0f);
 
 		// -------------------------------------------------------------------------
 
+		// Create a viewport
+		CreateViewport("Global View");
 
 	}
 
