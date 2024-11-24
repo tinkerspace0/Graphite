@@ -108,6 +108,82 @@ namespace Graphite {
 		}
 	}
 
+	static void DrawColorControl(const std::string& label, glm::vec3& values, float columnWidth = 100.0f)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		auto boldFont = io.Fonts->Fonts[0];
+
+		ImGui::PushID(label.c_str());
+
+		ImGui::Columns(2);
+		ImGui::SetColumnWidth(0, columnWidth);
+		ImGui::Text(label.c_str());
+		ImGui::NextColumn();
+
+		ImGui::PushMultiItemsWidths(3, ImGui::CalcItemWidth());
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0, 0 });
+
+		float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
+		ImVec2 buttonSize = { lineHeight + 3.0f, lineHeight };
+
+		// Convert color values to integers (0-255 range)
+		int colorR = static_cast<int>(values.r * 255.0f);
+		int colorG = static_cast<int>(values.g * 255.0f);
+		int colorB = static_cast<int>(values.b * 255.0f);
+
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.9f, 0.2f, 0.2f, 1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.8f, 0.1f, 0.15f, 1.0f });
+		ImGui::PushFont(boldFont);
+		if (ImGui::Button("R", buttonSize))
+			colorR = 255;
+		ImGui::PopFont();
+		ImGui::PopStyleColor(3);
+
+		ImGui::SameLine();
+		ImGui::DragInt("##R", &colorR, 1.0f, 0, 255);
+		ImGui::PopItemWidth();
+		ImGui::SameLine();
+
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.3f, 0.8f, 0.3f, 1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.2f, 0.7f, 0.2f, 1.0f });
+		ImGui::PushFont(boldFont);
+		if (ImGui::Button("G", buttonSize))
+			colorG = 255;
+		ImGui::PopFont();
+		ImGui::PopStyleColor(3);
+
+		ImGui::SameLine();
+		ImGui::DragInt("##G", &colorG, 1.0f, 0, 255);
+		ImGui::PopItemWidth();
+		ImGui::SameLine();
+
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4{ 0.2f, 0.35f, 0.9f, 1.0f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4{ 0.1f, 0.25f, 0.8f, 1.0f });
+		ImGui::PushFont(boldFont);
+		if (ImGui::Button("B", buttonSize))
+			colorB = 255;
+		ImGui::PopFont();
+		ImGui::PopStyleColor(3);
+
+		ImGui::SameLine();
+		ImGui::DragInt("##B", &colorB, 1.0f, 0, 255);
+		ImGui::PopItemWidth();
+
+		ImGui::PopStyleVar();
+
+		ImGui::Columns(1);
+
+		// Convert color values back to glm::vec3 (0.0f to 1.0f range)
+		values.r = colorR / 255.0f;
+		values.g = colorG / 255.0f;
+		values.b = colorB / 255.0f;
+
+		ImGui::PopID();
+	}
+
 	static void DrawVec3Control(const std::string& label, glm::vec3& values, float resetValue = 0.0f, float columnWidth = 100.0f)
 	{
 		ImGuiIO& io = ImGui::GetIO();
@@ -259,9 +335,9 @@ namespace Graphite {
 
 		DrawComponent<MeshComponent>("Mesh", entity, [](auto& component)
 		{
-				glm::vec3 color = glm::vec3(component.Color);
-				DrawVec3Control("Color", color, 1.0f);
-				component.Color = glm::vec4(color, 1.0f);
+			glm::vec3 color = glm::vec3(component.Color);
+			DrawColorControl("Color", color);
+			component.Color = glm::vec4(color, 1.0f);
 		});
 
 	/*	DrawComponent<CameraComponent>("Camera", entity, [](auto& component)
