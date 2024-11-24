@@ -239,7 +239,7 @@ namespace Graphite {
 		if (ImGui::BeginPopup("AddComponent"))
 		{
 			DisplayAddComponentEntry<TransformComponent>("Transform");
-			DisplayAddComponentEntry<CameraComponent>("Camera");
+			//DisplayAddComponentEntry<CameraComponent>("Camera");
 			DisplayAddComponentEntry<ScriptComponent>("Script");
 			DisplayAddComponentEntry<MeshComponent>("Mesh");
 
@@ -257,7 +257,7 @@ namespace Graphite {
 				DrawVec3Control("Scale", component.Scale, 1.0f);
 			});
 
-		DrawComponent<CameraComponent>("Camera", entity, [](auto& component)
+	/*	DrawComponent<CameraComponent>("Camera", entity, [](auto& component)
 			{
 				auto& camera = component.Camera;
 
@@ -314,7 +314,7 @@ namespace Graphite {
 
 					ImGui::Checkbox("Fixed Aspect Ratio", &component.FixedAspectRatio);
 				}
-			});
+			});*/
 	}
 
 	template<typename T>
