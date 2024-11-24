@@ -1,5 +1,8 @@
 #include "ObjectInspectorPanel.h"
 #include "Graphite/Scene/Components.h"
+#include "Graphite/Geometry/MeshLoader.h"
+#include "Graphite/Utility/FileDialogUtility.h"
+#include "Graphite/Utility/WStringToString.h"
 
 #include <imgui/imgui.h>
 #include <imgui/imgui_internal.h>
@@ -347,16 +350,53 @@ namespace Graphite {
 
 		DrawComponent<TransformComponent>("Transform", entity, [](auto& component)
 		{
-			DrawVec3Control("Translation", component.Translation);
-			glm::vec3 rotation = glm::degrees(component.Rotation);
-			DrawVec3Control("Rotation", rotation);
-			component.Rotation = glm::radians(rotation);
-			DrawVec3Control("Scale", component.Scale, 1.0f);
+				DrawVec3Control("Translation", component.Translation);
+				glm::vec3 rotation = glm::degrees(component.Rotation);
+				DrawVec3Control("Rotation", rotation);
+				component.Rotation = glm::radians(rotation);
+				DrawVec3Control("Scale", component.Scale, 1.0f);
 		});
 
 		DrawComponent<MeshComponent>("Mesh", entity, [](auto& component)
 		{
-			DrawColorControl("Color", component.Color);
+				DrawColorControl("Color", component.Color);
+
+				// Add a separator for better visual separation
+				ImGui::Separator();
+
+				// Display current mesh status with better formatting and spacing
+				if (component.MeshData)
+				{
+					ImGui::Text("Mesh Status:");
+					ImGui::Text("  Vertices: %zu", component.MeshData->GetVertexCount());
+					ImGui::Text("  Indices:  %zu", component.MeshData->GetIndexCount());
+				}
+				else
+				{
+					ImGui::Text("Mesh Status:");
+					ImGui::Text("  No mesh loaded.");
+				}
+
+				// Add spacing to separate the status from the button
+				ImGui::Spacing();
+
+				// Center-align the button for better aesthetics
+				ImVec2 buttonSize = ImVec2(ImGui::GetContentRegionAvail().x * 0.6f, 0.0f); // 60% of the panel width
+				ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (ImGui::GetContentRegionAvail().x - buttonSize.x) * 0.5f);
+				if (ImGui::Button("Load Mesh", buttonSize))
+				{
+					// Use the file dialog utility to open the file dialog
+					std::wstring filePath = FileDialogUtility::OpenFileDialog(
+						"OBJ Files\0*.obj\0All Files\0*.*\0\0", // File filter
+						""                                     // Default extension
+					);
+
+					if (!filePath.empty())
+					{
+						// Load the selected mesh
+						component.MeshData = MeshLoader::LoadOBJ(WStringToString(filePath));
+					}
+				}
 		});
 
 	/*	DrawComponent<CameraComponent>("Camera", entity, [](auto& component)

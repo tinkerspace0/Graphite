@@ -16,6 +16,9 @@
     <Filter Include="src\Graphite\Events">
       <UniqueIdentifier>{14EE427C-804F-208A-09BD-663C751D5749}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Graphite\Geometry">
+      <UniqueIdentifier>{8BBBD56B-F727-9166-C01B-29C42C47B3CE}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Graphite\ImGui">
       <UniqueIdentifier>{5A311E61-4615-DFB6-AF75-D9099B78C938}</UniqueIdentifier>
     </Filter>
@@ -120,6 +123,12 @@
     <ClInclude Include="src\Graphite\Events\MouseEvent.h">
       <Filter>src\Graphite\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Graphite\Geometry\Mesh.h">
+      <Filter>src\Graphite\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphite\Geometry\MeshLoader.h">
+      <Filter>src\Graphite\Geometry</Filter>
+    </ClInclude>
     <ClInclude Include="src\Graphite\ImGui\ImGuiLayer.h">
       <Filter>src\Graphite\ImGui</Filter>
     </ClInclude>
@@ -192,7 +201,7 @@
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h">
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
@@ -1487,6 +1496,9 @@
     <ClCompile Include="src\Graphite\Core\Window.cpp">
       <Filter>src\Graphite\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\Graphite\Geometry\MeshLoader.cpp">
+      <Filter>src\Graphite\Geometry</Filter>
+    </ClCompile>
     <ClCompile Include="src\Graphite\ImGui\ImGuiBuild.cpp">
       <Filter>src\Graphite\ImGui</Filter>
     </ClCompile>
@@ -1553,7 +1565,7 @@
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp">
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">

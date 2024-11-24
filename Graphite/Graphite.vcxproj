@@ -167,6 +167,8 @@
     <ClInclude Include="src\Graphite\Events\Event.h" />
     <ClInclude Include="src\Graphite\Events\KeyEvent.h" />
     <ClInclude Include="src\Graphite\Events\MouseEvent.h" />
+    <ClInclude Include="src\Graphite\Geometry\Mesh.h" />
+    <ClInclude Include="src\Graphite\Geometry\MeshLoader.h" />
     <ClInclude Include="src\Graphite\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Graphite\Renderer\Buffer.h" />
     <ClInclude Include="src\Graphite\Renderer\Camera.h" />
@@ -189,9 +191,11 @@
     <ClInclude Include="src\Graphite\Scene\SceneCamera.h" />
     <ClInclude Include="src\Graphite\Scene\SceneRenderer.h" />
     <ClInclude Include="src\Graphite\Scene\ScriptableEntity.h" />
+    <ClInclude Include="src\Graphite\Utility\FileDialogUtility.h" />
+    <ClInclude Include="src\Graphite\Utility\WStringToString.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLFrameBuffer.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h" />
@@ -624,6 +628,7 @@
     <ClCompile Include="src\Graphite\Core\Log.cpp" />
     <ClCompile Include="src\Graphite\Core\UUID.cpp" />
     <ClCompile Include="src\Graphite\Core\Window.cpp" />
+    <ClCompile Include="src\Graphite\Geometry\MeshLoader.cpp" />
     <ClCompile Include="src\Graphite\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Graphite\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Graphite\Renderer\Buffer.cpp" />
@@ -644,9 +649,10 @@
     <ClCompile Include="src\Graphite\Scene\Scene.cpp" />
     <ClCompile Include="src\Graphite\Scene\SceneCamera.cpp" />
     <ClCompile Include="src\Graphite\Scene\SceneRenderer.cpp" />
+    <ClCompile Include="src\Graphite\Utility\FileDialogUtility.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLFrameBuffer.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp" />
