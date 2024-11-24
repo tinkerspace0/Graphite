@@ -238,8 +238,10 @@ namespace Graphite {
 
 		if (ImGui::BeginPopup("AddComponent"))
 		{
+			DisplayAddComponentEntry<TransformComponent>("Transform");
 			DisplayAddComponentEntry<CameraComponent>("Camera");
 			DisplayAddComponentEntry<ScriptComponent>("Script");
+			DisplayAddComponentEntry<MeshComponent>("Mesh");
 
 			ImGui::EndPopup();
 		}
