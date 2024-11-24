@@ -366,7 +366,7 @@ namespace Graphite {
 		}
 	}
 
-	void SceneRenderer::DrawMesh(Ref<Mesh> mesh, const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation, int entityID)
+	void SceneRenderer::DrawMesh(Ref<Mesh> mesh, const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation, glm::vec4 color, int entityID)
 	{
 		GF_PROFILE_FUNCTION();
 
@@ -381,10 +381,10 @@ namespace Graphite {
 			glm::scale(glm::mat4(1.0f), { size.x, 1.0f, size.y });
 
 		// Draw the Mesh with the specified transform, color, and entity ID
-		DrawMesh(mesh, transform, entityID);
+		DrawMesh(mesh, transform, color, entityID);
 	}
 
-	void SceneRenderer::DrawMesh(Ref<Mesh> mesh, const glm::mat4& transform, int entityID)
+	void SceneRenderer::DrawMesh(Ref<Mesh> mesh, const glm::mat4& transform, glm::vec4 color, int entityID)
 	{
 		GF_PROFILE_FUNCTION();
 
@@ -405,7 +405,7 @@ namespace Graphite {
 		{
 			s_SRData.MeshVertexBufferPtr->Position = glm::vec3(transform * glm::vec4(vertex.Position, 1.0f));
 			//s_SRData.MeshVertexBufferPtr->Normal = glm::mat3(transform) * vertex.Normal; // Transform normal
-			s_SRData.MeshVertexBufferPtr->Color = vertex.Color;
+			s_SRData.MeshVertexBufferPtr->Color = color;
 			s_SRData.MeshVertexBufferPtr->EntityID = entityID;
 			s_SRData.MeshVertexBufferPtr++;
 		}

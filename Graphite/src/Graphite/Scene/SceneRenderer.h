@@ -30,8 +30,6 @@ namespace Graphite {
 		static void DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation, const glm::vec4& color, int entityID = -1);
 		static void DrawQuad(const glm::mat4& transform, const glm::vec4& color, int entityID = -1);
 
-		static void DrawCircle(const glm::mat4& transform, const glm::vec4& color, float thickness = 1.0f, float fade = 0.005f, int entityID = -1);
-
 
 		// Grid Rendering for viewport
 		static void DrawGrid(ViewportCamera& camera, float spacing, int visibleCells, const glm::vec4& color = { 0.2f, 0.2f, 0.2f, 1.0f });
@@ -39,8 +37,8 @@ namespace Graphite {
 
 
 		// Mesh Rendering for Scene
-		static void DrawMesh(Ref<Mesh> mesh, const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation, int entityID = -1);
-		static void DrawMesh(Ref<Mesh> mesh, const glm::mat4& transform, int entityID=-1);
+		static void DrawMesh(Ref<Mesh> mesh, const glm::vec3& position, const glm::vec2& size, const glm::vec3& rotation, glm::vec4 color= { 1.0f,1.0f,1.0f,1.0f }, int entityID = -1);
+		static void DrawMesh(Ref<Mesh> mesh, const glm::mat4& transform, glm::vec4 color = { 1.0f,1.0f,1.0f,1.0f }, int entityID = -1);
 
 
 		// Stats
