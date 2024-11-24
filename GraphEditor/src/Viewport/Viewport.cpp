@@ -94,7 +94,7 @@ namespace Graphite
 
 				// Render the mesh if it exists
 				if (mesh.MeshData) {
-					SceneRenderer::DrawMesh(mesh.MeshData, transform.GetTransform());
+					SceneRenderer::DrawMesh(mesh.MeshData, transform.GetTransform(), mesh.Color);
 				}
 			}
 
